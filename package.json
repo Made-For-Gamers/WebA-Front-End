@@ -12,7 +12,8 @@
     "lodash": "^4.17.21",
     "luxon": "^3.2.1",
     "vue": "^3.2.45",
-    "vue-meta": "^2.4.0"
+    "vue-meta": "^2.4.0",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
