@@ -13,6 +13,7 @@
     "@heroicons/vue": "^2.0.14",
     "lodash": "^4.17.21",
     "luxon": "^3.2.1",
+    "pinia": "^2.0.29",
     "vue": "^3.2.45",
     "vue-meta": "^2.4.0",
     "vue-router": "^4.1.6"
