@@ -14,9 +14,11 @@
     "lodash": "^4.17.21",
     "luxon": "^3.2.1",
     "pinia": "^2.0.29",
+    "vee-validate": "^4.7.3",
     "vue": "^3.2.45",
     "vue-meta": "^2.4.0",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",

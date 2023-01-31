@@ -7,5 +7,6 @@
   "quoteProps": "consistent",
   "arrowParens": "avoid",
   "proseWrap": "always",
-  "vueIndentScriptAndStyle": true
+  "vueIndentScriptAndStyle": true,
+  "bracketSameLine": false
 }
