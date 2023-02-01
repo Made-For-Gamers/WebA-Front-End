@@ -1,69 +1,108 @@
-<script setup>
-  // TODO: add google recaptcha
-
-  import { ref, reactive, computed } from 'vue'
+<script>
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-
   import TextField from '../../Ui/TextField.vue'
   import TextArea from '../../Ui/TextArea.vue'
-  import { useAppManagerStore } from '../../../stores/app-manager'
 
-  const appManagerStore = useAppManagerStore()
-  const loading = ref(false)
-  const valid = computed(() => !Object.keys(form).some(v => !form[v].valid))
+  export default {
+    components: { ArrowPathIcon, TextField, TextArea },
 
-  const form = reactive({
-    fName: { value: '', valid: false },
-    lName: { value: '', valid: false },
-    email: { value: '', valid: false },
-    message: { value: '', valid: false },
-  })
+    data: () => ({
+      loading: false,
+      form: {
+        fName: {
+          value: '',
+          error: true,
+          rules: [v => !!v || 'Please enter your First Name'],
+        },
+        lName: {
+          value: '',
+          error: false,
+          rules: [],
+        },
+        email: {
+          value: '',
+          error: true,
+          rules: [
+            v => !!v || 'Please enter your Email Address',
+            v => v?.includes('@') || 'Please enter a valid Email Address',
+          ],
+        },
+        message: {
+          value: '',
+          error: true,
+          rules: [v => !!v || 'Please enter a Message'],
+        },
+      },
+    }),
 
-  const submit = async () => {
-    try {
-      loading.value = true
+    computed: {
+      valid() {
+        return Object.keys(this.form).some(v => !this.form[v].error)
+      },
+    },
 
-      const res = await appManagerStore.submitContactForm(
-        Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
-      )
+    methods: {
+      checkForError(field) {
+        if (!field) return
 
-      form = {
-        fName: { value: '', valid: false },
-        lName: { value: '', valid: false },
-        email: { value: '', valid: false },
-        message: { value: '', valid: false },
-      }
-    } catch (err) {}
+        this.form[field].error = this.form[field].rules.reduce((s, v) => {
+          if (s) return s
 
-    loading.value = false
+          const failsRule = v(this.form[field].value)
+          if (failsRule === true) return false
+          else return failsRule
+        }, false)
+      },
+
+      setValue(field, val) {
+        console.log('setting:', field, val)
+        this.form[field].value = val
+      },
+    },
   }
 </script>
 
 <template>
   <form class="space-y-4">
-    <TextField
-      label="Email"
-      type="email"
-      :rules="[v => !!v || `Please enter a valid Email`, v => v?.includes('@') || 'Please enter a valid email address']"
+    <text-field
+      type="text"
+      label="First Name"
+      :value="form.fName.value"
+      :error="form.fName.error"
+      :rules="form.fName.rules"
+      @value="val => (form.fName.value = val)"
+      @error="err => (form.fName.error = err)"
     />
 
-    <br />
-    <br />
+    <text-field
+      type="text"
+      label="Last Name"
+      :value="form.lName.value"
+      :error="form.lName.error"
+      :rules="form.lName.rules"
+      @value="val => (form.lName.value = val)"
+      @error="err => (form.lName.error = err)"
+    />
 
-    form: {{ form.fName }}
+    <text-field
+      type="email"
+      label="Email Address"
+      :value="form.email.value"
+      :error="form.email.error"
+      :rules="form.email.rules"
+      @value="val => (form.email.value = val)"
+      @error="err => (form.email.error = err)"
+    />
 
-    <button type="button" @click="form.fName = { value: '', valid: false }">Reset</button>
-
-    <br />
-    <br />
-
-    <!-- <TextField label="First Name" type="text" @change="(val, err) => (form.fName = { value: val, valid: !err })" />
-
-    <TextField label="Last Name" type="text" @change="(val, err) => (form.lName = { value: val, valid: !err })" />
-
-    <TextField label="Email Address" type="email" @change="(val, err) => (form.email = { value: val, valid: !err })" />
-
-    <TextArea label="Message" type="text" @change="(val, err) => (form.message = { value: val, valid: !err })" /> -->
+    <text-area
+      label="Message"
+      :rows="4"
+      :value="form.message.value"
+      :error="form.message.error"
+      :rules="form.message.rules"
+      @value="val => (form.message.value = val)"
+      @error="err => (form.message.error = err)"
+    />
 
     <button
       type="button"
@@ -74,7 +113,7 @@
       @click="submit"
     >
       <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-      <span v-else> Submit</span>
+      <span v-else>Submit</span>
     </button>
   </form>
 </template>

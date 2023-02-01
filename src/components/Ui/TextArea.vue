@@ -1,46 +1,64 @@
-<script setup>
-  import { computed } from '@vue/runtime-core'
+<script>
+  export default {
+    props: {
+      label: String,
+      rows: Number,
+      value: String,
+      error: Boolean | String,
+      rules: Array,
+    },
 
-  const $emit = defineEmits(['change'])
-  const { label, type } = defineProps({
-    label: String,
-    type: String,
-    rows: Number,
-  })
+    emits: ['value', 'error'],
 
-  // converts the label to snake-case-1234
-  const id = `${label.replace(/\s+/g, '-').toLowerCase()}-${Math.floor(Math.random() * 9999) + 1}`
+    computed: {
+      id() {
+        return `${this.label.replace(/\s+/g, '-').toLowerCase()}-${Math.floor(Math.random() * 9999) + 1}`
+      },
+    },
 
-  const value = false
-  // const error = false
+    methods: {
+      handleInput(e) {
+        this.$emit('value', e.target.value)
+        this.$emit(
+          'error',
+          this.rules.reduce((s, v) => {
+            if (s) return s
 
-  const rules = [v => !!v || `Please enter a ${label}`]
-
-  const error = computed(() => {
-    return false
-  })
+            const failsRule = v(e.target.value)
+            if (failsRule === true) return false
+            else return failsRule
+          }, false)
+        )
+      },
+    },
+  }
 </script>
 
 <template>
-  <div>
-    <label :for="id" :class="`block text-sm font-medium ${error ? 'text-red-600' : 'text-gray-700'}`">
-      {{ label }}
-    </label>
+  <label
+    :for="id"
+    :class="`block text-sm font-medium
+      ${!error || error === true ? 'text-gray-700' : 'text-red-600'}`"
+  >
+    {{ label }}
+  </label>
 
-    <div class="mt-1">
-      <textarea
-        :name="id"
-        :id="id"
-        v-model="value"
-        :rows="rows || 4"
-        @input="$emit('change', value, error)"
-        :class="`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm sm:text-sm
-          focus:outline-none ${error ? 'border-red-600' : 'border-gray-300'}
-          ${error ? 'focus:border-red-600' : 'focus:border-indigo-500'}`"
-      ></textarea>
+  <div class="mt-1">
+    <textarea
+      :id="id"
+      :name="id"
+      autocomplete="nope"
+      :rows="rows || 10"
+      :value="value"
+      @input="handleInput"
+      :class="`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm sm:text-sm
+        focus:outline-none ${!error || error === true ? 'border-gray-300' : 'border-red-600'}
+        ${error ? 'focus:border-red-600' : 'focus:border-indigo-500'}`"
+    />
 
-      <span class="text-red-600 text-xs">{{ error }}</span>
-    </div>
+    <span v-if="error" class="text-red-600 text-xs">
+      {{ error === true ? '' : error }}
+    </span>
   </div>
 </template>
 

@@ -1,50 +1,64 @@
-<script setup>
-  import { ref } from 'vue'
+<script>
+  export default {
+    props: {
+      type: String,
+      label: String,
+      value: String,
+      error: Boolean | String,
+      rules: Array,
+    },
 
-  const { label, type, rules } = defineProps({
-    label: String,
-    type: String,
-    rules: Array,
-  })
+    emits: ['value', 'error'],
 
-  // converts the label to snake-case-1234
-  const id = `${label.replace(/\s+/g, '-').toLowerCase()}-${Math.floor(Math.random() * 9999) + 1}`
+    computed: {
+      id() {
+        return `${this.label.replace(/\s+/g, '-').toLowerCase()}-${Math.floor(Math.random() * 9999) + 1}`
+      },
+    },
 
-  const value = ref('')
-  const error = ref(false)
+    methods: {
+      handleInput(e) {
+        this.$emit('value', e.target.value)
+        this.$emit(
+          'error',
+          this.rules.reduce((s, v) => {
+            if (s) return s
 
-  const checkForError = () => {
-    error.value = rules.reduce((s, v) => {
-      if (s) return s
-
-      const failsRule = v(value.value)
-      if (failsRule === true) return false
-      else return failsRule
-    }, false)
+            const failsRule = v(e.target.value)
+            if (failsRule === true) return false
+            else return failsRule
+          }, false)
+        )
+      },
+    },
   }
 </script>
 
 <template>
-  <div>
-    <label :for="id" :class="`block text-sm font-medium ${error ? 'text-red-600' : 'text-gray-700'}`">
-      {{ label }}
-    </label>
+  <label
+    :for="id"
+    :class="`block text-sm font-medium
+      ${!error || error === true ? 'text-gray-700' : 'text-red-600'}`"
+  >
+    {{ label }}
+  </label>
 
-    <div class="mt-1">
-      <input
-        :id="id"
-        :name="id"
-        :type="type"
-        autocomplete="nope"
-        v-model="value"
-        @input="checkForError"
-        :class="`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm sm:text-sm
-          focus:outline-none ${error ? 'border-red-600' : 'border-gray-300'}
-          ${error ? 'focus:border-red-600' : 'focus:border-indigo-500'}`"
-      />
+  <div class="mt-1">
+    <input
+      :id="id"
+      :name="id"
+      :type="type"
+      autocomplete="nope"
+      :value="value"
+      @input="handleInput"
+      :class="`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm sm:text-sm
+        focus:outline-none ${!error || error === true ? 'border-gray-300' : 'border-red-600'}
+        ${error ? 'focus:border-red-600' : 'focus:border-indigo-500'}`"
+    />
 
-      <span v-if="error" class="text-red-600 text-xs">{{ error }}</span>
-    </div>
+    <span v-if="error" class="text-red-600 text-xs">
+      {{ error === true ? '' : error }}
+    </span>
   </div>
 </template>
 
