@@ -1,5 +1,9 @@
 <script>
+  import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
+
+  import { useAppManagerStore } from '../../../stores/app-manager'
+
   import TextField from '../../Ui/TextField.vue'
   import TextArea from '../../Ui/TextArea.vue'
 
@@ -10,17 +14,17 @@
       loading: false,
       form: {
         fName: {
-          value: '',
+          value: 'Lee',
           error: true,
           rules: [v => !!v || 'Please enter your First Name'],
         },
         lName: {
-          value: '',
+          value: 'Grobler',
           error: false,
           rules: [],
         },
         email: {
-          value: '',
+          value: 'hello@lee-grobler.com',
           error: true,
           rules: [
             v => !!v || 'Please enter your Email Address',
@@ -28,7 +32,7 @@
           ],
         },
         message: {
-          value: '',
+          value: 'Hi there!',
           error: true,
           rules: [v => !!v || 'Please enter a Message'],
         },
@@ -42,21 +46,31 @@
     },
 
     methods: {
-      checkForError(field) {
-        if (!field) return
+      ...mapActions(useAppManagerStore, ['submitContactForm', 'showAlert']),
 
-        this.form[field].error = this.form[field].rules.reduce((s, v) => {
-          if (s) return s
+      async submit() {
+        try {
+          this.loading = true
 
-          const failsRule = v(this.form[field].value)
-          if (failsRule === true) return false
-          else return failsRule
-        }, false)
-      },
+          const res = await this.submitContactForm(
+            Object.keys(this.form).reduce((s, v) => ({ ...s, [v]: this.form[v].value }), {})
+          )
 
-      setValue(field, val) {
-        console.log('setting:', field, val)
-        this.form[field].value = val
+          // TODO: replace this with an actual message from the server
+          this.showAlert({ color: 'success', text: 'Test success message' })
+
+          this.form = {
+            fName: { ...this.form.fName, value: '', valid: false },
+            lName: { ...this.form.lName, value: '', valid: false },
+            email: { ...this.form.email, value: '', valid: false },
+            message: { ...this.form.message, value: '', valid: false },
+          }
+        } catch (err) {
+          console.log('err:', err)
+          this.showAlert({ color: 'error', timeout: 600000, text: err.message })
+        } finally {
+          this.loading = false
+        }
       },
     },
   }
