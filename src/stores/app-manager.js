@@ -8,13 +8,11 @@ export const useAppManagerStore = defineStore('appManager', {
 
   actions: {
     showAlert(payload) {
-      console.log('showing alert:', payload)
       this.alert = { visible: true, ...payload }
       setTimeout(this.hideAlert, payload.timeout || 10000)
     },
 
     hideAlert() {
-      console.log('hiding alert')
       this.alert = { visible: false }
     },
 

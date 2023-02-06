@@ -17,9 +17,11 @@
   import { useRouter } from 'vue-router'
 
   import { useAppManagerStore } from '../../stores/app-manager'
+  import { useUserStore } from '../../stores/user'
 
   const { getRoutes, currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
+  const userStore = useUserStore()
 
   const navigation = getRoutes().reduce(
     (s, v) => {
@@ -30,10 +32,12 @@
         current: currentRoute.value.path,
       }
 
-      if (destination === 'either') {
-        s[v.meta.rightMenu ? 'right' : 'left'].authed.push(link)
-        s[v.meta.rightMenu ? 'right' : 'left'].unauthed.push(link)
-      } else s[v.meta.rightMenu ? 'right' : 'left'][destination].push(link)
+      if (v.meta.menus?.length > 0) {
+        if (destination === 'either') {
+          v.meta.menus.forEach(v => s[v].authed.push(link))
+          v.meta.menus.forEach(v => s[v].unauthed.push(link))
+        } else v.meta.menus.forEach(v => s[v][destination].push(link))
+      }
 
       return s
     },
@@ -53,7 +57,7 @@
         <div class="hidden lg:block">
           <nav class="flex space-x-4">
             <router-link
-              v-for="item in navigation.left.unauthed"
+              v-for="item in navigation.left[userStore.token ? 'authed' : 'unauthed']"
               :key="item.name"
               :to="item.href"
               :class="[
@@ -82,7 +86,7 @@
         <div class="hidden lg:ml-4 lg:flex lg:items-center lg:py-5 lg:pr-0.5 justify-end">
           <nav class="flex space-x-4">
             <router-link
-              v-for="item in navigation.right.unauthed"
+              v-for="item in navigation.right[userStore.token ? 'authed' : 'unauthed']"
               :key="item.name"
               :to="item.href"
               :class="[
@@ -125,7 +129,7 @@
               <MenuItems
                 class="absolute -right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
-                <MenuItem v-for="item in navigation.left.authed" :key="item.name" v-slot="{ active }">
+                <MenuItem v-for="item in navigation.left[userStore.token ? 'authed' : 'unauthed']" :key="item.name" v-slot="{ active }">
                   <router-link
                     :href="item.href"
                     :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
@@ -198,7 +202,7 @@
                 </div>
                 <div class="mt-3 space-y-1 px-2">
                   <router-link
-                    v-for="item in navigation.left.unauthed"
+                    v-for="item in navigation.left[userStore.token ? 'authed' : 'unauthed']"
                     :key="item.name"
                     :to="item.href"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
@@ -232,7 +236,7 @@
                 </div> -->
                 <div class="space-y-1 px-2">
                   <router-link
-                    v-for="item in navigation.right.unauthed"
+                    v-for="item in navigation.right[userStore.token ? 'authed' : 'unauthed']"
                     :key="item.name"
                     :to="item.href"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
