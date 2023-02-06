@@ -26,7 +26,7 @@
       router.push('/dashboard')
     } catch (err) {
       console.log('err:', err)
-      appManagerStore.showAlert({ color: 'danger', vertical: false, timeout: 10000, text: err })
+      appManagerStore.showAlert({ color: 'danger', vertical: false, text: err })
     }
     emit('toggleLoading')
   }
@@ -53,7 +53,7 @@
     @click="googleLogin"
   >
     <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-    <div class="flex items-center gap-4" v-else>
+    <div v-else class="flex items-center gap-4">
       <GoogleIcon style="fill: #fff" />
       <span>Google</span>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-  import Alert from './components/Ui/Alert.vue'
+  import Alert from './components/Layout/Alert.vue'
   import Navbar from './components/Layout/Navbar.vue'
   import Footer from './components/Layout/Footer.vue'
 </script>

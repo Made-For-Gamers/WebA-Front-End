@@ -60,7 +60,7 @@
     @click="metamaskLogin"
   >
     <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-    <div class="flex items-center gap-4" v-else>
+    <div v-else class="flex items-center gap-4">
       <div class="rounded-full bg-white p-0.5 w-8 inline-block">
         <img src="../../assets/images/metamask-logo.svg" alt="metamask logo" />
       </div>

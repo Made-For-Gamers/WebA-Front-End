@@ -4,8 +4,8 @@
 
   import { useAppManagerStore } from '../../../stores/app-manager'
 
-  import TextField from '../../Ui/TextField.vue'
-  import TextArea from '../../Ui/TextArea.vue'
+  import TextField from '../../Layout/TextField.vue'
+  import TextArea from '../../Layout/TextArea.vue'
 
   export default {
     components: { ArrowPathIcon, TextField, TextArea },
@@ -67,7 +67,7 @@
           }
         } catch (err) {
           console.log('err:', err)
-          this.showAlert({ color: 'error', timeout: 600000, text: err.message })
+          this.showAlert({ color: 'error', text: err.message })
         } finally {
           this.loading = false
         }
