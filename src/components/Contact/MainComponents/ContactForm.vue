@@ -14,17 +14,17 @@
       loading: false,
       form: {
         fName: {
-          value: 'Lee',
+          value: '',
           error: true,
           rules: [v => !!v || 'Please enter your First Name'],
         },
         lName: {
-          value: 'Grobler',
+          value: '',
           error: false,
           rules: [],
         },
         email: {
-          value: 'hello@lee-grobler.com',
+          value: '',
           error: true,
           rules: [
             v => !!v || 'Please enter your Email Address',
@@ -32,7 +32,7 @@
           ],
         },
         message: {
-          value: 'Hi there!',
+          value: '',
           error: true,
           rules: [v => !!v || 'Please enter a Message'],
         },

@@ -23,17 +23,24 @@
 
   const navigation = getRoutes().reduce(
     (s, v) => {
-      const destination = v.meta.authed ? 'authed' : 'unauthed'
-
-      s[destination].push({
+      const destination = v.meta.auth
+      const link = {
         name: v.name,
         href: v.path,
         current: currentRoute.value.path,
-      })
+      }
+
+      if (destination === 'either') {
+        s[v.meta.rightMenu ? 'right' : 'left'].authed.push(link)
+        s[v.meta.rightMenu ? 'right' : 'left'].unauthed.push(link)
+      } else s[v.meta.rightMenu ? 'right' : 'left'][destination].push(link)
 
       return s
     },
-    { authed: [], unauthed: [] }
+    {
+      left: { authed: [], unauthed: [] },
+      right: { authed: [], unauthed: [] },
+    }
   )
 </script>
 
@@ -45,33 +52,49 @@
         <!-- Left section on desktop -->
         <div class="hidden lg:block">
           <nav class="flex space-x-4">
-            <a
-              v-for="item in navigation.unauthed"
+            <router-link
+              v-for="item in navigation.left.unauthed"
               :key="item.name"
-              :href="item.href"
+              :to="item.href"
               :class="[
                 item.current ? 'text-white' : 'text-cyan-100',
                 'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10',
               ]"
               :aria-current="item.current ? 'page' : undefined"
-              >{{ item.name }}</a
             >
+              {{ item.name }}
+            </router-link>
           </nav>
         </div>
 
         <!-- Logo -->
         <div class="absolute left-0 flex-shrink-0 py-5 lg:static flex justify-center">
-          <a href="#">
+          <router-link to="/">
             <img
               class="h-8 w-auto"
               src="../../assets/images/mark-logo-white-150x106.png"
               :alt="appManagerStore.appName"
             />
-          </a>
+          </router-link>
         </div>
 
         <!-- Right section on desktop -->
         <div class="hidden lg:ml-4 lg:flex lg:items-center lg:py-5 lg:pr-0.5 justify-end">
+          <nav class="flex space-x-4">
+            <router-link
+              v-for="item in navigation.right.unauthed"
+              :key="item.name"
+              :to="item.href"
+              :class="[
+                item.current ? 'text-white' : 'text-cyan-100',
+                'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10',
+              ]"
+              :aria-current="item.current ? 'page' : undefined"
+            >
+              {{ item.name }}
+            </router-link>
+          </nav>
+
           <button
             type="button"
             class="flex-shrink-0 rounded-full p-1 text-cyan-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
@@ -102,12 +125,13 @@
               <MenuItems
                 class="absolute -right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
-                <MenuItem v-for="item in navigation.authed" :key="item.name" v-slot="{ active }">
-                  <a
+                <MenuItem v-for="item in navigation.left.authed" :key="item.name" v-slot="{ active }">
+                  <router-link
                     :href="item.href"
                     :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
-                    >{{ item.name }}</a
                   >
+                  {{ item.name }}
+                  </router-link>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -173,17 +197,17 @@
                   </div>
                 </div>
                 <div class="mt-3 space-y-1 px-2">
-                  <a
-                    v-for="item in navigation.unauthed"
+                  <router-link
+                    v-for="item in navigation.left.unauthed"
                     :key="item.name"
-                    :href="item.href"
+                    :to="item.href"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
-                    >{{ item.name }}</a
+                    >{{ item.name }}</router-link
                   >
                 </div>
               </div>
-              <!-- <div class="pt-4 pb-2">
-                <div class="flex items-center px-5">
+              <div class="pt-2 pb-2">
+                <!-- <div class="flex items-center px-5 mb-3">
                   <div class="flex-shrink-0">
                     <div class="flex rounded-full bg-gray-300 text-sm w-10 h-10 items-center justify-center">
                       <img
@@ -205,17 +229,17 @@
                   >
                     <BellIcon class="h-6 w-6" aria-hidden="true" />
                   </button>
-                </div>
-                <div class="mt-3 space-y-1 px-2">
-                  <a
-                    v-for="item in navigation.authed"
+                </div> -->
+                <div class="space-y-1 px-2">
+                  <router-link
+                    v-for="item in navigation.right.unauthed"
                     :key="item.name"
-                    :href="item.href"
+                    :to="item.href"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
-                    >{{ item.name }}</a
+                    >{{ item.name }}</router-link
                   >
                 </div>
-              </div> -->
+              </div>
             </div>
           </PopoverPanel>
         </TransitionChild>
