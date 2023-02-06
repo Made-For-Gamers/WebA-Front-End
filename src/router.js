@@ -14,6 +14,8 @@ const routes = [
   { path: '/contact', name: 'Contact', component: Contact, meta: { auth: 'either', menus: ['left'] } },
   { path: '/sign-in', name: 'Sign In', component: Signin, meta: { auth: 'unauthed', menus: ['right'] } },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { auth: 'authed', menus: ['right'] } },
+  { path: '/logout', name: 'Logout', meta: { auth: 'authed', menus: ['right'] } },
+
   { path: '/:pathMatch(.*)*', name: 'PageNotFound', component: PageNotFound, meta: { auth: 'either' } },
 ]
 
@@ -25,6 +27,12 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const userStore = useUserStore()
   const appManagerStore = useAppManagerStore()
+
+  if (to.name === 'Logout') {
+    userStore.token = null
+    appManagerStore.showAlert({ color: 'success', text: "You've successfully logged out" })
+    return { name: 'Home' }
+  }
 
   if (to.meta.auth === 'authed' && !userStore.token) {
     appManagerStore.showAlert({ color: 'warning', text: 'Please sign in before proceeding' })
