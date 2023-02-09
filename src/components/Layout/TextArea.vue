@@ -1,36 +1,29 @@
-<script>
-  export default {
-    props: {
-      label: String,
-      rows: Number,
-      value: String,
-      error: Boolean | String,
-      rules: Array,
-    },
+<script setup>
+  import { defineProps, defineEmits, computed } from 'vue'
 
-    emits: ['value', 'error'],
+  const emit = defineEmits(['value', 'error'])
+  const props = defineProps({
+    label: String,
+    rows: Number,
+    value: String,
+    error: Boolean | String,
+    rules: Array,
+  })
 
-    computed: {
-      id() {
-        return `${this.label.replace(/\s+/g, '-').toLowerCase()}-${Math.floor(Math.random() * 9999) + 1}`
-      },
-    },
+  const id = computed(() => `${props.label.replace(/\s+/g, '-').toLowerCase()}-${Math.floor(Math.random() * 9999) + 1}`)
 
-    methods: {
-      handleInput(e) {
-        this.$emit('value', e.target.value)
-        this.$emit(
-          'error',
-          this.rules.reduce((s, v) => {
-            if (s) return s
+  const handleInput = e => {
+    emit('value', e.target.value)
+    emit(
+      'error',
+      props.rules.reduce((s, v) => {
+        if (s) return s
 
-            const failsRule = v(e.target.value)
-            if (failsRule === true) return false
-            else return failsRule
-          }, false)
-        )
-      },
-    },
+        const failsRule = v(e.target.value)
+        if (failsRule === true) return false
+        else return failsRule
+      }, false)
+    )
   }
 </script>
 

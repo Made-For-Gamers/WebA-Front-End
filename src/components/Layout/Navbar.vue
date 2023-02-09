@@ -58,7 +58,7 @@
     :class="{
       'fixed': currentRoute.meta.fixedNav,
       'mb-20': !currentRoute.meta.fixedNav,
-      'bg-black': scrollTop > 25,
+      'bg-black': scrollTop > 25 || !currentRoute.meta.fixedNav,
     }"
     v-slot="{ open }"
   >
@@ -87,11 +87,14 @@
           <router-link
             to="/"
             class="lg:block lg:rounded-full lg:p-8 transition-colors duration-500"
-            :class="{ 'lg:bg-black': scrollTop > 25 }"
+            :class="{ 'lg:bg-black': scrollTop > 25 || !currentRoute.meta.fixedNav }"
           >
             <img
               class="h-8 w-auto transition-all duration-500"
-              :class="{ 'lg:h-24': scrollTop <= 25, 'lg:h-12': scrollTop > 25 }"
+              :class="{
+                'lg:h-24': scrollTop <= 25 || !currentRoute.meta.fixedNav,
+                'lg:h-12': scrollTop > 25 || !currentRoute.meta.fixedNav,
+              }"
               src="../../assets/images/mark-logo-white-150x106.png"
               :alt="appManagerStore.appName"
             />

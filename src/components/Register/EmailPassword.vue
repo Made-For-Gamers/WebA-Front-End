@@ -1,73 +1,60 @@
-<script>
+<script setup>
+  import { defineProps, reactive, computed } from 'vue'
   import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
   import { useAppManagerStore } from '../../stores/app-manager'
   import { useUserStore } from '../../stores/user'
 
+  import router from '../../router'
   import TextField from '../Layout/TextField.vue'
   import TextArea from '../Layout/TextArea.vue'
 
-  export default {
-    components: { ArrowPathIcon, TextField, TextArea },
+  const emit = defineEmits(['toggleLoading'])
+  const props = defineProps({ loading: Boolean })
 
-    props: {
-      loading: Boolean,
+  const appManagerStore = useAppManagerStore()
+  const userStore = useUserStore()
+
+  const form = reactive({
+    email: {
+      value: '',
+      error: true,
+      rules: [
+        v => !!v || 'Please enter your Email Address',
+        v => v?.includes('@') || 'Please enter a valid Email Address',
+      ],
     },
-
-    data: () => ({
-      form: {
-        email: {
-          value: '',
-          error: true,
-          rules: [
-            v => !!v || 'Please enter your Email Address',
-            v => v?.includes('@') || 'Please enter a valid Email Address',
-          ],
-        },
-        password: {
-          value: '',
-          error: true,
-          rules: [v => !!v || 'Please enter a Password'],
-        },
-      },
-    }),
-
-    computed: {
-      valid() {
-        return !Object.keys(this.form).some(v => this.form[v].error)
-      },
+    password: {
+      value: '',
+      error: true,
+      rules: [v => !!v || 'Please enter a Password'],
     },
+  })
 
-    methods: {
-      ...mapActions(useAppManagerStore, ['showAlert']),
-      ...mapActions(useUserStore, ['loginWithEmailAndPassword']),
+  const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
-      async submit() {
-        try {
-          this.$emit('toggleLoading')
+  const submit = async () => {
+    try {
+      emit('toggleLoading')
 
-          const res = await this.loginWithEmailAndPassword(
-            Object.keys(this.form).reduce((s, v) => ({ ...s, [v]: this.form[v].value }), {})
-          )
+      const res = await userStore.loginWithEmailAndPassword(
+        Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
+      )
 
-          // TODO: replace this with an actual message from the server
-          this.showAlert({ color: 'success', text: "You've successfully been logged in" })
+      // TODO: replace this with an actual message from the server
+      appManagerStore.showAlert({ color: 'success', text: "You've successfully been logged in" })
 
-          this.form = {
-            email: { ...this.form.email, value: '', valid: false },
-            password: { ...this.form.password, value: '', valid: false },
-          }
+      form.email = { ...form.email, value: '', valid: false }
+      form.password = { ...form.password, value: '', valid: false }
 
-          this.$router.push('/dashboard')
-        } catch (err) {
-          console.log('err:', err)
-          this.showAlert({ color: 'error', text: err.message })
-        }
+      router.push('/dashboard')
+    } catch (err) {
+      console.log('err:', err)
+      appManagerStore.showAlert({ color: 'error', text: err.message })
+    }
 
-        this.$emit('toggleLoading')
-      },
-    },
+    emit('toggleLoading')
   }
 </script>
 
@@ -95,10 +82,10 @@
 
     <button
       type="button"
-      :disabled="!valid || loading"
+      :disabled="invalid || loading"
       :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${valid && !loading ? 'hover:bg-[#c71610a0]' : ''}
-        ${valid && !loading ? 'bg-[#C71610]' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
+        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!invalid && !loading ? 'hover:bg-[#c71610a0]' : ''}
+        ${!invalid && !loading ? 'bg-[#C71610]' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
       @click="submit"
     >
       <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />

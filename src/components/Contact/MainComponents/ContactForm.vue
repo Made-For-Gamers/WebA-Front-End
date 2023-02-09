@@ -1,78 +1,64 @@
-<script>
+<script setup>
+  import { ref, reactive, computed } from 'vue'
   import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
   import { useAppManagerStore } from '../../../stores/app-manager'
-
   import TextField from '../../Layout/TextField.vue'
   import TextArea from '../../Layout/TextArea.vue'
 
-  export default {
-    components: { ArrowPathIcon, TextField, TextArea },
+  const appManagerStore = useAppManagerStore()
 
-    data: () => ({
-      loading: false,
-      form: {
-        fName: {
-          value: '',
-          error: true,
-          rules: [v => !!v || 'Please enter your First Name'],
-        },
-        lName: {
-          value: '',
-          error: false,
-          rules: [],
-        },
-        email: {
-          value: '',
-          error: true,
-          rules: [
-            v => !!v || 'Please enter your Email Address',
-            v => v?.includes('@') || 'Please enter a valid Email Address',
-          ],
-        },
-        message: {
-          value: '',
-          error: true,
-          rules: [v => !!v || 'Please enter a Message'],
-        },
-      },
-    }),
-
-    computed: {
-      valid() {
-        return Object.keys(this.form).some(v => !this.form[v].error)
-      },
+  const loading = ref(false)
+  const form = reactive({
+    fName: {
+      value: '',
+      error: true,
+      rules: [v => !!v || 'Please enter your First Name'],
     },
-
-    methods: {
-      ...mapActions(useAppManagerStore, ['submitContactForm', 'showAlert']),
-
-      async submit() {
-        try {
-          this.loading = true
-
-          const res = await this.submitContactForm(
-            Object.keys(this.form).reduce((s, v) => ({ ...s, [v]: this.form[v].value }), {})
-          )
-
-          // TODO: replace this with an actual message from the server
-          this.showAlert({ color: 'success', text: 'Test success message' })
-
-          this.form = {
-            fName: { ...this.form.fName, value: '', valid: false },
-            lName: { ...this.form.lName, value: '', valid: false },
-            email: { ...this.form.email, value: '', valid: false },
-            message: { ...this.form.message, value: '', valid: false },
-          }
-        } catch (err) {
-          console.log('err:', err)
-          this.showAlert({ color: 'error', text: err.message })
-        }
-
-        this.loading = false
-      },
+    lName: {
+      value: '',
+      error: false,
+      rules: [],
     },
+    email: {
+      value: '',
+      error: true,
+      rules: [
+        v => !!v || 'Please enter your Email Address',
+        v => v?.includes('@') || 'Please enter a valid Email Address',
+      ],
+    },
+    message: {
+      value: '',
+      error: true,
+      rules: [v => !!v || 'Please enter a Message'],
+    },
+  })
+
+  const invalid = computed(() => Object.keys(form).some(v => form[v].error))
+
+  const submit = async () => {
+    try {
+      loading.value = true
+
+      const res = await appManagerStore.submitContactForm(
+        Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
+      )
+
+      // TODO: replace this with an actual message from the server
+      appManagerStore.showAlert({ color: 'success', text: 'Test success message' })
+
+      form.fName = { ...form.fName, value: '', valid: false }
+      form.lName = { ...form.lName, value: '', valid: false }
+      form.email = { ...form.email, value: '', valid: false }
+      form.message = { ...form.message, value: '', valid: false }
+    } catch (err) {
+      console.log('err:', err)
+      appManagerStore.showAlert({ color: 'error', text: err.message })
+    }
+
+    loading.value = false
   }
 </script>
 
@@ -120,10 +106,11 @@
 
     <button
       type="button"
-      :disabled="!valid || loading"
+      :disabled="invalid || loading"
       :class="`inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white
-        shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 ${valid && !loading ? 'hover:bg-indigo-700' : ''}
-        ${valid && !loading ? 'focus:ring-indigo-500' : ''} ${valid && !loading ? 'bg-indigo-600' : 'bg-gray-400'}`"
+        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!invalid && !loading ? 'hover:bg-indigo-700' : ''}
+        shadow-sm ${!invalid && !loading ? 'focus:ring-indigo-500' : ''}
+        ${!invalid && !loading ? 'bg-indigo-600' : 'bg-gray-400'}`"
       @click="submit"
     >
       <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />

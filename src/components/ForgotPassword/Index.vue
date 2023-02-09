@@ -1,67 +1,55 @@
-<script>
+<script setup>
+  import { ref, reactive, computed } from 'vue'
   import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
   import { useAppManagerStore } from '../../stores/app-manager'
   import { useUserStore } from '../../stores/user'
 
+  import router from '../../router'
   import TextField from '../Layout/TextField.vue'
   import TextArea from '../Layout/TextArea.vue'
 
-  export default {
-    components: { ArrowPathIcon, TextField, TextArea },
+  const appManagerStore = useAppManagerStore()
+  const userStore = useUserStore()
 
-    data: () => ({
-      loading: false,
-      form: {
-        email: {
-          value: '',
-          error: true,
-          rules: [
-            v => !!v || 'Please enter your Email Address',
-            v => v?.includes('@') || 'Please enter a valid Email Address',
-          ],
-        },
-      },
-    }),
-
-    computed: {
-      valid() {
-        return !Object.keys(this.form).some(v => this.form[v].error)
-      },
+  const loading = ref(false)
+  const form = reactive({
+    email: {
+      value: '',
+      error: true,
+      rules: [
+        v => !!v || 'Please enter your Email Address',
+        v => v?.includes('@') || 'Please enter a valid Email Address',
+      ],
     },
+  })
 
-    methods: {
-      ...mapActions(useAppManagerStore, ['showAlert']),
-      ...mapActions(useUserStore, ['triggerForgotPassword']),
+  const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
-      async submit() {
-        try {
-          this.loading = true
+  const submit = async () => {
+    try {
+      loading.value = true
 
-          const res = await this.triggerForgotPassword(
-            Object.keys(this.form).reduce((s, v) => ({ ...s, [v]: this.form[v].value }), {})
-          )
+      const res = await userStore.triggerForgotPassword(
+        Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
+      )
 
-          // TODO: replace this with an actual message from the server
-          this.showAlert({
-            color: 'success',
-            text: 'Thank you. Please check your email for instructions on how to reset your password.',
-          })
+      // TODO: replace this with an actual message from the server
+      appManagerStore.showAlert({
+        color: 'success',
+        text: 'Thank you. Please check your email for instructions on how to reset your password.',
+      })
 
-          this.form = {
-            email: { ...this.form.email, value: '', valid: false },
-          }
+      form.email = { ...form.email, value: '', valid: false }
 
-          this.$router.push('/sign-in')
-        } catch (err) {
-          console.log('err:', err)
-          this.showAlert({ color: 'error', text: err.message })
-        }
+      router.push('/sign-in')
+    } catch (err) {
+      console.log('err:', err)
+      appManagerStore.showAlert({ color: 'error', text: err.message })
+    }
 
-        this.loading = false
-      },
-    },
+    loading.value = false
   }
 </script>
 
@@ -80,10 +68,10 @@
 
       <button
         type="button"
-        :disabled="!valid || loading"
+        :disabled="invalid || loading"
         :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${valid && !loading ? 'hover:bg-[#c71610a0]' : ''}
-        ${valid && !loading ? 'bg-[#C71610]' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
+        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!invalid && !loading ? 'hover:bg-[#c71610a0]' : ''}
+        ${!invalid && !loading ? 'bg-[#C71610]' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
         @click="submit"
       >
         <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
