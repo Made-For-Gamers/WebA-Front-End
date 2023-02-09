@@ -68,9 +68,9 @@
         } catch (err) {
           console.log('err:', err)
           this.showAlert({ color: 'error', text: err.message })
-        } finally {
-          this.loading = false
         }
+
+        this.loading = false
       },
     },
   }

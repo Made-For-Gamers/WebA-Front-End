@@ -102,7 +102,7 @@
       @click="submit"
     >
       <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-      <div v-else class="flex items-center gap-4">Login</div>
+      <div v-else class="flex items-center gap-4">Register</div>
     </button>
   </form>
 </template>

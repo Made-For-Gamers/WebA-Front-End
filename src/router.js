@@ -5,18 +5,47 @@ import { useAppManagerStore } from './stores/app-manager'
 
 import Home from './pages/Home.vue'
 import Contact from './pages/Contact.vue'
+import Register from './pages/Register.vue'
 import Signin from './pages/Signin.vue'
+import ForgotPassword from './pages/ForgotPassword.vue'
 import Dashboard from './pages/Dashboard.vue'
 import PageNotFound from './pages/PageNotFound.vue'
 
 const routes = [
-  { path: '/', name: 'Home', component: Home, meta: { auth: 'either', menus: ['left'] } },
-  { path: '/contact', name: 'Contact', component: Contact, meta: { auth: 'either', menus: ['left'] } },
-  { path: '/sign-in', name: 'Sign In', component: Signin, meta: { auth: 'unauthed', menus: ['right'] } },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { auth: 'authed', menus: ['right'] } },
-  { path: '/logout', name: 'Logout', meta: { auth: 'authed', menus: ['right'] } },
+  { path: '/', name: 'Home', component: Home, meta: { fixedNav: true, auth: 'either', menus: ['left'] } },
+  { path: '/contact', name: 'Contact', component: Contact, meta: { fixedNav: false, auth: 'either', menus: ['left'] } },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: { fixedNav: false, auth: 'unauthed', menus: ['right'] },
+  },
+  {
+    path: '/sign-in',
+    name: 'Sign In',
+    component: Signin,
+    meta: { fixedNav: false, auth: 'unauthed', menus: ['right'] },
+  },
+  {
+    path: '/forgot-password',
+    name: 'Forgot Password',
+    component: ForgotPassword,
+    meta: { fixedNav: false, auth: 'unauthed' },
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
+  },
+  { path: '/logout', name: 'Logout', meta: { fixedNav: false, auth: 'authed', menus: ['right'] } },
 
-  { path: '/:pathMatch(.*)*', name: 'PageNotFound', component: PageNotFound, meta: { auth: 'either' } },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'PageNotFound',
+    component: PageNotFound,
+    meta: { fixedNav: false, auth: 'either' },
+  },
 ]
 
 const router = createRouter({

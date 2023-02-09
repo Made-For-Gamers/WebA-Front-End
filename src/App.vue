@@ -10,10 +10,8 @@
   <div class="min-h-full">
     <Navbar />
 
-    <main class="-mt-24 pb-8">
-      <div class="mx-auto max-w-3xl px-4 pt-10 sm:px-6 lg:max-w-7xl lg:px-8 min-h-[13rem]">
-        <router-view />
-      </div>
+    <main class="pb-20">
+      <router-view />
     </main>
 
     <Footer />

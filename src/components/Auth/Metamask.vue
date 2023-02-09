@@ -74,7 +74,7 @@
         <ExclamationTriangleIcon class="h-5 w-5 text-yellow-400" aria-hidden="true" />
       </div>
       <div class="ml-3">
-        <p class="text-sm text-yellow-700">To sign in with Metamask, add the Metamask extension to your browser.</p>
+        <p class="text-sm text-yellow-700">To continue with Metamask, add the Metamask extension to your browser.</p>
       </div>
     </div>
   </div>

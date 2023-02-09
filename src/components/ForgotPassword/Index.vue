@@ -11,11 +11,8 @@
   export default {
     components: { ArrowPathIcon, TextField, TextArea },
 
-    props: {
-      loading: Boolean,
-    },
-
     data: () => ({
+      loading: false,
       form: {
         email: {
           value: '',
@@ -24,11 +21,6 @@
             v => !!v || 'Please enter your Email Address',
             v => v?.includes('@') || 'Please enter a valid Email Address',
           ],
-        },
-        password: {
-          value: '',
-          error: true,
-          rules: [v => !!v || 'Please enter a Password'],
         },
       },
     }),
@@ -41,70 +33,64 @@
 
     methods: {
       ...mapActions(useAppManagerStore, ['showAlert']),
-      ...mapActions(useUserStore, ['loginWithEmailAndPassword']),
+      ...mapActions(useUserStore, ['triggerForgotPassword']),
 
       async submit() {
         try {
-          this.$emit('toggleLoading')
+          this.loading = true
 
-          const res = await this.loginWithEmailAndPassword(
+          const res = await this.triggerForgotPassword(
             Object.keys(this.form).reduce((s, v) => ({ ...s, [v]: this.form[v].value }), {})
           )
 
           // TODO: replace this with an actual message from the server
-          this.showAlert({ color: 'success', text: "You've successfully been logged in" })
+          this.showAlert({
+            color: 'success',
+            text: 'Thank you. Please check your email for instructions on how to reset your password.',
+          })
 
           this.form = {
             email: { ...this.form.email, value: '', valid: false },
-            password: { ...this.form.password, value: '', valid: false },
           }
 
-          this.$router.push('/dashboard')
+          this.$router.push('/sign-in')
         } catch (err) {
           console.log('err:', err)
           this.showAlert({ color: 'error', text: err.message })
         }
 
-        this.$emit('toggleLoading')
+        this.loading = false
       },
     },
   }
 </script>
 
 <template>
-  <form class="space-y-4">
-    <text-field
-      type="email"
-      label="Email Address"
-      :value="form.email.value"
-      :error="form.email.error"
-      :rules="form.email.rules"
-      @value="val => (form.email.value = val)"
-      @error="err => (form.email.error = err)"
-    />
+  <section class="rounded-lg bg-white shadow p-6 lg:mx-52 flex flex-col gap-4">
+    <form class="space-y-4">
+      <text-field
+        type="email"
+        label="Email Address"
+        :value="form.email.value"
+        :error="form.email.error"
+        :rules="form.email.rules"
+        @value="val => (form.email.value = val)"
+        @error="err => (form.email.error = err)"
+      />
 
-    <text-field
-      type="text"
-      label="Password"
-      :value="form.password.value"
-      :error="form.password.error"
-      :rules="form.password.rules"
-      @value="val => (form.password.value = val)"
-      @error="err => (form.password.error = err)"
-    />
-
-    <button
-      type="button"
-      :disabled="!valid || loading"
-      :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
+      <button
+        type="button"
+        :disabled="!valid || loading"
+        :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
         focus:outline-none focus:ring-2 focus:ring-offset-2 ${valid && !loading ? 'hover:bg-[#c71610a0]' : ''}
         ${valid && !loading ? 'bg-[#C71610]' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
-      @click="submit"
-    >
-      <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-      <div v-else class="flex items-center gap-4">Login</div>
-    </button>
-  </form>
+        @click="submit"
+      >
+        <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
+        <div v-else class="flex items-center gap-4">Submit</div>
+      </button>
+    </form>
+  </section>
 </template>
 
 <style></style>

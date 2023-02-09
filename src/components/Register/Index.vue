@@ -17,12 +17,6 @@
     <Divider text="OR" classes="my-4" />
 
     <EmailPassword :loading="loading" @toggleLoading="loading = !loading" />
-
-    <div class="text-center">
-      <router-link to="forgot-password" class="text-[#3366CC] hover:text-[#5b80ca] hover:underline">
-        Forgot Password
-      </router-link>
-    </div>
   </section>
 </template>
 

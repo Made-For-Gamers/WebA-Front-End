@@ -85,5 +85,24 @@ export const useUserStore = defineStore('user', {
         }
       })
     },
+
+    triggerForgotPassword(payload) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          }).then(res => res.json())
+
+          // TODO: check here for a favorable response from server, else gooi an error with the message from server
+          // e.g. if(!res.result) throw New Error(res.message)
+
+          return resolve(res)
+        } catch (err) {
+          return reject(err)
+        }
+      })
+    },
   },
 })
