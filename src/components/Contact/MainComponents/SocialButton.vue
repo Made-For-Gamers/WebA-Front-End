@@ -1,14 +1,18 @@
 <script setup>
-  const props = defineProps({
+  defineProps({
     href: String,
     icon: Object,
     fill: String,
+    size: {
+      type: String,
+      default: '24px',
+    },
   })
 </script>
 
 <template>
-  <a target="_blank" class="social-icon" :href="href">
-    <component :is="icon" :style="{ fill }" />
+  <a target="_blank" class="block" :href="href">
+    <component :is="icon" :style="{ fill, width: size, height: size }" />
   </a>
 </template>
 

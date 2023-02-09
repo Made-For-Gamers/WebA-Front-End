@@ -9,6 +9,7 @@ import Register from './pages/Register.vue'
 import Signin from './pages/Signin.vue'
 import ForgotPassword from './pages/ForgotPassword.vue'
 import Dashboard from './pages/Dashboard.vue'
+import Profile from './pages/Profile.vue'
 import PageNotFound from './pages/PageNotFound.vue'
 
 const routes = [
@@ -36,6 +37,12 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+    meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
     meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
   },
   { path: '/logout', name: 'Logout', meta: { fixedNav: false, auth: 'authed', menus: ['right'] } },

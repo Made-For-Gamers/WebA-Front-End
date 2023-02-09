@@ -12,12 +12,15 @@
     TransitionRoot,
   } from '@headlessui/vue'
 
+  import { defineProps } from 'vue'
   import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
   import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
   import { useRouter } from 'vue-router'
 
   import { useAppManagerStore } from '../../stores/app-manager'
   import { useUserStore } from '../../stores/user'
+
+  defineProps({ scrollTop: Number })
 
   const { getRoutes, currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
@@ -51,8 +54,12 @@
 <template>
   <Popover
     as="header"
-    class="bg-black w-full"
-    :class="{ 'fixed': currentRoute.meta.fixedNav, 'mb-20': !currentRoute.meta.fixedNav }"
+    class="w-full transition-colors duration-500"
+    :class="{
+      'fixed': currentRoute.meta.fixedNav,
+      'mb-20': !currentRoute.meta.fixedNav,
+      'bg-black': scrollTop > 25,
+    }"
     v-slot="{ open }"
   >
     <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -77,9 +84,14 @@
 
         <!-- Logo -->
         <div class="absolute left-0 flex-shrink-0 py-5 lg:static lg:flex lg:justify-center lg:-mt-8">
-          <router-link to="/" class="lg:block lg:bg-black lg:rounded-full lg:p-8">
+          <router-link
+            to="/"
+            class="lg:block lg:rounded-full lg:p-8 transition-colors duration-500"
+            :class="{ 'lg:bg-black': scrollTop > 25 }"
+          >
             <img
-              class="h-8 lg:h-24 w-auto"
+              class="h-8 w-auto transition-all duration-500"
+              :class="{ 'lg:h-24': scrollTop <= 25, 'lg:h-12': scrollTop > 25 }"
               src="../../assets/images/mark-logo-white-150x106.png"
               :alt="appManagerStore.appName"
             />
