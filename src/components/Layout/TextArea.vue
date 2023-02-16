@@ -16,7 +16,7 @@
     emit('value', e.target.value)
     emit(
       'error',
-      props.rules.reduce((s, v) => {
+      props?.rules?.reduce((s, v) => {
         if (s) return s
 
         const failsRule = v(e.target.value)

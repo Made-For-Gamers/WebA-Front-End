@@ -16,7 +16,7 @@
     emit('value', e.target.value)
     emit(
       'error',
-      props.rules.reduce((s, v) => {
+      props?.rules?.reduce((s, v) => {
         if (s) return s
 
         const failsRule = v(e.target.value)
@@ -28,30 +28,32 @@
 </script>
 
 <template>
-  <label
-    :for="id"
-    :class="`block text-sm font-medium
+  <div>
+    <label
+      :for="id"
+      :class="`block text-sm font-medium
       ${!error || error === true ? 'text-gray-700' : 'text-red-600'}`"
-  >
-    {{ label }}
-  </label>
+    >
+      {{ label }}
+    </label>
 
-  <div class="mt-1">
-    <input
-      :id="id"
-      :name="id"
-      :type="type"
-      autocomplete="nope"
-      :value="value"
-      @input="handleInput"
-      :class="`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm sm:text-sm
+    <div class="mt-1">
+      <input
+        :id="id"
+        :name="id"
+        :type="type"
+        autocomplete="nope"
+        :value="value"
+        @input="handleInput"
+        :class="`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm sm:text-sm
         focus:outline-none ${!error || error === true ? 'border-gray-300' : 'border-red-600'}
         ${error ? 'focus:border-red-600' : 'focus:border-indigo-500'}`"
-    />
+      />
 
-    <span v-if="error" class="text-red-600 text-xs">
-      {{ error === true ? '' : error }}
-    </span>
+      <span v-if="error" class="text-red-600 text-xs">
+        {{ error === true ? '' : error }}
+      </span>
+    </div>
   </div>
 </template>
 
