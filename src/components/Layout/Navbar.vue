@@ -12,7 +12,6 @@
     TransitionRoot,
   } from '@headlessui/vue'
 
-  import { defineProps } from 'vue'
   import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
   import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
   import { useRouter } from 'vue-router'

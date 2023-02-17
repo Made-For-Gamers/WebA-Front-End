@@ -1,5 +1,5 @@
 <script setup>
-  import { defineProps, reactive, computed } from 'vue'
+  import { reactive, computed } from 'vue'
   import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
