@@ -4,7 +4,6 @@
   import PersonalDeets from './PersonalDeets.vue'
   import ResetEmail from './ResetEmail.vue'
   import ChangePassword from './ChangePassword.vue'
-  import DeleteAccount from './DeleteAccount.vue'
   import { useUserStore } from '../../stores/user'
 
   const userStore = useUserStore()
