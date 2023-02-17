@@ -1,14 +1,13 @@
-# Build dependencies
-FROM node:17-alpine as dependencies
+FROM node:15.4 as build
 WORKDIR /app
-COPY package.json .
-RUN npm i
+COPY package*.json .
+RUN npm install
 COPY . .
-# Build production image
-FROM dependencies as builder
 RUN npm run build
-EXPOSE 3000
-CMD npm run start
+
+FROM nginx:1.19
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # # build stage
 # FROM node:lts-alpine as build-stage
