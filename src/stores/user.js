@@ -160,7 +160,7 @@ export const useUserStore = defineStore('user', {
       })
     },
 
-    resetPassword(payload) {
+    changePassword(payload) {
       return new Promise(async (resolve, reject) => {
         try {
           const res = await fetch('https://jsonplaceholder.typicode.com/posts', {

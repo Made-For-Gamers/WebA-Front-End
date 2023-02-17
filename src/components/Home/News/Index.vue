@@ -25,10 +25,12 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24">
-    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32">
-      <h2 class="text-6xl lg:text-6xl font-medium">News</h2>
-      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h4>
+  <div class="grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24 bg-black">
+    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32 text-white">
+      <h2 class="text-6xl lg:text-6xl font-medium text-center">News</h2>
+      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+      </h4>
     </div>
 
     <Article

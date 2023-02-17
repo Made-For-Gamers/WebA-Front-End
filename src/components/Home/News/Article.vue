@@ -7,7 +7,7 @@
 </script>
 
 <template>
-  <div class="bg-black text-white col-span-6 lg:col-span-2 p-2 lg:p-4 h-min rounded-2xl">
+  <div class="bg-white col-span-6 lg:col-span-2 p-2 lg:p-4 h-min rounded-2xl">
     <h3 class="text-4xl">{{ title }}</h3>
     <div class="my-6">
       <img :src="image" :alt="title" class="w-full my-2" />

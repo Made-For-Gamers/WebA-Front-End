@@ -14,13 +14,15 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-6 gap-4 bg-black w-full px-2 py-8 lg:px-24 lg:py-24">
-    <div class="col-span-6 lg:col-span-4 lg:col-start-2 text-white mb-16 lg:mb-32">
-      <h2 class="text-6xl lg:text-6xl font-medium">Join Our Communities</h2>
-      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h4>
+  <div class="grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24">
+    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32">
+      <h2 class="text-6xl lg:text-6xl font-medium text-center">Join Our Communities</h2>
+      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+      </h4>
     </div>
 
-    <div class="col-span-6 flex justify-between gap-4 w-full overflow-x-scroll">
+    <div class="col-span-6 flex justify-between gap-4 w-full overflow-x-scroll lg:overflow-x-auto">
       <div
         v-for="(icon, i) in socialButtons"
         :key="i"

@@ -48,7 +48,7 @@
     try {
       emit('toggleLoading')
 
-      const res = await userStore.resetPassword({
+      const res = await userStore.changePassword({
         oldPassword: form.password1.value,
         newPassword: form.password2.value,
       })
