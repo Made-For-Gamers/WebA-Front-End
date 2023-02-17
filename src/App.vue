@@ -1,32 +1,35 @@
-<script setup>
-  import { ref } from 'vue'
-
-  import Alert from './components/Layout/Alert.vue'
-  import Navbar from './components/Layout/Navbar.vue'
-  import Footer from './components/Layout/Footer.vue'
-
-  let scrollTop = ref(
-    window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop
-  )
-
-  const calculateDistanceFromTop = e => {
-    scrollTop.value =
-      window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop
-  }
-
-  window.addEventListener('scroll', calculateDistanceFromTop)
-</script>
-
 <template>
-  <Alert />
-
-  <div class="min-h-full">
-    <Navbar :scrollTop="scrollTop" />
-
-    <main class="pb-20">
-      <router-view />
-    </main>
-
-    <Footer />
+  <div>
+    <router-link to="/">Home</router-link>|
+    <router-link to="/about">About</router-link>
+    <router-view v-slot="{ Component }">
+      <Suspense>
+        <div>
+          <component :is="Component" />
+        </div>
+      </Suspense>
+    </router-view>
   </div>
 </template>
+
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/Inter-Italic.woff2#iefix') format('woff2'),
+    url('./assets/fonts/Inter-Italic.woff') format('woff');
+}
+.inter {
+  font-family: 'Inter';
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
