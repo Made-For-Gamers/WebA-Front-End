@@ -62,44 +62,43 @@
   }
 
   const submit = async () => {
-    try {
-      loading.value = true
+    loading.value = true
 
-      // TODO: add recaptcha key
-      const res = await gamejamStore.signup({
-        name: form.name.value,
-        companyName: form.companyName.value,
-        email: form.email.value,
-        members: members.value.map(v => ({
-          name: v.name.value,
-          email: v.email.value,
-        })),
+    grecaptcha.ready(() => {
+      grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'gamejam_registration' }).then(async token => {
+        try {
+          const res = await gamejamStore.signup({
+            name: form.name.value,
+            companyName: form.companyName.value,
+            email: form.email.value,
+            recaptchaToken: token,
+            members: members.value.map(v => ({
+              name: v.name.value,
+              email: v.email.value,
+            })),
+          })
+
+          if (!res.result) throw new Error(res.message)
+          appManagerStore.showAlert({ color: 'success', text: res.message })
+
+          form.name = { ...form.name, value: '', error: false }
+          form.companyName = { ...form.companyName, value: '', error: false }
+          form.email = { ...form.email, value: '', error: false }
+
+          members.value = []
+        } catch (err) {
+          console.log('err:', err)
+          appManagerStore.showAlert({ color: 'error', text: err.message })
+        }
+
+        loading.value = false
       })
-
-      // TODO: replace this with an actual message from the server
-      appManagerStore.showAlert({
-        color: 'success',
-        text: `Your team, ${form.companyName.value} has successfully been signed up`,
-      })
-
-      form.name = { ...form.name, value: '', error: false }
-      form.companyName = { ...form.companyName, value: '', error: false }
-      form.email = { ...form.email, value: '', error: false }
-
-      members.value = []
-    } catch (err) {
-      console.log('err:', err)
-      appManagerStore.showAlert({ color: 'error', text: err.message })
-    }
-
-    loading.value = false
+    })
   }
 </script>
 
 <template>
   <form class="col-span-2 space-y-4">
-    <!-- recaptcha site key: 6LcoWowkAAAAAPrCIXvX8TweVDcZc3sx98NmvXcu -->
-
     <h3 class="text-2xl font-medium">Register to Join</h3>
 
     <text-field
