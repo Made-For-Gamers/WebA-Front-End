@@ -3,11 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-    <!--preload-links-->
+    <meta name="google-signin-client_id" content="hi-there" />
+
+    <link rel="icon" type="image/svg+xml" href="/mark-logo-white-150x106.png" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Audiowide&family=Coda:wght@400;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Vite + Vue</title>
   </head>
   <body>
-    <div id="app"><!--app-html--></div>
-    <script type="module" src="/src/entry-client.js"></script>
+    <div id="app"></div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

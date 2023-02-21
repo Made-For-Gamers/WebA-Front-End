@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Space Ranger';
+    font-weight: 400;
+    src: url(@/assets/fonts/space_ranger/spaceranger.ttf) format('truetype');
+  }
+}

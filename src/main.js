@@ -1,16 +1,28 @@
-import { createPinia } from 'pinia'
-import { createSSRApp } from 'vue'
-import App from './App.vue'
-import { createRouter } from './router'
+import { createApp } from "vue";
+import { createHead } from "@vueuse/head";
 
-// SSR requires a fresh app instance per request, therefore we export a function
-// that creates a fresh app instance. If using Vuex, we'd also be creating a
-// fresh store here.
-export function createApp() {
-  const app = createSSRApp(App)
-  const pinia = createPinia()
-  app.use(pinia)
-  const router = createRouter()
-  app.use(router)
-  return { app, router }
-}
+import "./style.css";
+import App from "./App.vue";
+import router from "./router";
+import store from "./stores";
+
+const app = createApp(App);
+
+app.use(router);
+app.use(store);
+app.use(
+  createHead({
+    title: "MFG - Made For Gamers",
+    script: [
+      {
+        src: `https://www.google.com/recaptcha/api.js?render=${
+          import.meta.env.VITE_RECAPTCHA_KEY
+        }`,
+        // if recaptcha is needed on page load, use `load: () => {}`
+      },
+    ],
+  })
+);
+
+await router.isReady();
+app.mount("#app");
