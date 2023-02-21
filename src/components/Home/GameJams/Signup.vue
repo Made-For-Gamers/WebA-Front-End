@@ -4,14 +4,16 @@
 
   import { useAppManagerStore } from '../../../stores/app-manager'
   import { useUserStore } from '../../../stores/user'
+  import { useGamejamStore } from '../../../stores/gamejam'
   import TextField from '../../Layout/TextField.vue'
 
-  const emit = defineEmits(['toggleLoading'])
   const props = defineProps({ loading: Boolean })
 
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
+  const gamejamStore = useGamejamStore()
 
+  const loading = ref(false)
   const form = reactive({
     name: {
       value: '',
@@ -61,24 +63,36 @@
 
   const submit = async () => {
     try {
-      emit('toggleLoading')
+      loading.value = true
 
-      const res = await userStore.loginWithEmailAndPassword(
-        Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
-      )
+      // TODO: add recaptcha key
+      const res = await gamejamStore.signup({
+        name: form.name.value,
+        companyName: form.companyName.value,
+        email: form.email.value,
+        members: members.value.map(v => ({
+          name: v.name.value,
+          email: v.email.value,
+        })),
+      })
 
       // TODO: replace this with an actual message from the server
-      appManagerStore.showAlert({ color: 'success', text: "You've successfully been logged in" })
+      appManagerStore.showAlert({
+        color: 'success',
+        text: `Your team, ${form.companyName.value} has successfully been signed up`,
+      })
 
-      // form.email = { ...form.email, value: '', error: false }
-      // form.password = { ...form.password, value: '', error: false }
-      // router.push('/dashboard')
+      form.name = { ...form.name, value: '', error: false }
+      form.companyName = { ...form.companyName, value: '', error: false }
+      form.email = { ...form.email, value: '', error: false }
+
+      members.value = []
     } catch (err) {
       console.log('err:', err)
       appManagerStore.showAlert({ color: 'error', text: err.message })
     }
 
-    emit('toggleLoading')
+    loading.value = false
   }
 </script>
 

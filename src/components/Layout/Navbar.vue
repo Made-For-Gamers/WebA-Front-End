@@ -72,7 +72,7 @@
               :to="item.href"
               :class="[
                 item.current ? 'text-white' : 'text-cyan-100',
-                'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10',
+                'text-xl font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10',
               ]"
               :aria-current="item.current ? 'page' : undefined"
             >
@@ -109,7 +109,7 @@
               :to="item.href"
               :class="[
                 item.current ? 'text-white' : 'text-cyan-100',
-                'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10',
+                'text-xl font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10',
               ]"
               :aria-current="item.current ? 'page' : undefined"
             >
@@ -117,12 +117,12 @@
             </router-link>
           </nav>
 
-          <button
+          <!-- <button
             type="button"
             class="flex-shrink-0 rounded-full p-1 text-cyan-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
           >
             <BellIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
+          </button> -->
         </div>
 
         <!-- Menu button -->

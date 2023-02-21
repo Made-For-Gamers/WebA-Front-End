@@ -16,7 +16,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        'sans': ['Coda', ...defaultTheme.fontFamily.sans],
+        'audiowide': ['Audiowide'],
+        'space-ranger': ['Space Ranger'],
       },
     },
   },
