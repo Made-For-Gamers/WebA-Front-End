@@ -65,8 +65,8 @@
     loading.value = true
 
     grecaptcha.ready(() => {
-      grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'gamejam_registration' }).then(async token => {
-        try {
+      try {
+        grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'gamejam_registration' }).then(async token => {
           const res = await gamejamStore.signup({
             name: form.name.value,
             companyName: form.companyName.value,
@@ -86,13 +86,13 @@
           form.email = { ...form.email, value: '', error: false }
 
           members.value = []
-        } catch (err) {
-          console.log('err:', err)
-          appManagerStore.showAlert({ color: 'error', text: err.message })
-        }
-
+          loading.value = false
+        })
+      } catch (err) {
         loading.value = false
-      })
+        console.log('err B:', err)
+        appManagerStore.showAlert({ color: 'error', text: err.message })
+      }
     })
   }
 </script>
