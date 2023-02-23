@@ -8,6 +8,7 @@
     value: String,
     error: Boolean | String,
     rules: Array,
+    dark: Boolean,
   })
 
   const id = computed(() => `${props.label.replace(/\s+/g, '-').toLowerCase()}-${Math.floor(Math.random() * 9999) + 1}`)
@@ -25,15 +26,14 @@
       }, false)
     )
   }
+
+  let labelColor = 'text-red-600'
+  if (!props.error || props.error === true) labelColor = props.dark ? 'text-white' : 'text-gray-700'
 </script>
 
 <template>
   <div>
-    <label
-      :for="id"
-      :class="`block text-sm font-medium
-      ${!error || error === true ? 'text-gray-700' : 'text-red-600'}`"
-    >
+    <label :for="id" :class="`block text-sm font-medium ${labelColor}`">
       {{ label }}
     </label>
 

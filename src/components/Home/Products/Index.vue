@@ -4,14 +4,14 @@
   const products = [
     {
       id: 1,
-      title: 'Product Heading',
+      title: 'Aggregation Portal',
       description:
         'Product Description - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam a nihil ipsa? Itaque fuga et exercitationem rem sint pariatur nihil, dignissimos iusto iste quo voluptatibus laborum distinctio sed, ut, ipsam ipsum nobis nam earum.',
       image: 'https://www.volusion.com/blog/content/images/2021/07/Product-Photos.jpg',
     },
     {
       id: 2,
-      title: 'Product Heading',
+      title: 'Integration Layers',
       description:
         'Product Description - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam a nihil ipsa? Itaque fuga et exercitationem rem sint pariatur nihil, dignissimos iusto iste quo voluptatibus laborum distinctio sed, ut, ipsam ipsum nobis nam earum.',
       image:
@@ -19,7 +19,14 @@
     },
     {
       id: 3,
-      title: 'Product Heading',
+      title: 'Virtual World',
+      description:
+        'Product Description - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam a nihil ipsa? Itaque fuga et exercitationem rem sint pariatur nihil, dignissimos iusto iste quo voluptatibus laborum distinctio sed, ut, ipsam ipsum nobis nam earum.',
+      image: 'https://burst.shopifycdn.com/photos/wrist-watches.jpg?width=1200&format=pjpg&exif=1&iptc=1',
+    },
+    {
+      id: 4,
+      title: 'Interoperability Engine',
       description:
         'Product Description - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam a nihil ipsa? Itaque fuga et exercitationem rem sint pariatur nihil, dignissimos iusto iste quo voluptatibus laborum distinctio sed, ut, ipsam ipsum nobis nam earum.',
       image: 'https://burst.shopifycdn.com/photos/wrist-watches.jpg?width=1200&format=pjpg&exif=1&iptc=1',
@@ -32,13 +39,15 @@
     <div class="col-span-6 lg:col-span-4 lg:col-start-2 text-white mb-16 lg:mb-32">
       <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger">Products</h2>
       <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        We're building an ecosystem and work with trusted partners to make the best suite of value propositions
+        available to creators.
       </h4>
     </div>
 
     <Product
       v-for="product in products"
       :key="product.id"
+      :id="product.id"
       :title="product.title"
       :description="product.description"
       :image="product.image"

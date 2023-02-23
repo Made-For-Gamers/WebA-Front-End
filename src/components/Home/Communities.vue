@@ -14,8 +14,8 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24">
-    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32">
+  <div class="parallax-bg grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24">
+    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32 text-white bg-[#0000007d]">
       <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger">Join Our Communities</h2>
       <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -27,7 +27,7 @@
         v-for="(icon, i) in socialButtons"
         :key="i"
         class="bg-white hover:bg-[#cfcfcf] rounded-2xl w-full flex flex-col gap-4 lg:gap-8 items-center justify-center cursor-pointer p-4"
-        @click="openSocial(icon.href)"
+        @click="() => openSocial(icon.href)"
       >
         <SocialButton :href="icon.href" :icon="icon.icon" :fill="icon.fill" size="7rem" />
         <h3 class="text-4xl">{{ icon.title }}</h3>
@@ -36,4 +36,11 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .parallax-bg {
+    background-image: url('@/assets/images/bg-gamy.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+</style>
