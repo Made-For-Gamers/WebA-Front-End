@@ -7,8 +7,8 @@
     </video>
 
     <div class="text-white bg-[#00000033] p-2 lg:w-[80%] lg:p-4 lg:rounded-xl">
-      <h1 class="text-6xl lg:text-8xl font-medium font-space-ranger">Made For Gamers</h1>
-      <h3 class="text-2xl my-6 lg:text-3xl lg:my-8 font-audiowide">
+      <h1 class="text-6xl lg:text-8xl font-medium font-space-ranger text-center">Made For Gamers</h1>
+      <h3 class="text-2xl my-6 lg:text-3xl lg:my-8 font-audiowide text-center">
         Made for Gamers has built a game development and web3 infrastructure aggregation and integration platform where
         creators can find and integrate APIs, SDKs, infrastructure or anything else they may require as part of
         building, launching and distributing their game.

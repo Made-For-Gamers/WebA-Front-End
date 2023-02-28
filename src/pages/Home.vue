@@ -11,9 +11,9 @@
   <Landing />
   <Products />
   <GameJams />
-  <News />
-  <Communities />
   <Partners />
+  <Communities />
+  <News />
 </template>
 
 <style></style>
