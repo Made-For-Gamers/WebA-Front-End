@@ -1,5 +1,6 @@
 <script setup>
   defineProps({
+    id: Number,
     title: String,
     description: String,
     image: String,
@@ -7,29 +8,11 @@
 </script>
 
 <template>
-  <div class="bg-white col-span-6 lg:col-span-2 p-2 lg:p-4 h-min rounded-2xl">
-    <h3 class="text-4xl font-audiowide">{{ title }}</h3>
-    <div class="my-6">
-      <img :src="image" :alt="title" class="w-full my-2" />
-      <p class="text-xl">{{ description }}</p>
-    </div>
-    <div class="flex justify-end gap-2">
-      <button
-        type="button"
-        :class="`inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white
-            shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-indigo-700 focus:ring-indigo-500
-          bg-indigo-600`"
-      >
-        <span>Read More</span>
-      </button>
-      <button
-        type="button"
-        :class="`inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white
-            shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-indigo-700 focus:ring-indigo-500
-          bg-indigo-600`"
-      >
-        <span>CTA</span>
-      </button>
+  <div class="relative col-span-6 lg:col-span-2 z-0 hover:scale-105 cursor-pointer transition-all duration-150">
+    <img :src="image" alt="cover" class="relative w-full" />
+
+    <div class="absolute bg-[#ffffffc9] w-full p-4 z-10 bottom-0 right-0">
+      <h3 class="text-4xl font-audiowide">{{ title }}</h3>
     </div>
   </div>
 </template>

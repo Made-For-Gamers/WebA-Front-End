@@ -99,7 +99,7 @@
 
 <template>
   <form class="col-span-2 space-y-4">
-    <h3 class="text-2xl font-medium">Register to Join</h3>
+    <h3 class="text-2xl font-medium text-white">Register to Join</h3>
 
     <text-field
       type="text"
@@ -109,6 +109,7 @@
       :rules="form.name.rules"
       @value="val => (form.name.value = val)"
       @error="err => (form.name.error = err)"
+      dark
     />
 
     <text-field
@@ -119,6 +120,7 @@
       :rules="form.companyName.rules"
       @value="val => (form.companyName.value = val)"
       @error="err => (form.companyName.error = err)"
+      dark
     />
 
     <text-field
@@ -129,6 +131,7 @@
       :rules="form.email.rules"
       @value="val => (form.email.value = val)"
       @error="err => (form.email.error = err)"
+      dark
     />
 
     <div v-for="(member, i) in members" :key="i" class="flex gap-2">
@@ -141,6 +144,7 @@
         @value="val => (member.name.value = val)"
         @error="err => (member.name.error = err)"
         class="w-full"
+        dark
       />
 
       <text-field
@@ -152,15 +156,16 @@
         @value="val => (member.email.value = val)"
         @error="err => (member.email.error = err)"
         class="w-full"
+        dark
       />
 
       <button
         type="button"
         :disabled="loading"
         :class="`inline-flex items-center justify-center rounded-md border border-transparent p-2 font-normal mt-6
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-[#c71610a0]' : ''} h-full
-        ${!loading ? 'bg-[#C71610]' : 'bg-gray-400'} text-2xl text-white shadow-sm`"
-        @click="members.splice(i, 1)"
+          focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-[#c71610a0]' : ''} h-full
+          ${!loading ? 'bg-[#C71610]' : 'bg-gray-400'} text-2xl text-white shadow-sm`"
+        @click="() => members.splice(i, 1)"
       >
         <XMarkIcon class="h-5 w-5" />
       </button>

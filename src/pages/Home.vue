@@ -4,14 +4,16 @@
   import GameJams from '../components/Home/GameJams/Index.vue'
   import News from '../components/Home/News/Index.vue'
   import Communities from '../components/Home/Communities.vue'
+  import Partners from '../components/Home/Partners/Index.vue'
 </script>
 
 <template>
   <Landing />
   <Products />
   <GameJams />
-  <News />
+  <Partners />
   <Communities />
+  <News />
 </template>
 
 <style></style>

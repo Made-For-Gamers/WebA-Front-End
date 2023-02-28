@@ -23,7 +23,7 @@
   <div class="min-h-full">
     <Navbar :scrollTop="scrollTop" />
 
-    <main class="pb-20">
+    <main>
       <router-view />
     </main>
 

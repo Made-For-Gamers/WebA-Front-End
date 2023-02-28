@@ -19,7 +19,7 @@
       id: 3,
       title: 'Article Heading',
       description: 'Article Summary - Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-      image: 'https://www.masscommunicationtalk.com/wp-content/uploads/2011/10/News-handing.gif',
+      image: 'https://imgeng.jagran.com/images//2022/aug/breaking-news-21661047276000.jpg',
     },
   ]
 </script>
@@ -36,12 +36,13 @@
     <Article
       v-for="article in articles"
       :key="article.id"
+      :id="article.id"
       :title="article.title"
       :description="article.description"
       :image="article.image"
     />
 
-    <a href="#" @click.prevent="false" class="text-xl mt-8 lg:mt-16 w-max">View All</a>
+    <a href="#" @click.prevent="() => false" class="text-xl text-white mt-8 lg:mt-16 w-max">View All</a>
   </div>
 </template>
 

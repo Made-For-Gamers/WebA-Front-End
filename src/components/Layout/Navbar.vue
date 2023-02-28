@@ -53,7 +53,7 @@
 <template>
   <Popover
     as="header"
-    class="w-full transition-colors duration-500"
+    class="w-full transition-colors duration-500 z-50"
     :class="{
       'fixed': currentRoute.meta.fixedNav,
       'mb-20': !currentRoute.meta.fixedNav,

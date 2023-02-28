@@ -13,11 +13,12 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24">
-    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32">
+  <div class="parallax-bg grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24">
+    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32 text-white">
       <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger">Game Jams</h2>
       <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+        We occasionally host virtual game jams (game creation hackathons) when we introduce new integration layers or
+        partner ecosystems into our universe.
       </h4>
     </div>
 
@@ -26,8 +27,15 @@
       <Signup />
     </div>
 
-    <a href="#" @click.prevent="false" class="text-xl mt-8 lg:mt-16 w-max">View Past Jams</a>
+    <a href="#" @click.prevent="() => false" class="text-xl mt-8 lg:mt-16 w-max text-white">View Past Jams</a>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .parallax-bg {
+    background-image: url('@/assets/images/bg-orbie.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+</style>
