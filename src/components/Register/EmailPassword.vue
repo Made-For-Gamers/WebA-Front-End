@@ -3,12 +3,12 @@
   import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
-  import router from '../../router'
-  import TextField from '../Layout/TextField.vue'
-  import TextArea from '../Layout/TextArea.vue'
+  import router from '@/router'
+  import TextField from '@/components/Layout/TextField.vue'
+  import TextArea from '@/components/Layout/TextArea.vue'
 
   const emit = defineEmits(['toggleLoading'])
   const props = defineProps({ loading: Boolean })

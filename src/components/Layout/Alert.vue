@@ -2,8 +2,8 @@
   import { XMarkIcon } from '@heroicons/vue/20/solid'
   import { watch } from 'vue'
 
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { colors, icons } from './AlertColors.js'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { colors, icons } from '@/components/Layout/AlertColors.js'
 
   const appManagerStore = useAppManagerStore()
 </script>

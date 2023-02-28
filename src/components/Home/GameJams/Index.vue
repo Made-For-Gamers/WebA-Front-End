@@ -1,6 +1,6 @@
 <script setup>
-  import NextJam from './NextJam.vue'
-  import Signup from './Signup.vue'
+  import NextJam from '@/components/Home/GameJams/NextJam.vue'
+  import Signup from '@/components/Home/GameJams/Signup.vue'
 
   const nextJam = {
     cover:

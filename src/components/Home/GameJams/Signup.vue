@@ -2,10 +2,10 @@
   import { ref, reactive, computed } from 'vue'
   import { ArrowPathIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-  import { useAppManagerStore } from '../../../stores/app-manager'
-  import { useUserStore } from '../../../stores/user'
-  import { useGamejamStore } from '../../../stores/gamejam'
-  import TextField from '../../Layout/TextField.vue'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
+  import { useGamejamStore } from '@/stores/gamejam'
+  import TextField from '@/components/Layout/TextField.vue'
 
   const props = defineProps({ loading: Boolean })
 

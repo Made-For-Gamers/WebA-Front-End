@@ -2,10 +2,10 @@
   import { reactive, computed } from 'vue'
   import { onMounted } from 'vue'
 
-  import TextField from '../Layout/TextField.vue'
+  import TextField from '@/components/Layout/TextField.vue'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()

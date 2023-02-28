@@ -1,8 +1,8 @@
 <script setup>
   import { ref, reactive } from 'vue'
   import { ArrowUpOnSquareIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()

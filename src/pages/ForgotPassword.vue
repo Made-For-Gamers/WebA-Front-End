@@ -1,5 +1,5 @@
 <script setup>
-  import ForgotPassword from '../components/ForgotPassword/Index.vue'
+  import ForgotPassword from '@/components/ForgotPassword/Index.vue'
 </script>
 
 <template>

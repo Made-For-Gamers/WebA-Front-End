@@ -3,9 +3,9 @@
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { ExclamationTriangleIcon } from '@heroicons/vue/20/solid'
 
-  import router from '../../router'
-  import { useUserStore } from '../../stores/user'
-  import { useAppManagerStore } from '../../stores/app-manager'
+  import router from '@/router'
+  import { useUserStore } from '@/stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
 
   // ethereum.networkVersion // current network
   // ethereum.selectedAddress // current account
