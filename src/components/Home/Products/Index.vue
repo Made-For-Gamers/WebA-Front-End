@@ -39,8 +39,8 @@
     <div class="col-span-6 lg:col-span-4 lg:col-start-2 text-white mb-16 lg:mb-32">
       <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger">Products</h2>
       <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide">
-        We're building an ecosystem and work with trusted partners to make the best suite of value propositions
-        available to creators.
+        Apart from building an ecosystem, we are working together with trusted partners to make the best suite of value
+        propositions available to creators.
       </h4>
     </div>
 
