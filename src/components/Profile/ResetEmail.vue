@@ -69,7 +69,7 @@
   <form class="space-y-4">
     <h3 class="text-2xl font-medium">Reset Email Address</h3>
 
-    <text-field
+    <TextField
       type="email"
       label="Current Email Address"
       :value="form.email1.value"
@@ -79,7 +79,7 @@
       @error="err => (form.email1.error = err)"
     />
 
-    <text-field
+    <TextField
       type="email"
       label="Current Email Address Again"
       :value="form.email2.value"

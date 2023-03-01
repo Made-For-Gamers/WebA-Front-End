@@ -72,7 +72,7 @@
   <form class="space-y-4">
     <h3 class="text-2xl font-medium">Change Password</h3>
 
-    <text-field
+    <TextField
       type="password"
       label="Current Password"
       :value="form.password1.value"
@@ -82,7 +82,7 @@
       @error="err => (form.password1.error = err)"
     />
 
-    <text-field
+    <TextField
       type="password"
       label="New Password"
       :value="form.password2.value"
@@ -92,7 +92,7 @@
       @error="err => (form.password2.error = err)"
     />
 
-    <text-field
+    <TextField
       type="password"
       label="New Password Again"
       :value="form.password3.value"

@@ -64,7 +64,7 @@
 
 <template>
   <form class="space-y-4">
-    <text-field
+    <TextField
       type="text"
       label="First Name"
       :value="form.fName.value"
@@ -74,7 +74,7 @@
       @error="err => (form.fName.error = err)"
     />
 
-    <text-field
+    <TextField
       type="text"
       label="Last Name"
       :value="form.lName.value"
@@ -84,7 +84,7 @@
       @error="err => (form.lName.error = err)"
     />
 
-    <text-field
+    <TextField
       type="email"
       label="Email Address"
       :value="form.email.value"
@@ -94,7 +94,7 @@
       @error="err => (form.email.error = err)"
     />
 
-    <text-area
+    <TextArea
       label="Message"
       :rows="4"
       :value="form.message.value"

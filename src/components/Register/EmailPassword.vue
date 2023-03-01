@@ -60,7 +60,7 @@
 
 <template>
   <form class="space-y-4">
-    <text-field
+    <TextField
       type="email"
       label="Email Address"
       :value="form.email.value"
@@ -70,7 +70,7 @@
       @error="err => (form.email.error = err)"
     />
 
-    <text-field
+    <TextField
       type="text"
       label="Password"
       :value="form.password.value"

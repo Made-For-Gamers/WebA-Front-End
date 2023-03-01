@@ -61,7 +61,7 @@
   <form class="space-y-4">
     <h3 class="text-2xl font-medium">Personal Details</h3>
 
-    <text-field
+    <TextField
       type="text"
       label="First Name"
       :value="form.fName.value"
@@ -71,7 +71,7 @@
       @error="err => (form.fName.error = err)"
     />
 
-    <text-field
+    <TextField
       type="text"
       label="Last Name"
       :value="form.lName.value"
