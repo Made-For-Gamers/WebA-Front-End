@@ -37,14 +37,9 @@
 
   const members = ref([])
 
-  const invalid = computed(() => {
-    return (
-      Object.keys(form).some(v => form[v].error) ||
-      members.value.some(v => {
-        return v.name.error || v.email.error
-      })
-    )
-  })
+  const invalid = computed(
+    () => Object.keys(form).some(v => form[v].error) || members.value.some(v => v.name.error || v.email.error)
+  )
 
   const addMember = () => {
     members.value.push({

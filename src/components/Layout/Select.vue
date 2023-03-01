@@ -49,7 +49,7 @@
           ${error ? 'focus:border-red-600' : 'focus:border-indigo-500'}
           text-left`"
       >
-        <span class="block truncate">{{ selected?.name || `Please select a ${label}` }}</span>
+        <span class="block truncate">{{ selected?.text || `Please select a ${label}` }}</span>
         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
           <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
         </span>
@@ -69,9 +69,9 @@
         >
           <ListboxOption
             as="template"
-            v-for="person in items"
-            :key="person.id"
-            :value="person"
+            v-for="item in items"
+            :key="item.value"
+            :value="item"
             v-slot="{ active, selected }"
           >
             <li
@@ -80,7 +80,7 @@
                 'relative cursor-default select-none py-2 pl-8 pr-4',
               ]"
             >
-              <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">{{ person.name }}</span>
+              <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">{{ item.text }}</span>
 
               <span
                 v-if="selected"

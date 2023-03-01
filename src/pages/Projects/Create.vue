@@ -1,5 +1,5 @@
 <script setup>
-  import Create from '@/components/Projects/Create/Index.vue'
+  import Create from '@/components/Projects/Create.vue'
 </script>
 
 <template>

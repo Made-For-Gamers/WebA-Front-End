@@ -1,5 +1,8 @@
 <script setup>
-  import List from '@/components/Projects/List.vue'
+  import { useProjectStore } from '@/stores/project'
+  import ProjectTile from '@/components/Projects/ProjectTile.vue'
+
+  const projectStore = useProjectStore()
 </script>
 
 <template>
@@ -14,7 +17,16 @@
       Create New Project
     </router-link>
 
-    <List />
+    <div class="grid grid-cols-3 gap-4 mt-4">
+      <ProjectTile
+        v-for="project in projectStore.projects"
+        :key="project.id"
+        :id="project.id"
+        :title="project.title"
+        :type="project.type"
+        class=""
+      />
+    </div>
   </section>
 </template>
 
