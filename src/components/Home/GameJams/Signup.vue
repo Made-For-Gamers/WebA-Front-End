@@ -98,7 +98,7 @@
 </script>
 
 <template>
-  <form class="col-span-2 space-y-4">
+  <form class="lg:col-span-2 space-y-4">
     <h3 class="text-2xl font-medium text-white">Register to Join</h3>
 
     <text-field
