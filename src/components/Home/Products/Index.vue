@@ -1,5 +1,5 @@
 <script setup>
-  import Product from './Product.vue'
+  import Product from '@/components/Home/Products/Product.vue'
 
   const products = [
     {

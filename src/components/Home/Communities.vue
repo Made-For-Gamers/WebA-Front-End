@@ -1,7 +1,7 @@
 <script setup>
   import { DiscordIcon, TelegramIcon, FacebookIcon, LinkedinIcon, TwitterIcon } from 'vue3-simple-icons'
 
-  import SocialButton from '../Contact/MainComponents/SocialButton.vue'
+  import SocialButton from '@/components/Contact/MainComponents/SocialButton.vue'
 
   const openSocial = href => window.open(href, '_blank')
   const socialButtons = [

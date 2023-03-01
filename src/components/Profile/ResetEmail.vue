@@ -2,10 +2,10 @@
   import { reactive, computed } from 'vue'
   import { onMounted } from 'vue'
 
-  import TextField from '../Layout/TextField.vue'
+  import TextField from '@/components/Layout/TextField.vue'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
@@ -34,11 +34,6 @@
       ],
     },
   })
-
-  // onMounted(() => {
-  //   form.fName = { ...form.fName, value: props.user.firstName, error: true }
-  //   form.lName = { ...form.lName, value: props.user.lastName, error: false }
-  // })
 
   const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
@@ -69,7 +64,7 @@
   <form class="space-y-4">
     <h3 class="text-2xl font-medium">Reset Email Address</h3>
 
-    <text-field
+    <TextField
       type="email"
       label="Current Email Address"
       :value="form.email1.value"
@@ -79,7 +74,7 @@
       @error="err => (form.email1.error = err)"
     />
 
-    <text-field
+    <TextField
       type="email"
       label="Current Email Address Again"
       :value="form.email2.value"

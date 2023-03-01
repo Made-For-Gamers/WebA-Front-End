@@ -1,10 +1,11 @@
 <script setup>
   import { ref } from 'vue'
-  import ProfilePhoto from './ProfilePhoto.vue'
-  import PersonalDeets from './PersonalDeets.vue'
-  import ResetEmail from './ResetEmail.vue'
-  import ChangePassword from './ChangePassword.vue'
-  import { useUserStore } from '../../stores/user'
+
+  import ProfilePhoto from '@/components/Profile/ProfilePhoto.vue'
+  import PersonalDeets from '@/components/Profile/PersonalDeets.vue'
+  import ResetEmail from '@/components/Profile/ResetEmail.vue'
+  import ChangePassword from '@/components/Profile/ChangePassword.vue'
+  import { useUserStore } from '@/stores/user'
 
   const userStore = useUserStore()
   const loading = ref(false)

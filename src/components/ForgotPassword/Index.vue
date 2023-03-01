@@ -3,12 +3,12 @@
   import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
-  import router from '../../router'
-  import TextField from '../Layout/TextField.vue'
-  import TextArea from '../Layout/TextArea.vue'
+  import router from '@/router'
+  import TextField from '@/components/Layout/TextField.vue'
+  import TextArea from '@/components/Layout/TextArea.vue'
 
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
@@ -41,7 +41,7 @@
         text: 'Thank you. Please check your email for instructions on how to reset your password.',
       })
 
-      form.email = { ...form.email, value: '', error: false }
+      form.email = { ...form.email, value: '', error: true }
 
       router.push('/sign-in')
     } catch (err) {
@@ -56,7 +56,7 @@
 <template>
   <section class="rounded-lg bg-white shadow p-6 lg:mx-52 flex flex-col gap-4">
     <form class="space-y-4">
-      <text-field
+      <TextField
         type="email"
         label="Email Address"
         :value="form.email.value"

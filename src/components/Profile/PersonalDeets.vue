@@ -2,10 +2,10 @@
   import { reactive, computed } from 'vue'
   import { onMounted } from 'vue'
 
-  import TextField from '../Layout/TextField.vue'
+  import TextField from '@/components/Layout/TextField.vue'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
@@ -61,7 +61,7 @@
   <form class="space-y-4">
     <h3 class="text-2xl font-medium">Personal Details</h3>
 
-    <text-field
+    <TextField
       type="text"
       label="First Name"
       :value="form.fName.value"
@@ -71,7 +71,7 @@
       @error="err => (form.fName.error = err)"
     />
 
-    <text-field
+    <TextField
       type="text"
       label="Last Name"
       :value="form.lName.value"

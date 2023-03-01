@@ -1,7 +1,7 @@
 <script setup>
   import { useRouter } from 'vue-router'
 
-  import { useAppManagerStore } from '../../stores/app-manager'
+  import { useAppManagerStore } from '@/stores/app-manager'
 
   const { getRoutes } = useRouter()
   const appManagerStore = useAppManagerStore()

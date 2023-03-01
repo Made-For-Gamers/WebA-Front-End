@@ -1,8 +1,8 @@
 <script setup>
   import { DiscordIcon, TelegramIcon, FacebookIcon, LinkedinIcon, TwitterIcon } from 'vue3-simple-icons'
 
-  import ContactForm from './ContactForm.vue'
-  import SocialButton from './SocialButton.vue'
+  import ContactForm from '@/components/Contact/MainComponents/ContactForm.vue'
+  import SocialButton from '@/components/Contact/MainComponents/SocialButton.vue'
 
   const socialButtons = [
     { href: 'https://discord.gg/dN6MNGmCsH', icon: DiscordIcon, fill: '#5865f2' },
