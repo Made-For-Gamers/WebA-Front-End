@@ -41,7 +41,7 @@
         text: 'Thank you. Please check your email for instructions on how to reset your password.',
       })
 
-      form.email = { ...form.email, value: '', error: false }
+      form.email = { ...form.email, value: '', error: true }
 
       router.push('/sign-in')
     } catch (err) {

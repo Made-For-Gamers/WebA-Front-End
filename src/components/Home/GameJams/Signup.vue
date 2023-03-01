@@ -81,9 +81,9 @@
           if (!res.result) throw new Error(res.message)
           appManagerStore.showAlert({ color: 'success', text: res.message })
 
-          form.name = { ...form.name, value: '', error: false }
-          form.companyName = { ...form.companyName, value: '', error: false }
-          form.email = { ...form.email, value: '', error: false }
+          form.name = { ...form.name, value: '', error: true }
+          form.companyName = { ...form.companyName, value: '', error: true }
+          form.email = { ...form.email, value: '', error: true }
 
           members.value = []
           loading.value = false

@@ -45,8 +45,8 @@
       // TODO: replace this with an actual message from the server
       appManagerStore.showAlert({ color: 'success', text: "You've successfully been logged in" })
 
-      form.email = { ...form.email, value: '', error: false }
-      form.password = { ...form.password, value: '', error: false }
+      form.email = { ...form.email, value: '', error: true }
+      form.password = { ...form.password, value: '', error: true }
 
       router.push('/dashboard')
     } catch (err) {

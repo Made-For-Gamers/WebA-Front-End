@@ -49,10 +49,10 @@
       // TODO: replace this with an actual message from the server
       appManagerStore.showAlert({ color: 'success', text: 'Test success message' })
 
-      form.fName = { ...form.fName, value: '', error: false }
+      form.fName = { ...form.fName, value: '', error: true }
       form.lName = { ...form.lName, value: '', error: false }
-      form.email = { ...form.email, value: '', error: false }
-      form.message = { ...form.message, value: '', error: false }
+      form.email = { ...form.email, value: '', error: true }
+      form.message = { ...form.message, value: '', error: true }
     } catch (err) {
       console.log('err:', err)
       appManagerStore.showAlert({ color: 'error', text: err.message })

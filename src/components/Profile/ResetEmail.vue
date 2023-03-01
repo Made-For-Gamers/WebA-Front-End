@@ -35,11 +35,6 @@
     },
   })
 
-  // onMounted(() => {
-  //   form.fName = { ...form.fName, value: props.user.firstName, error: true }
-  //   form.lName = { ...form.lName, value: props.user.lastName, error: false }
-  // })
-
   const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
   const submit = async () => {
