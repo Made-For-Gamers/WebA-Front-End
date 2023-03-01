@@ -1,10 +1,9 @@
 <script setup>
-  // you're at 07:00 in the video
-  import List from '@/components/Projects/List.vue'
+  import Projects from '@/components/Projects/Index.vue'
 </script>
 
 <template>
-  <List />
+  <Projects />
 </template>
 
 <style></style>

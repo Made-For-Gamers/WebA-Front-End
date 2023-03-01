@@ -10,6 +10,7 @@ import Signin from '@/pages/Signin.vue'
 import ForgotPassword from '@/pages/ForgotPassword.vue'
 import Dashboard from '@/pages/Dashboard.vue'
 import Projects from '@/pages/Projects/Index.vue'
+import CreateProject from '@/pages/Projects/Create.vue'
 import Profile from '@/pages/Profile.vue'
 import PageNotFound from '@/pages/PageNotFound.vue'
 
@@ -51,10 +52,16 @@ const routes = [
     meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
   },
   {
-    path: '/project/',
+    path: '/projects/',
     name: 'Projects',
     component: Projects,
     meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
+  },
+  {
+    path: '/projects/create',
+    name: 'CreateProjects',
+    component: CreateProject,
+    meta: { fixedNav: false, auth: 'authed' },
   },
   {
     path: '/profile',

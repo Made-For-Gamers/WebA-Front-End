@@ -1,7 +1,5 @@
 <script setup></script>
 
-<template>
-  <section class="rounded-lg bg-white shadow p-6 lg:mx-52">Projects List Goes Here</section>
-</template>
+<template><p class="mt-8">Projects List Goes Here</p></template>
 
 <style></style>
