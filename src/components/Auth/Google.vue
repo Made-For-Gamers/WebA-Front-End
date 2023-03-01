@@ -3,9 +3,9 @@
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { GoogleIcon } from 'vue3-simple-icons'
 
-  import router from '../../router'
-  import { useUserStore } from '../../stores/user'
-  import { useAppManagerStore } from '../../stores/app-manager'
+  import router from '@/router'
+  import { useUserStore } from '@/stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
 
   const props = defineProps({ loading: Boolean })
   const emit = defineEmits(['toggleLoading'])

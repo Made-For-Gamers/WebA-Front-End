@@ -1,5 +1,5 @@
 <script setup>
-  import Article from './Article.vue'
+  import Article from '@/components/Home/News/Article.vue'
 
   const articles = [
     {

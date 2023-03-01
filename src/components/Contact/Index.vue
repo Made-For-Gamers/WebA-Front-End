@@ -1,6 +1,6 @@
 <script setup>
-  import MainComponents from './MainComponents/Index.vue'
-  import MapPanel from './MapPanel.vue'
+  import MainComponents from '@/components/Contact/MainComponents/Index.vue'
+  import MapPanel from '@/components/Contact/MapPanel.vue'
 </script>
 
 <template>

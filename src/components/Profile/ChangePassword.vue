@@ -2,10 +2,10 @@
   import { reactive, computed } from 'vue'
   import { onMounted } from 'vue'
 
-  import TextField from '../Layout/TextField.vue'
+  import TextField from '@/components/Layout/TextField.vue'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
@@ -37,11 +37,6 @@
     },
   })
 
-  // onMounted(() => {
-  //   form.fName = { ...form.fName, value: props.user.firstName, error: true }
-  //   form.lName = { ...form.lName, value: props.user.lastName, error: false }
-  // })
-
   const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
   const submit = async () => {
@@ -72,7 +67,7 @@
   <form class="space-y-4">
     <h3 class="text-2xl font-medium">Change Password</h3>
 
-    <text-field
+    <TextField
       type="password"
       label="Current Password"
       :value="form.password1.value"
@@ -82,7 +77,7 @@
       @error="err => (form.password1.error = err)"
     />
 
-    <text-field
+    <TextField
       type="password"
       label="New Password"
       :value="form.password2.value"
@@ -92,7 +87,7 @@
       @error="err => (form.password2.error = err)"
     />
 
-    <text-field
+    <TextField
       type="password"
       label="New Password Again"
       :value="form.password3.value"

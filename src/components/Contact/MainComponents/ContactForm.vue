@@ -3,9 +3,9 @@
   import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
-  import { useAppManagerStore } from '../../../stores/app-manager'
-  import TextField from '../../Layout/TextField.vue'
-  import TextArea from '../../Layout/TextArea.vue'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import TextField from '@/components/Layout/TextField.vue'
+  import TextArea from '@/components/Layout/TextArea.vue'
 
   const appManagerStore = useAppManagerStore()
 
@@ -49,10 +49,10 @@
       // TODO: replace this with an actual message from the server
       appManagerStore.showAlert({ color: 'success', text: 'Test success message' })
 
-      form.fName = { ...form.fName, value: '', error: false }
+      form.fName = { ...form.fName, value: '', error: true }
       form.lName = { ...form.lName, value: '', error: false }
-      form.email = { ...form.email, value: '', error: false }
-      form.message = { ...form.message, value: '', error: false }
+      form.email = { ...form.email, value: '', error: true }
+      form.message = { ...form.message, value: '', error: true }
     } catch (err) {
       console.log('err:', err)
       appManagerStore.showAlert({ color: 'error', text: err.message })
@@ -64,7 +64,7 @@
 
 <template>
   <form class="space-y-4">
-    <text-field
+    <TextField
       type="text"
       label="First Name"
       :value="form.fName.value"
@@ -74,7 +74,7 @@
       @error="err => (form.fName.error = err)"
     />
 
-    <text-field
+    <TextField
       type="text"
       label="Last Name"
       :value="form.lName.value"
@@ -84,7 +84,7 @@
       @error="err => (form.lName.error = err)"
     />
 
-    <text-field
+    <TextField
       type="email"
       label="Email Address"
       :value="form.email.value"
@@ -94,7 +94,7 @@
       @error="err => (form.email.error = err)"
     />
 
-    <text-area
+    <TextArea
       label="Message"
       :rows="4"
       :value="form.message.value"

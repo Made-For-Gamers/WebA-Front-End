@@ -1,10 +1,10 @@
 <script setup>
   import { ref } from '@vue/reactivity'
 
-  import Divider from '../Layout/Divider.vue'
-  import Metamask from '../Auth/Metamask.vue'
-  import Google from '../Auth/Google.vue'
-  import EmailPassword from './EmailPassword.vue'
+  import Divider from '@/components/Layout/Divider.vue'
+  import Metamask from '@/components/Auth/Metamask.vue'
+  import Google from '@/components/Auth/Google.vue'
+  import EmailPassword from '@/components/Signin/EmailPassword.vue'
 
   const loading = ref(false)
 </script>

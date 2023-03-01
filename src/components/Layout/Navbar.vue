@@ -16,8 +16,8 @@
   import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
   import { useRouter } from 'vue-router'
 
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
   defineProps({ scrollTop: Number })
 

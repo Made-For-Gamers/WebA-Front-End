@@ -2,9 +2,9 @@ import { createApp } from 'vue'
 import { createHead } from '@vueuse/head'
 
 import './style.css'
-import App from './App.vue'
-import router from './router'
-import store from './stores'
+import App from '@/App.vue'
+import router from '@/router'
+import store from '@/stores'
 
 const app = createApp(App)
 

@@ -3,12 +3,12 @@
   import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
-  import { useAppManagerStore } from '../../stores/app-manager'
-  import { useUserStore } from '../../stores/user'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
 
-  import router from '../../router'
-  import TextField from '../Layout/TextField.vue'
-  import TextArea from '../Layout/TextArea.vue'
+  import router from '@/router'
+  import TextField from '@/components/Layout/TextField.vue'
+  import TextArea from '@/components/Layout/TextArea.vue'
 
   const emit = defineEmits(['toggleLoading'])
   const props = defineProps({ loading: Boolean })
@@ -45,8 +45,8 @@
       // TODO: replace this with an actual message from the server
       appManagerStore.showAlert({ color: 'success', text: "You've successfully been logged in" })
 
-      form.email = { ...form.email, value: '', error: false }
-      form.password = { ...form.password, value: '', error: false }
+      form.email = { ...form.email, value: '', error: true }
+      form.password = { ...form.password, value: '', error: true }
 
       router.push('/dashboard')
     } catch (err) {
@@ -60,7 +60,7 @@
 
 <template>
   <form class="space-y-4">
-    <text-field
+    <TextField
       type="email"
       label="Email Address"
       :value="form.email.value"
@@ -70,7 +70,7 @@
       @error="err => (form.email.error = err)"
     />
 
-    <text-field
+    <TextField
       type="text"
       label="Password"
       :value="form.password.value"

@@ -2,10 +2,10 @@
   import { ref, reactive, computed } from 'vue'
   import { ArrowPathIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-  import { useAppManagerStore } from '../../../stores/app-manager'
-  import { useUserStore } from '../../../stores/user'
-  import { useGamejamStore } from '../../../stores/gamejam'
-  import TextField from '../../Layout/TextField.vue'
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useUserStore } from '@/stores/user'
+  import { useGamejamStore } from '@/stores/gamejam'
+  import TextField from '@/components/Layout/TextField.vue'
 
   const props = defineProps({ loading: Boolean })
 
@@ -37,14 +37,9 @@
 
   const members = ref([])
 
-  const invalid = computed(() => {
-    return (
-      Object.keys(form).some(v => form[v].error) ||
-      members.value.some(v => {
-        return v.name.error || v.email.error
-      })
-    )
-  })
+  const invalid = computed(
+    () => Object.keys(form).some(v => form[v].error) || members.value.some(v => v.name.error || v.email.error)
+  )
 
   const addMember = () => {
     members.value.push({
@@ -81,9 +76,9 @@
           if (!res.result) throw new Error(res.message)
           appManagerStore.showAlert({ color: 'success', text: res.message })
 
-          form.name = { ...form.name, value: '', error: false }
-          form.companyName = { ...form.companyName, value: '', error: false }
-          form.email = { ...form.email, value: '', error: false }
+          form.name = { ...form.name, value: '', error: true }
+          form.companyName = { ...form.companyName, value: '', error: true }
+          form.email = { ...form.email, value: '', error: true }
 
           members.value = []
           loading.value = false
@@ -101,7 +96,7 @@
   <form class="col-span-2 space-y-4">
     <h3 class="text-2xl font-medium text-white">Register to Join</h3>
 
-    <text-field
+    <TextField
       type="text"
       label="Name"
       :value="form.name.value"
@@ -112,7 +107,7 @@
       dark
     />
 
-    <text-field
+    <TextField
       type="text"
       label="Company Name"
       :value="form.companyName.value"
@@ -123,7 +118,7 @@
       dark
     />
 
-    <text-field
+    <TextField
       type="email"
       label="Email Address"
       :value="form.email.value"
@@ -135,7 +130,7 @@
     />
 
     <div v-for="(member, i) in members" :key="i" class="flex gap-2">
-      <text-field
+      <TextField
         type="text"
         label="Member Name"
         :value="member.name.value"
@@ -147,7 +142,7 @@
         dark
       />
 
-      <text-field
+      <TextField
         type="email"
         label="Member Email"
         :value="member.email.value"

@@ -1,103 +1,124 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
 
-import { useUserStore } from "./stores/user";
-import { useAppManagerStore } from "./stores/app-manager";
+import { useUserStore } from '@/stores/user'
+import { useAppManagerStore } from '@/stores/app-manager'
 
-import Home from "./pages/Home.vue";
-import Contact from "./pages/Contact.vue";
-import Register from "./pages/Register.vue";
-import Signin from "./pages/Signin.vue";
-import ForgotPassword from "./pages/ForgotPassword.vue";
-import Dashboard from "./pages/Dashboard.vue";
-import Profile from "./pages/Profile.vue";
-import PageNotFound from "./pages/PageNotFound.vue";
+import Home from '@/pages/Home.vue'
+import Contact from '@/pages/Contact.vue'
+import Register from '@/pages/Register.vue'
+import Signin from '@/pages/Signin.vue'
+import ForgotPassword from '@/pages/ForgotPassword.vue'
+import Dashboard from '@/pages/Dashboard.vue'
+import Projects from '@/pages/Projects/Index.vue'
+import CreateProject from '@/pages/Projects/Create.vue'
+import Project from '@/pages/Projects/Project.vue'
+import Profile from '@/pages/Profile.vue'
+import PageNotFound from '@/pages/PageNotFound.vue'
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home,
-    meta: { fixedNav: true, auth: "either", menus: ["left"] },
+    meta: { fixedNav: true, auth: 'either', menus: ['left'] },
   },
   {
-    path: "/contact",
-    name: "Contact",
+    path: '/contact',
+    name: 'Contact',
     component: Contact,
-    meta: { fixedNav: false, auth: "either", menus: ["left"] },
+    meta: { fixedNav: false, auth: 'either', menus: ['left'] },
   },
   {
-    path: "/register",
-    name: "Register",
+    path: '/register',
+    name: 'Register',
     component: Register,
-    meta: { fixedNav: false, auth: "unauthed", menus: ["right"] },
+    meta: { fixedNav: false, auth: 'unauthed', menus: ['right'] },
   },
   {
-    path: "/sign-in",
-    name: "Sign In",
+    path: '/sign-in',
+    name: 'Sign In',
     component: Signin,
-    meta: { fixedNav: false, auth: "unauthed", menus: ["right"] },
+    meta: { fixedNav: false, auth: 'unauthed', menus: ['right'] },
   },
   {
-    path: "/forgot-password",
-    name: "Forgot Password",
+    path: '/forgot-password',
+    name: 'Forgot Password',
     component: ForgotPassword,
-    meta: { fixedNav: false, auth: "unauthed" },
+    meta: { fixedNav: false, auth: 'unauthed' },
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
+    path: '/dashboard',
+    name: 'Dashboard',
     component: Dashboard,
-    meta: { fixedNav: false, auth: "authed", menus: ["right"] },
+    meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
   },
   {
-    path: "/profile",
-    name: "Profile",
+    path: '/projects',
+    name: 'Projects',
+    component: Projects,
+    meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
+  },
+  {
+    path: '/projects/create',
+    name: 'CreateProjects',
+    component: CreateProject,
+    meta: { fixedNav: false, auth: 'authed' },
+  },
+  {
+    path: '/projects/:id',
+    name: 'Project',
+    component: Project,
+    meta: { fixedNav: false, auth: 'authed' },
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
     component: Profile,
-    meta: { fixedNav: false, auth: "authed", menus: ["right"] },
+    meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
   },
   {
-    path: "/logout",
-    name: "Logout",
-    meta: { fixedNav: false, auth: "authed", menus: ["right"] },
+    path: '/logout',
+    name: 'Logout',
+    meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
   },
 
   {
-    path: "/:pathMatch(.*)*",
-    name: "PageNotFound",
+    path: '/:pathMatch(.*)*',
+    name: 'PageNotFound',
     component: PageNotFound,
-    meta: { fixedNav: false, auth: "either" },
+    meta: { fixedNav: false, auth: 'either' },
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-});
+})
 
 router.beforeEach((to, from) => {
-  const userStore = useUserStore();
-  const appManagerStore = useAppManagerStore();
+  const userStore = useUserStore()
+  const appManagerStore = useAppManagerStore()
 
-  if (to.name === "Logout") {
-    userStore.token = null;
+  if (to.name === 'Logout') {
+    userStore.token = null
     appManagerStore.showAlert({
-      color: "success",
+      color: 'success',
       text: "You've successfully logged out",
-    });
-    return { name: "Home" };
+    })
+    return { name: 'Home' }
   }
 
-  if (to.meta.auth === "authed" && !userStore.token) {
+  if (to.meta.auth === 'authed' && !userStore.token) {
     appManagerStore.showAlert({
-      color: "warning",
-      text: "Please sign in before proceeding",
-    });
-    return { name: "Sign In" };
+      color: 'warning',
+      text: 'Please sign in before proceeding',
+    })
+    return { name: 'Sign In' }
   }
 
-  if (to.meta.auth === "unauthed" && userStore.token) {
-    return { name: "Dashboard" };
+  if (to.meta.auth === 'unauthed' && userStore.token) {
+    return { name: 'Dashboard' }
   }
-});
+})
 
-export default router;
+export default router
