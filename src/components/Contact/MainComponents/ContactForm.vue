@@ -1,6 +1,5 @@
 <script setup>
   import { ref, reactive, computed } from 'vue'
-  import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
   import { useAppManagerStore } from '@/stores/app-manager'

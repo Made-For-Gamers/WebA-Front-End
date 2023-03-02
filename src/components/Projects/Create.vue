@@ -45,7 +45,7 @@
       form.title = { ...form.title, value: '', error: true }
       form.type = { ...form.type, value: null, error: true }
 
-      router.push(`/projects/${res.response_object.id}`)
+      return router.push(`/projects/${res.response_object.id}`)
     } catch (err) {
       console.log('err:', err)
       appManagerStore.showAlert({ color: 'error', text: err.message })

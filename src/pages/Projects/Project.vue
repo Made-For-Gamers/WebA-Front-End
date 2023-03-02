@@ -1,5 +1,5 @@
 <script setup>
-  import Project from '@/components/Projects/Project.vue'
+  import Project from '@/components/Projects/Project/Index.vue'
 </script>
 
 <template>

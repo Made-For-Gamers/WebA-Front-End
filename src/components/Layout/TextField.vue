@@ -5,6 +5,7 @@
   const props = defineProps({
     type: String,
     label: String,
+    placeholder: Boolean,
     value: String,
     error: Boolean | String,
     rules: Array,
@@ -33,7 +34,7 @@
 
 <template>
   <div>
-    <label :for="id" :class="`block text-sm font-medium ${labelColor}`">
+    <label v-if="!placeholder" :for="id" :class="`block text-sm font-medium ${labelColor}`">
       {{ label }}
     </label>
 
@@ -42,6 +43,7 @@
         :id="id"
         :name="id"
         :type="type"
+        :placeholder="placeholder ? label : ''"
         autocomplete="nope"
         :value="value"
         @input="handleInput"

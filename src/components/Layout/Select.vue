@@ -6,6 +6,7 @@
   const emit = defineEmits(['value', 'error'])
   const props = defineProps({
     label: String,
+    placeholder: Boolean,
     value: Object,
     error: Boolean | String,
     rules: Array,
@@ -40,7 +41,7 @@
 
 <template>
   <Listbox as="div" v-model="selected">
-    <ListboxLabel :class="`block text-sm font-medium ${labelColor}`">{{ label }}</ListboxLabel>
+    <ListboxLabel v-if="!placeholder" :class="`block text-sm font-medium ${labelColor}`">{{ label }}</ListboxLabel>
     <div class="relative mt-1">
       <ListboxButton
         :class="`relative w-full cursor-default rounded-md border py-2

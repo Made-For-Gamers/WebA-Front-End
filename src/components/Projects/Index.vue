@@ -1,6 +1,6 @@
 <script setup>
   import { useProjectStore } from '@/stores/project'
-  import ProjectTile from '@/components/Projects/ProjectTile.vue'
+  import Tile from '@/components/Projects/Tile.vue'
 
   const projectStore = useProjectStore()
 </script>
@@ -18,7 +18,7 @@
     </router-link>
 
     <div class="grid grid-cols-3 gap-4 mt-4">
-      <ProjectTile
+      <Tile
         v-for="project in projectStore.projects"
         :key="project.id"
         :id="project.id"

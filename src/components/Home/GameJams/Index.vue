@@ -17,8 +17,8 @@
     <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32 text-white">
       <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger">Game Jams</h2>
       <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide">
-        We occasionally host virtual game jams (game creation hackathons) when we introduce new integration layers or
-        partner ecosystems into our universe.
+        From time to time, we organize virtual game jams, also known as game creation hackathons, to coincide with the
+        introduction of new integration layers or partner ecosystems in our universe.
       </h4>
     </div>
 
