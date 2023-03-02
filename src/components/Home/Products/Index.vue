@@ -37,20 +37,21 @@
 <template>
   <div class="grid grid-cols-6 gap-4 bg-black w-full px-2 py-8 lg:px-24 lg:py-24">
     <div class="col-span-6 lg:col-span-4 lg:col-start-2 text-white mb-16 lg:mb-32">
-      <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger">Products</h2>
-      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide">
+      <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger" data-aos="fade-right">Products</h2>
+      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide" data-aos="fade-left">
         Apart from building an ecosystem, we are working together with trusted partners to make the best suite of value
         propositions available to creators.
       </h4>
     </div>
 
     <Product
-      v-for="product in products"
+      v-for="(product, i) in products"
       :key="product.id"
       :id="product.id"
       :title="product.title"
       :description="product.description"
       :image="product.image"
+      :data-aos="`fade-${i % 2 === 0 ? 'right' : 'left'}`"
     />
   </div>
 </template>

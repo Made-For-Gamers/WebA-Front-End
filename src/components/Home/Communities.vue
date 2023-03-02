@@ -15,19 +15,21 @@
 
 <template>
   <div class="parallax-bg grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24">
-    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32 text-white bg-[#0000007d]">
+    <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32 text-white bg-[#0000007d]" data-aos="fade-up">
       <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger">Join Our Communities</h2>
       <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide">
         Connect, collaborate, and create with our community.
       </h4>
     </div>
 
-    <div class="col-span-6 flex justify-between gap-4 w-full overflow-x-scroll lg:overflow-x-auto">
+    <div class="col-span-6 flex justify-between gap-4 w-full overflow-x-scroll lg:overflow-x-auto overflow-y-hidden">
       <div
         v-for="(icon, i) in socialButtons"
         :key="i"
         class="bg-white hover:shadow rounded-2xl w-full flex flex-col gap-4 lg:gap-8 items-center justify-center cursor-pointer p-4"
         @click="() => openSocial(icon.href)"
+        data-aos="fade-up"
+        :data-aos-delay="100 * i"
       >
         <SocialButton :href="icon.href" :icon="icon.icon" :fill="icon.fill" size="7rem" />
         <h3 class="text-4xl">{{ icon.title }}</h3>

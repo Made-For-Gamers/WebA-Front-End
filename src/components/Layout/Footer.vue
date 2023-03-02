@@ -15,8 +15,8 @@
 </script>
 
 <template>
-  <footer class="bg-white mt-8">
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+  <footer class="bg-white">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 pt-8">
       <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left grid grid-cols-4">
         <div class="col-span-1">
           &copy; {{ new Date().getFullYear() }} {{ appManagerStore.appName }}

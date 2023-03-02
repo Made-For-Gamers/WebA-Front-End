@@ -62,7 +62,7 @@
     <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
     <div v-else class="flex items-center gap-4">
       <div class="rounded-full bg-white p-0.5 w-8 inline-block">
-        <img src="../../assets/images/metamask-logo.svg" alt="metamask logo" />
+        <img src="../../assets/images/metamask-icon.svg" alt="metamask icon" />
       </div>
       <span>Metamask</span>
     </div>
