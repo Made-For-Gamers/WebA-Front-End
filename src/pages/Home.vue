@@ -4,7 +4,7 @@
   import GameJams from '@/components/Home/GameJams/Index.vue'
   import Partners from '@/components/Home/Partners/Index.vue'
   import Communities from '@/components/Home/Communities.vue'
-  import News from '@/components/Home/News/Index.vue'
+  // import News from '@/components/Home/News/Index.vue'
 </script>
 
 <template>
@@ -13,7 +13,7 @@
   <GameJams />
   <Partners />
   <Communities />
-  <News />
+  <!-- <News /> -->
 </template>
 
 <style></style>
