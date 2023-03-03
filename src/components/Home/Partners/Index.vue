@@ -14,28 +14,35 @@
   import protocolLabs from '@/assets/images/partner-logos/protocol-labs.png'
   import vexed from '@/assets/images/partner-logos/vexed.png'
   import zokyo from '@/assets/images/partner-logos/zokyo.svg'
+  import oma3 from '@/assets/images/partner-logos/oma3.svg'
+  import cord from '@/assets/images/partner-logos/cord.png'
 
   const companies = [
-    { name: 'BGA', image: bga },
-    { name: 'Block 8', image: block8 },
-    { name: 'Caduceus', image: caduceus },
-    { name: 'Fewfar', image: fewfar },
-    { name: 'Idexo', image: idexo },
-    { name: 'Lemonade', image: lemonade },
-    { name: 'Momint', image: momint },
-    { name: 'NEAR', image: near },
-    { name: 'OP Games', image: opGames },
-    { name: 'Outlier Ventures', image: outlierVentures },
     { name: 'Protocol Labs', image: protocolLabs },
+    { name: 'NEAR', image: near },
+    { name: 'BGA', image: bga },
+    { name: 'Caduceus', image: caduceus },
+
+    { name: 'Outlier Ventures', image: outlierVentures },
+    { name: 'Fewfar', image: fewfar },
+    { name: 'OP Games', image: opGames },
+    { name: 'OMA3', image: oma3 },
+
     { name: 'Vexed', image: vexed },
+    { name: 'Momint', image: momint },
+    { name: 'Lemonade', image: lemonade },
+    { name: 'Idexo', image: idexo },
+
+    { name: 'Block 8', image: block8 },
     { name: 'Zokyo', image: zokyo },
+    { name: '0xCord', image: cord },
   ]
 </script>
 
 <template>
   <div class="grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24 bg-black text-white">
     <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32">
-      <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger" data-aos="fade-down">
+      <h2 class="text-5xl lg:text-6xl font-medium text-center font-space-ranger" data-aos="fade-down">
         Friends And investors
       </h2>
     </div>

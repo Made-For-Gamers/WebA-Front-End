@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <img :src="image" :alt="`${name} logo`" class="max-h-32 m-auto col-span-1" />
+  <img :src="image" :alt="`${name} logo`" class="max-h-32 m-auto col-span-4 lg:col-span-1" />
 </template>
 
 <style scoped></style>

@@ -16,7 +16,7 @@
 <template>
   <div class="parallax-bg grid grid-cols-6 gap-4 w-full px-2 py-8 lg:px-24 lg:py-24">
     <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32 text-white bg-[#0000007d]" data-aos="fade-up">
-      <h2 class="text-6xl lg:text-6xl font-medium text-center font-space-ranger">Join Our Communities</h2>
+      <h2 class="text-5xl lg:text-6xl font-medium text-center font-space-ranger">Join Our Communities</h2>
       <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide">
         Connect, collaborate, and create with our community.
       </h4>

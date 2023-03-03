@@ -24,11 +24,11 @@
           All Rights Reserved
         </div>
 
-        <div class="col-span-3 grid grid-cols-3">
+        <!-- <div class="col-span-3 grid grid-cols-3">
           <router-link v-for="item in pages" :key="item.path" :to="item.path" class="col-span-1">
             {{ item.name }}
           </router-link>
-        </div>
+        </div> -->
       </div>
     </div>
   </footer>

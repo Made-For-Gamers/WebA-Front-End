@@ -9,9 +9,9 @@
     <div class="text-white bg-[#00000033] p-2 lg:w-[80%] lg:p-4 rounded-xl" data-aos="fade-left">
       <h1 class="text-6xl lg:text-8xl font-medium font-space-ranger text-center">Made For Gamers</h1>
       <h3 class="text-2xl my-6 lg:text-3xl lg:my-8 font-audiowide text-center">
-        Made for Gamers has built a game development and web3 infrastructure aggregation and integration platform where
-        creators can find and integrate APIs, SDKs, infrastructure or anything else they may require as part of
-        building, launching and distributing their game.
+        Made for Gamers has created a platform for game developers that aggregates and integrates game development and
+        web3 infrastructure. This platform enables creators to discover and incorporate APIs, SDKs, and other necessary
+        components for the entire process of building, launching, and distributing their games.
       </h3>
       <div class="text-center">
         <router-link
