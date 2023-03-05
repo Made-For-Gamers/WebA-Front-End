@@ -13,7 +13,7 @@
     :style="{ 'background-image': `url(${image})` }"
     :class="`col-span-6 ${lgColSpan} relative z-0 rounded-xl overflow-hidden flex items-end bg-cover bg-no-repeat`"
   >
-    <div class="bg-[#ffffffc9] shadow-2xl p-4 z-10 mt-32">
+    <div class="bg-[#ffffff8b] shadow-2xl p-4 z-10 mt-32">
       <h3 class="text-4xl font-audiowide">{{ title }}</h3>
       <p class="text-xl mt-8 mb-4">{{ description }}</p>
       <div class="text-right">

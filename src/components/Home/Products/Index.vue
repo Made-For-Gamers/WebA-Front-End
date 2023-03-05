@@ -1,35 +1,39 @@
 <script setup>
   import Product from '@/components/Home/Products/Product.vue'
 
+  import engineImg from '@/assets/images/products/engine.png'
+  import pluginsImg from '@/assets/images/products/plugins.png'
+  import portalImg from '@/assets/images/products/portal.png'
+  import virtualImg from '@/assets/images/products/virtual.png'
+
   const products = [
     {
       id: 1,
       title: 'Aggregation Portal',
       description:
-        'Product Description - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam a nihil ipsa? Itaque fuga et exercitationem rem sint pariatur nihil, dignissimos iusto iste quo voluptatibus laborum distinctio sed, ut, ipsam ipsum nobis nam earum.',
-      image: 'https://www.volusion.com/blog/content/images/2021/07/Product-Photos.jpg',
+        "Our aggregation portal helps you find all of the speedup tools, infrastructure, and service providers you want, no matter which stage you are at with creating your game or gamified experience. Provide us information via our easy to use wizard tool about what you are creating, after which we'll recommend providers from our ecosystem based upon your bespoke use case.",
+      image: portalImg,
     },
     {
       id: 2,
-      title: 'Integration Layers',
+      title: 'Aggregation Plug-ins',
       description:
-        'Product Description - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam a nihil ipsa? Itaque fuga et exercitationem rem sint pariatur nihil, dignissimos iusto iste quo voluptatibus laborum distinctio sed, ut, ipsam ipsum nobis nam earum.',
-      image:
-        'https://cdn.shopify.com/s/files/1/2303/2711/files/2_e822dae0-14df-4cb8-b145-ea4dc0966b34.jpg?v=1617059123',
+        'For those creators looking to build in specific web3 ecosystems or go ecosystem-agnostic, we are creating integration layers that make it simple to integrate ecosystem specific or suitable interoperable agnostic providers via low-code solutions, significantly reducing research and integration time. We bundle APIs, SDKs and other tooling into plug-ins for Unity, with Unreal Engine and other game engines coming soon.',
+      image: pluginsImg,
     },
     {
       id: 3,
       title: 'Virtual World',
       description:
-        'Product Description - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam a nihil ipsa? Itaque fuga et exercitationem rem sint pariatur nihil, dignissimos iusto iste quo voluptatibus laborum distinctio sed, ut, ipsam ipsum nobis nam earum.',
-      image: 'https://burst.shopifycdn.com/photos/wrist-watches.jpg?width=1200&format=pjpg&exif=1&iptc=1',
+        'Creators can launch their titles via a permanent piece of digital real estate in our virtual world, Lumira. Lumira is a high fidelity circuit-city themed virtual world, with its own gamified story line. Join our community channels to be first to know when Lumira goes live.',
+      image: virtualImg,
     },
     {
       id: 4,
       title: 'Interoperability Engine',
       description:
-        'Product Description - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam a nihil ipsa? Itaque fuga et exercitationem rem sint pariatur nihil, dignissimos iusto iste quo voluptatibus laborum distinctio sed, ut, ipsam ipsum nobis nam earum.',
-      image: 'https://burst.shopifycdn.com/photos/wrist-watches.jpg?width=1200&format=pjpg&exif=1&iptc=1',
+        'There are multiple layers to provide for when building for interoperability. We decided to build a tool that enables interoperability at the “game play” level, enabling the connection of virtual worlds, games and environments, no matter what game engine they have been built in. Join our community channels to be first to know when we release updates.',
+      image: engineImg,
     },
   ]
 </script>
