@@ -11,7 +11,7 @@
 <template>
   <div
     v-if="appManagerStore.alert.visible"
-    :class="`fixed z-50 w-[96%] lg:w-1/2 top-2 left-1/2 -translate-x-1/2 border-l-4 p-4 shadow-2xl
+    :class="`fixed z-[50000] w-[96%] lg:w-1/2 top-2 left-1/2 -translate-x-1/2 border-l-4 p-4 shadow-2xl
       ${colors[appManagerStore.alert.color][1]} ${colors[appManagerStore.alert.color][0]}`"
   >
     <div class="flex">

@@ -73,8 +73,8 @@
       <Select
         label="Project Type"
         :items="[
-          { value: 1, text: 'Game' },
-          { value: 2, text: 'Feature' },
+          { value: 'game', text: 'Game or Metaverse' },
+          { value: 'provider', text: 'Technology Provider' },
         ]"
         :value="form.type.value"
         :error="form.type.error"

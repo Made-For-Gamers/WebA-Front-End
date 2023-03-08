@@ -3,7 +3,9 @@ import { createHead } from '@vueuse/head'
 import aos from 'aos'
 import 'aos/dist/aos.css'
 
+import './shims.js'
 import './style.css'
+
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/stores'

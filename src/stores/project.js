@@ -3,8 +3,8 @@ import { defineStore } from 'pinia'
 export const useProjectStore = defineStore('project', {
   state: () => ({
     projects: JSON.parse(`[
-      { "id": 8774, "title": "Project Mayhem", "type": { "value": 1, "text": "Game" }},
-      { "id": 9270, "title": "Project California", "type": { "value": 2, "text": "Feature"  }}
+      { "id": 8774, "title": "Project Mayhem", "type": { "value": "game", "text": "Game or Metaverse" }},
+      { "id": 9270, "title": "Project California", "type": { "value": "provider", "text": "Feature Provider"  }}
     ]`),
   }),
 

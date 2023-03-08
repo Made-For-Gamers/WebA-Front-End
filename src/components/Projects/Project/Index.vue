@@ -1,10 +1,11 @@
 <script setup>
   import { useRouter } from 'vue-router'
+  import _ from 'lodash'
 
   import router from '@/router'
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useProjectStore } from '@/stores/project'
-  import Feature from '@/components/Projects/Project/Feature.vue'
+  import Provider from '@/components/Projects/Project/Provider.vue'
   import Game from '@/components/Projects/Project/Game.vue'
 
   const { currentRoute } = useRouter()
@@ -29,7 +30,7 @@
     </div>
   </section>
 
-  <component :is="{ Game, Feature }[project?.type.text]" />
+  <component :is="{ Game, Provider }[_.startCase(project?.type.value)]" />
 </template>
 
 <style scoped>

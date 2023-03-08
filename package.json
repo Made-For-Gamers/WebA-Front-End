@@ -11,13 +11,18 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.7",
     "@heroicons/vue": "^2.0.14",
+    "@near-wallet-selector/core": "^7.9.0",
+    "@near-wallet-selector/modal-ui": "^7.9.0",
+    "@near-wallet-selector/near-wallet": "^7.9.0",
     "@vueuse/head": "^1.0.26",
     "aos": "^2.3.4",
+    "buffer": "^6.0.3",
     "lodash": "^4.17.21",
     "luxon": "^3.2.1",
     "near-api-js": "^1.1.0",
     "pinia": "^2.0.29",
     "pinia-plugin-persistedstate": "^3.0.2",
+    "process": "^0.11.10",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vue3-simple-icons": "^7.18.0"
