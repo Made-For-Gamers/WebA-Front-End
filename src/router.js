@@ -8,7 +8,7 @@ import Contact from '@/pages/Contact.vue'
 import Register from '@/pages/Register.vue'
 import Signin from '@/pages/Signin.vue'
 import ForgotPassword from '@/pages/ForgotPassword.vue'
-import Dashboard from '@/pages/Dashboard.vue'
+import ResetPassword from '@/pages/ResetPassword.vue'
 import Projects from '@/pages/Projects/Index.vue'
 import CreateProject from '@/pages/Projects/Create.vue'
 import Project from '@/pages/Projects/Project.vue'
@@ -47,10 +47,10 @@ const routes = [
     meta: { fixedNav: false, auth: 'unauthed' },
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: Dashboard,
-    meta: { fixedNav: false, auth: 'authed', menus: ['right'] },
+    path: '/reset-password',
+    name: 'Reset Password',
+    component: ResetPassword,
+    meta: { fixedNav: false, auth: 'unauthed' },
   },
   {
     path: '/projects',
@@ -100,7 +100,7 @@ router.beforeEach((to, from) => {
   const appManagerStore = useAppManagerStore()
 
   if (to.name === 'Logout') {
-    userStore.token = null
+    userStore.user = { token: null }
     appManagerStore.showAlert({
       color: 'success',
       text: "You've successfully logged out",
@@ -108,7 +108,11 @@ router.beforeEach((to, from) => {
     return { name: 'Home' }
   }
 
-  if (to.meta.auth === 'authed' && !userStore.token) {
+  if (to.name === 'Reset Password' && !to.query.token) {
+    return { name: 'Forgot Password' }
+  }
+
+  if (to.meta.auth === 'authed' && !userStore.user.token) {
     appManagerStore.showAlert({
       color: 'warning',
       text: 'Please sign in before proceeding',
@@ -116,8 +120,8 @@ router.beforeEach((to, from) => {
     return { name: 'Sign In' }
   }
 
-  if (to.meta.auth === 'unauthed' && userStore.token) {
-    return { name: 'Dashboard' }
+  if (to.meta.auth === 'unauthed' && userStore.user.token) {
+    return { name: 'Project' }
   }
 })
 

@@ -50,7 +50,12 @@
       appManagerStore.showAlert({ color: 'success', text: 'Details successfully updated' })
     } catch (err) {
       console.log('err:', err)
-      appManagerStore.showAlert({ color: 'error', text: err.message })
+      appManagerStore.showAlert({
+        color: 'error',
+        text:
+          err.message ||
+          'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+      })
     }
 
     emit('toggleLoading')

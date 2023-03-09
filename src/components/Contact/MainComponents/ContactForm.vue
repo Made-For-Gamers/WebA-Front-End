@@ -38,26 +38,48 @@
   const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
   const submit = async () => {
-    try {
-      loading.value = true
+    loading.value = true
 
-      const res = await appManagerStore.submitContactForm(
-        Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
-      )
+    grecaptcha.enterprise.ready(() => {
+      try {
+        grecaptcha.enterprise
+          .execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'contact_submission' })
+          .then(async recaptcha_token => {
+            const res = await appManagerStore.submitContactForm(
+              Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), { recaptcha_token })
+            )
 
-      // TODO: replace this with an actual message from the server
-      appManagerStore.showAlert({ color: 'success', text: 'Test success message' })
+            if (!res.result) throw new Error(res.message)
+            appManagerStore.showAlert({ color: 'success', text: res.message })
 
-      form.fName = { ...form.fName, value: '', error: true }
-      form.lName = { ...form.lName, value: '', error: false }
-      form.email = { ...form.email, value: '', error: true }
-      form.message = { ...form.message, value: '', error: true }
-    } catch (err) {
-      console.log('err:', err)
-      appManagerStore.showAlert({ color: 'error', text: err.message })
-    }
+            form.fName = { ...form.fName, value: '', error: true }
+            form.lName = { ...form.lName, value: '', error: false }
+            form.email = { ...form.email, value: '', error: true }
+            form.message = { ...form.message, value: '', error: true }
 
-    loading.value = false
+            loading.value = false
+          })
+          .catch(err => {
+            loading.value = false
+            console.log('err A:', err)
+            appManagerStore.showAlert({
+              color: 'error',
+              text:
+                err.message ||
+                'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+            })
+          })
+      } catch (err) {
+        loading.value = false
+        console.log('err B:', err)
+        appManagerStore.showAlert({
+          color: 'error',
+          text:
+            err.message ||
+            'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+        })
+      }
+    })
   }
 </script>
 

@@ -1,11 +1,9 @@
 <script setup>
-  // import Register from '@/components/Register/Index.vue'
-  import ComingSoon from '@/components/Layout/ComingSoon.vue'
+  import Register from '@/components/Register/Index.vue'
 </script>
 
 <template>
-  <!-- <Register /> -->
-  <ComingSoon />
+  <Register />
 </template>
 
 <style></style>

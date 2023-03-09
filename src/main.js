@@ -19,7 +19,7 @@ app.use(
     title: 'MFG - Made For Gamers',
     script: [
       {
-        src: `https://www.google.com/recaptcha/api.js?render=${import.meta.env.VITE_RECAPTCHA_KEY}`,
+        src: `https://www.google.com/recaptcha/enterprise.js?render=${import.meta.env.VITE_RECAPTCHA_KEY}`,
         // if recaptcha is needed on page load, use `load: () => {}`
       },
     ],

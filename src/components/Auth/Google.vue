@@ -23,7 +23,7 @@
       // const profile = res.getBasicProfile()
       await userStore.exchangeGoogleTokenForJwt({ token: res.getAuthResponse().id_token })
       appManagerStore.showAlert({ color: 'success', text: "You've successfully been logged in" })
-      router.push('/dashboard')
+      router.push('/projects')
     } catch (err) {
       console.log('err:', err)
       appManagerStore.showAlert({ color: 'danger', vertical: false, text: err })

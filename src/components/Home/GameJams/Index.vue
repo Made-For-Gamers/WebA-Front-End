@@ -6,9 +6,9 @@
   const nextJam = {
     cover,
     title: 'MFG Game Jam',
-    date: 'March 24th - April 2nd',
+    date: 'March 24th - March 31st',
     description:
-      'The MFG Game Jam is for Unity game creators that want to take part in a 9 day hackathon to build or complete a web3 enabled game within the NEAR blockchain ecosystem.',
+      'The MFG Game Jam is for Unity game creators that want to take part in a 7 day hackathon to build or complete a web3 enabled game within the NEAR blockchain ecosystem.',
   }
 </script>
 
@@ -17,8 +17,9 @@
     <div class="col-span-6 lg:col-span-4 lg:col-start-2 mb-16 lg:mb-32 text-white">
       <h2 class="text-5xl lg:text-6xl font-medium text-center font-space-ranger" data-aos="fade-left">Game Jams</h2>
       <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-8 text-center font-audiowide" data-aos="fade-right">
-        From time to time, we organize virtual game jams, also known as game creation hackathons, to coincide with the
-        introduction of new integration layers or partner ecosystems in our universe.
+        We occasionally host game jams/hackathons, to coincide with the introduction of new partner ecosystems into our
+        universe. Stay up to date on when we host these events by registering your interest and following announcements
+        in our community channels
       </h4>
     </div>
 

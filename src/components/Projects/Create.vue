@@ -48,7 +48,12 @@
       return router.push(`/projects/${res.response_object.id}`)
     } catch (err) {
       console.log('err:', err)
-      appManagerStore.showAlert({ color: 'error', text: err.message })
+      appManagerStore.showAlert({
+        color: 'error',
+        text:
+          err.message ||
+          'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+      })
     }
 
     loading.value = false

@@ -5,11 +5,16 @@
 
   const openSocial = href => window.open(href, '_blank')
   const socialButtons = [
-    { title: 'Discord', href: 'https://discord.gg/dN6MNGmCsH', icon: DiscordIcon, fill: '#5865f2' },
+    { title: 'Discord', href: 'https://discord.gg/HNsqTxm68v', icon: DiscordIcon, fill: '#5865f2' },
     { title: 'Telegram', href: 'https://t.me/+pgRNeWJcq3wxMDQ9', icon: TelegramIcon, fill: '#26a5e4' },
-    { title: 'Facebook', href: 'https://www.facebook.com/gaming/WeGetGamers', icon: FacebookIcon, fill: '#1877f2' },
-    { title: 'Linkedin', href: 'https://www.linkedin.com/company/madeforgamers/', icon: LinkedinIcon, fill: '#0a66c2' },
-    { title: 'Twitter', href: 'https://twitter.com/MadeforGamers1', icon: TwitterIcon, fill: '#1da1f2' },
+    { title: 'Facebook', href: 'https://www.facebook.com/MadeForGamersHQ', icon: FacebookIcon, fill: '#1877f2' },
+    {
+      title: 'Linkedin',
+      href: 'https://www.linkedin.com/company/madeforgamershq/ ',
+      icon: LinkedinIcon,
+      fill: '#0a66c2',
+    },
+    { title: 'Twitter', href: 'https://twitter.com/MadeForGamersHQ', icon: TwitterIcon, fill: '#1da1f2' },
   ]
 </script>
 

@@ -4,58 +4,22 @@ export const useUserStore = defineStore('user', {
   persist: true,
 
   state: () => ({
-    token: null,
-    firstName: null,
-    lastName: null,
-    email: null,
-    profilePic: null,
+    user: {
+      token: null,
+    },
   }),
 
   actions: {
-    exchangeMetamaskTokenForJwt(payload) {
+    registerWithEmailAndPassword(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ metamaskToken: payload.token }),
+            body: JSON.stringify(payload),
           }).then(res => res.json())
 
-          const user = {
-            ...res,
-            token: '123456-123456-123456-123456',
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'hello@john-doe.com',
-            profilePic: null,
-            // 'https://images.ctfassets.net/lh3zuq09vnm2/yBDals8aU8RWtb0xLnPkI/19b391bda8f43e16e64d40b55561e5cd/How_tracking_user_behavior_on_your_website_can_improve_customer_experience.png',
-          }
-
-          this.$state = user
-          return resolve(user)
-        } catch (err) {
-          return reject(err)
-        }
-      })
-    },
-
-    exchangeGoogleTokenForJwt(payload) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ googleToken: payload.token }),
-          }).then(res => res.json())
-
-          const user = {
-            ...res,
-            token: '654321-654321-654321-654321',
-          }
-
-          this.token = user.token
-
-          return resolve(user)
+          return resolve(res)
         } catch (err) {
           return reject(err)
         }
@@ -65,21 +29,33 @@ export const useUserStore = defineStore('user', {
     loginWithEmailAndPassword(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/token`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              username: payload.email,
+              password: payload.password,
+              recaptcha_token: payload.recaptcha_token,
+            }),
           }).then(res => res.json())
 
-          const user = {
-            ...res,
-            token: '654321-654321-654321-654321',
-          }
+          if (!res.access_token) throw new Error(res.detail)
+          this.user.token = `Bearer ${res.access_token}`
 
-          this.token = user.token
+          res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/users/me`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': this.user.token,
+            },
+          }).then(res => res.json())
 
-          return resolve(user)
+          if (!res.result) throw new Error(res.detail)
+          this.user = { ...this.user, ...res.body }
+
+          return resolve()
         } catch (err) {
+          console.log('err:', err)
           return reject(err)
         }
       })
@@ -88,11 +64,14 @@ export const useUserStore = defineStore('user', {
     triggerForgotPassword(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          }).then(res => res.json())
+          const res = await fetch(
+            `${import.meta.env.VITE_API_BASE_URL}/users/forgot-password?${new URLSearchParams(payload)}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: {},
+            }
+          ).then(res => res.json())
 
           return resolve(res)
         } catch (err) {
@@ -101,22 +80,16 @@ export const useUserStore = defineStore('user', {
       })
     },
 
-    updateProfile(payload) {
+    resetPassword(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          }).then(res => res.json())
-
-          // this.firstName = payload.fName
-          // this.lastName = payload.lName
-
-          this.$state = {
-            ...this.$state,
-            ...payload,
-          }
+          const res = await fetch(
+            `${import.meta.env.VITE_API_BASE_URL}/users/reset-password?${new URLSearchParams(payload)}`,
+            {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+            }
+          ).then(res => res.json())
 
           return resolve(res)
         } catch (err) {
@@ -125,37 +98,112 @@ export const useUserStore = defineStore('user', {
       })
     },
 
-    uploadProfilePhoto(payload) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          }).then(res => res.json())
+    // exchangeMetamaskTokenForJwt(payload) {
+    //   return new Promise(async (resolve, reject) => {
+    //     try {
+    //       const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ metamaskToken: payload.token }),
+    //       }).then(res => res.json())
 
-          this.profilePic = payload.base64
-          return resolve(res)
-        } catch (err) {
-          return reject(err)
-        }
-      })
-    },
+    //       const user = {
+    //         ...res,
+    //         token: '123456-123456-123456-123456',
+    //         name: 'John',
+    //         lastName: 'Doe',
+    //         email: 'hello@john-doe.com',
+    //         // profilePic: null,
+    //         // 'https://images.ctfassets.net/lh3zuq09vnm2/yBDals8aU8RWtb0xLnPkI/19b391bda8f43e16e64d40b55561e5cd/How_tracking_user_behavior_on_your_website_can_improve_customer_experience.png',
+    //       }
 
-    changePassword(payload) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          }).then(res => res.json())
+    //       this.$state = user
+    //       return resolve(user)
+    //     } catch (err) {
+    //       return reject(err)
+    //     }
+    //   })
+    // },
 
-          return resolve(res)
-        } catch (err) {
-          return reject(err)
-        }
-      })
-    },
+    // exchangeGoogleTokenForJwt(payload) {
+    //   return new Promise(async (resolve, reject) => {
+    //     try {
+    //       const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ googleToken: payload.token }),
+    //       }).then(res => res.json())
+
+    //       const user = {
+    //         ...res,
+    //         token: '654321-654321-654321-654321',
+    //       }
+
+    //       this.token = user.token
+
+    //       return resolve(user)
+    //     } catch (err) {
+    //       return reject(err)
+    //     }
+    //   })
+    // },
+
+    // updateProfile(payload) {
+    //   return new Promise(async (resolve, reject) => {
+    //     try {
+    //       const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(payload),
+    //       }).then(res => res.json())
+
+    //       // this.name = payload.fName
+    //       // this.lastName = payload.lName
+
+    //       this.$state = {
+    //         ...this.$state,
+    //         ...payload,
+    //       }
+
+    //       return resolve(res)
+    //     } catch (err) {
+    //       return reject(err)
+    //     }
+    //   })
+    // },
+
+    // uploadProfilePhoto(payload) {
+    //   return new Promise(async (resolve, reject) => {
+    //     try {
+    //       const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(payload),
+    //       }).then(res => res.json())
+
+    //       this.profilePic = payload.base64
+    //       return resolve(res)
+    //     } catch (err) {
+    //       return reject(err)
+    //     }
+    //   })
+    // },
+
+    // this is supposed to be when a user willingly changes his password
+    // changePassword(payload) {
+    //   return new Promise(async (resolve, reject) => {
+    //     try {
+    //       const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(payload),
+    //       }).then(res => res.json())
+
+    //       return resolve(res)
+    //     } catch (err) {
+    //       return reject(err)
+    //     }
+    //   })
+    // },
   },
 })

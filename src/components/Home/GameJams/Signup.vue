@@ -20,19 +20,6 @@
       error: true,
       rules: [v => !!v || 'Please enter your Name'],
     },
-    companyName: {
-      value: '',
-      error: true,
-      rules: [v => !!v || 'Please enter your Company Name'],
-    },
-    email: {
-      value: '',
-      error: true,
-      rules: [
-        v => !!v || 'Please enter your Email Address',
-        v => v?.includes('@') || 'Please enter a valid Email Address',
-      ],
-    },
   })
 
   const members = ref([])
@@ -59,34 +46,37 @@
   const submit = async () => {
     loading.value = true
 
-    grecaptcha.ready(() => {
+    grecaptcha.enterprise.ready(() => {
       try {
-        grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'gamejam_registration' }).then(async token => {
-          const res = await gamejamStore.signup({
-            name: form.name.value,
-            companyName: form.companyName.value,
-            email: form.email.value,
-            recaptchaToken: token,
-            members: members.value.map(v => ({
-              name: v.name.value,
-              email: v.email.value,
-            })),
+        grecaptcha.enterprise
+          .execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'gamejam_registration' })
+          .then(async token => {
+            const res = await gamejamStore.signup({
+              team_name: form.name.value,
+              recaptcha_token: token,
+              members: members.value.map(v => ({
+                name: v.name.value,
+                email: v.email.value,
+              })),
+            })
+
+            if (!res.result) throw new Error(res.message)
+            appManagerStore.showAlert({ color: 'success', text: res.message })
+
+            form.name = { ...form.name, value: '', error: true }
+
+            members.value = []
+            loading.value = false
           })
-
-          if (!res.result) throw new Error(res.message)
-          appManagerStore.showAlert({ color: 'success', text: res.message })
-
-          form.name = { ...form.name, value: '', error: true }
-          form.companyName = { ...form.companyName, value: '', error: true }
-          form.email = { ...form.email, value: '', error: true }
-
-          members.value = []
-          loading.value = false
-        })
       } catch (err) {
         loading.value = false
         console.log('err B:', err)
-        appManagerStore.showAlert({ color: 'error', text: err.message })
+        appManagerStore.showAlert({
+          color: 'error',
+          text:
+            err.message ||
+            'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+        })
       }
     })
   }
@@ -98,34 +88,12 @@
 
     <TextField
       type="text"
-      label="Name"
+      label="Team Name"
       :value="form.name.value"
       :error="form.name.error"
       :rules="form.name.rules"
       @value="val => (form.name.value = val)"
       @error="err => (form.name.error = err)"
-      dark
-    />
-
-    <TextField
-      type="text"
-      label="Company Name"
-      :value="form.companyName.value"
-      :error="form.companyName.error"
-      :rules="form.companyName.rules"
-      @value="val => (form.companyName.value = val)"
-      @error="err => (form.companyName.error = err)"
-      dark
-    />
-
-    <TextField
-      type="email"
-      label="Email Address"
-      :value="form.email.value"
-      :error="form.email.error"
-      :rules="form.email.rules"
-      @value="val => (form.email.value = val)"
-      @error="err => (form.email.error = err)"
       dark
     />
 
@@ -174,7 +142,7 @@
         ${!loading ? 'bg-indigo-600' : 'bg-gray-400'} text-white shadow-sm`"
       @click="addMember"
     >
-      Add Member
+      Add Team Member
     </button>
 
     <button
@@ -186,7 +154,7 @@
       @click="submit"
     >
       <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-      <span v-else>Sign Up</span>
+      <span v-else>Register Team</span>
     </button>
   </form>
 </template>

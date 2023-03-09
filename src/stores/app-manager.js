@@ -19,16 +19,15 @@ export const useAppManagerStore = defineStore('appManager', {
     submitContactForm(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          // TODO: update this with actual api deets
-          const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/contact/contact`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              fName: payload.fName,
-              lName: payload.lName,
+              first_name: payload.fName,
+              last_name: payload.lName,
               email: payload.email,
               message: payload.message,
-              // TODO: add recaptcha key
+              recaptcha_token: payload.recaptcha_token,
             }),
           }).then(res => res.json())
 

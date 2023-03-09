@@ -35,26 +35,47 @@
   const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
   const submit = async () => {
-    try {
-      emit('toggleLoading')
-
-      const res = await userStore.loginWithEmailAndPassword(
-        Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
-      )
-
-      // TODO: replace this with an actual message from the server
-      appManagerStore.showAlert({ color: 'success', text: "You've successfully been logged in" })
-
-      form.email = { ...form.email, value: '', error: true }
-      form.password = { ...form.password, value: '', error: true }
-
-      router.push('/dashboard')
-    } catch (err) {
-      console.log('err:', err)
-      appManagerStore.showAlert({ color: 'error', text: err.message })
-    }
-
     emit('toggleLoading')
+
+    grecaptcha.enterprise.ready(() => {
+      try {
+        grecaptcha.enterprise
+          .execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'login' })
+          .then(async recaptcha_token => {
+            const res = await userStore.loginWithEmailAndPassword(
+              Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), { recaptcha_token })
+            )
+
+            appManagerStore.showAlert({ color: 'success', text: 'Login successful' })
+
+            form.email = { ...form.email, value: '', error: true }
+            form.password = { ...form.password, value: '', error: true }
+            form.name = { ...form.name, value: '', error: true }
+
+            emit('toggleLoading')
+            router.push('/projects')
+          })
+          .catch(err => {
+            emit('toggleLoading')
+            console.log('err A:', err)
+            appManagerStore.showAlert({
+              color: 'error',
+              text:
+                err.message ||
+                'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+            })
+          })
+      } catch (err) {
+        emit('toggleLoading')
+        console.log('err B:', err)
+        appManagerStore.showAlert({
+          color: 'error',
+          text:
+            err.message ||
+            'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+        })
+      }
+    })
   }
 </script>
 
@@ -71,7 +92,7 @@
     />
 
     <TextField
-      type="text"
+      type="password"
       label="Password"
       :value="form.password.value"
       :error="form.password.error"

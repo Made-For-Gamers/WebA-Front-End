@@ -1,25 +1,30 @@
 <script setup>
   import { ref, reactive, computed } from 'vue'
-  import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
+  import { useRouter } from 'vue-router'
 
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useUserStore } from '@/stores/user'
-
   import router from '@/router'
   import TextField from '@/components/Layout/TextField.vue'
 
+  const { currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
 
   const loading = ref(false)
   const form = reactive({
-    email: {
+    new_password: {
+      value: '',
+      error: true,
+      rules: [v => !!v || 'Please enter your New Password'],
+    },
+    pass2: {
       value: '',
       error: true,
       rules: [
-        v => !!v || 'Please enter your Email Address',
-        v => v?.includes('@') || 'Please enter a valid Email Address',
+        v => !!v || 'Please enter your new Password Again',
+        v => v === form.new_password.value || "Your new Passwords don't match",
       ],
     },
   })
@@ -32,16 +37,21 @@
     grecaptcha.enterprise.ready(() => {
       try {
         grecaptcha.enterprise
-          .execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'forgot_password' })
+          .execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'reset_password' })
           .then(async recaptcha_token => {
-            const res = await userStore.triggerForgotPassword(
-              Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), { recaptcha_token })
+            const res = await userStore.resetPassword(
+              Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {
+                recaptcha_token,
+                token: currentRoute.value.query.token,
+              })
             )
 
-            if (!res.result) throw new Error(res.message)
+            // TODO: if we ever get res.result back, put this back in
+            // if (!res.result) throw new Error(res.message)
             appManagerStore.showAlert({ color: 'success', text: res.message })
 
-            form.email = { ...form.email, value: '', error: true }
+            form.new_password = { ...form.new_password, value: '', error: true }
+            form.pass2 = { ...form.pass2, value: '', error: true }
 
             loading.value = false
             router.push('/sign-in')
@@ -71,28 +81,40 @@
 </script>
 
 <template>
-  <section class="rounded-lg bg-white shadow p-6 lg:mx-52 flex flex-col gap-4">
-    <form class="space-y-4">
+  <section class="rounded-lg shadow p-6 lg:mx-52 flex flex-col gap-4">
+    <form class="lg:col-span-2 space-y-4">
+      <h3 class="text-2xl font-medium">Password Reset</h3>
+
       <TextField
-        type="email"
-        label="Email Address"
-        :value="form.email.value"
-        :error="form.email.error"
-        :rules="form.email.rules"
-        @value="val => (form.email.value = val)"
-        @error="err => (form.email.error = err)"
+        type="password"
+        label="New Password"
+        :value="form.new_password.value"
+        :error="form.new_password.error"
+        :rules="form.new_password.rules"
+        @value="val => (form.new_password.value = val)"
+        @error="err => (form.new_password.error = err)"
+      />
+
+      <TextField
+        type="password"
+        label="Password Again"
+        :value="form.pass2.value"
+        :error="form.pass2.error"
+        :rules="form.pass2.rules"
+        @value="val => (form.pass2.value = val)"
+        @error="err => (form.pass2.error = err)"
       />
 
       <button
         type="button"
         :disabled="invalid || loading"
         :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!invalid && !loading ? 'hover:bg-[#c71610a0]' : ''}
-        ${!invalid && !loading ? 'bg-[#C71610]' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
+        focus:outline-none focus:ring-2 focus:ring-offset-2 $${!invalid && !loading ? 'hover:bg-indigo-700' : ''}
+        ${!invalid && !loading ? 'bg-indigo-600' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
         @click="submit"
       >
         <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-        <div v-else class="flex items-center gap-4">Submit</div>
+        <span v-else>Reset Password</span>
       </button>
     </form>
   </section>

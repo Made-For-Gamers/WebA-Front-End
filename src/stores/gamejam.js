@@ -7,7 +7,7 @@ export const useGamejamStore = defineStore('gamejam', {
     signup(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch('https://agg-apis-dot-mfg-oem.ew.r.appspot.com/new_team', {
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/gamejam/new_team`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),

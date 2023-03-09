@@ -67,7 +67,7 @@
         <div class="hidden lg:h-20 lg:flex lg:items-center">
           <nav class="flex space-x-4">
             <router-link
-              v-for="item in navigation.left[userStore.token ? 'authed' : 'unauthed']"
+              v-for="item in navigation.left[userStore.user.token ? 'authed' : 'unauthed']"
               :key="item.name"
               :to="item.href"
               :class="[
@@ -104,7 +104,7 @@
         <div class="hidden lg:ml-4 lg:h-20 lg:flex lg:items-center lg:py-5 lg:pr-0.5 justify-end">
           <nav class="flex space-x-4">
             <router-link
-              v-for="item in navigation.right[userStore.token ? 'authed' : 'unauthed']"
+              v-for="item in navigation.right[userStore.user.token ? 'authed' : 'unauthed']"
               :key="item.name"
               :to="item.href"
               :class="[
@@ -174,7 +174,7 @@
                 </PopoverButton>
                 <div class="space-y-1 px-2">
                   <router-link
-                    v-for="item in navigation.left[userStore.token ? 'authed' : 'unauthed']"
+                    v-for="item in navigation.left[userStore.user.token ? 'authed' : 'unauthed']"
                     :key="item.name"
                     :to="item.href"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
@@ -185,7 +185,7 @@
               <div class="pt-2 pb-2">
                 <div class="space-y-1 px-2">
                   <router-link
-                    v-for="item in navigation.right[userStore.token ? 'authed' : 'unauthed']"
+                    v-for="item in navigation.right[userStore.user.token ? 'authed' : 'unauthed']"
                     :key="item.name"
                     :to="item.href"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"

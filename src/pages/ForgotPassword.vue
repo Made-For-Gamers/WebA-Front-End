@@ -1,11 +1,9 @@
 <script setup>
-  // import ForgotPassword from '@/components/ForgotPassword/Index.vue'
-  import ComingSoon from '@/components/Layout/ComingSoon.vue'
+  import ForgotPassword from '@/components/ForgotPassword/Index.vue'
 </script>
 
 <template>
-  <ComingSoon />
-  <!-- <ForgotPassword /> -->
+  <ForgotPassword />
 </template>
 
 <style></style>

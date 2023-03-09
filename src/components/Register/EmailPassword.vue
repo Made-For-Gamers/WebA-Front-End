@@ -1,6 +1,5 @@
 <script setup>
   import { reactive, computed } from 'vue'
-  import { mapActions } from 'pinia'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
   import { useAppManagerStore } from '@/stores/app-manager'
@@ -8,7 +7,6 @@
 
   import router from '@/router'
   import TextField from '@/components/Layout/TextField.vue'
-  import TextArea from '@/components/Layout/TextArea.vue'
 
   const emit = defineEmits(['toggleLoading'])
   const props = defineProps({ loading: Boolean })
@@ -17,6 +15,11 @@
   const userStore = useUserStore()
 
   const form = reactive({
+    name: {
+      value: '',
+      error: true,
+      rules: [v => !!v || 'Please enter your Name'],
+    },
     email: {
       value: '',
       error: true,
@@ -35,31 +38,66 @@
   const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
   const submit = async () => {
-    try {
-      emit('toggleLoading')
-
-      const res = await userStore.loginWithEmailAndPassword(
-        Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
-      )
-
-      // TODO: replace this with an actual message from the server
-      appManagerStore.showAlert({ color: 'success', text: "You've successfully been logged in" })
-
-      form.email = { ...form.email, value: '', error: true }
-      form.password = { ...form.password, value: '', error: true }
-
-      router.push('/dashboard')
-    } catch (err) {
-      console.log('err:', err)
-      appManagerStore.showAlert({ color: 'error', text: err.message })
-    }
-
     emit('toggleLoading')
+
+    grecaptcha.enterprise.ready(() => {
+      try {
+        grecaptcha.enterprise
+          .execute(import.meta.env.VITE_RECAPTCHA_KEY, { action: 'account_registration' })
+          .then(async recaptcha_token => {
+            const res = await userStore.registerWithEmailAndPassword(
+              Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), { recaptcha_token })
+            )
+
+            if (!res.result) throw new Error(res.message)
+            appManagerStore.showAlert({
+              color: 'success',
+              text: 'Your account has been registered. Please check your inbox for our email to verify your account before logging in.',
+            })
+
+            form.email = { ...form.email, value: '', error: true }
+            form.password = { ...form.password, value: '', error: true }
+            form.name = { ...form.name, value: '', error: true }
+
+            emit('toggleLoading')
+            router.push('/sign-in')
+          })
+          .catch(err => {
+            emit('toggleLoading')
+            console.log('err A:', err)
+            appManagerStore.showAlert({
+              color: 'error',
+              text:
+                err.message ||
+                'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+            })
+          })
+      } catch (err) {
+        emit('toggleLoading')
+        console.log('err B:', err)
+        appManagerStore.showAlert({
+          color: 'error',
+          text:
+            err.message ||
+            'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+        })
+      }
+    })
   }
 </script>
 
 <template>
   <form class="space-y-4">
+    <TextField
+      type="text"
+      label="Name"
+      :value="form.name.value"
+      :error="form.name.error"
+      :rules="form.name.rules"
+      @value="val => (form.name.value = val)"
+      @error="err => (form.name.error = err)"
+    />
+
     <TextField
       type="email"
       label="Email Address"
@@ -71,7 +109,7 @@
     />
 
     <TextField
-      type="text"
+      type="password"
       label="Password"
       :value="form.password.value"
       :error="form.password.error"
