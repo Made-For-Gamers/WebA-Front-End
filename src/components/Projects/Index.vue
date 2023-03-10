@@ -1,8 +1,14 @@
 <script setup>
+  import { onMounted } from 'vue'
+
   import { useProjectStore } from '@/stores/project'
   import Tile from '@/components/Projects/Tile.vue'
 
   const projectStore = useProjectStore()
+
+  onMounted(() => {
+    projectStore.fetchProjects()
+  })
 </script>
 
 <template>
@@ -22,8 +28,8 @@
         v-for="project in projectStore.projects"
         :key="project.id"
         :id="project.id"
-        :title="project.title"
-        :type="project.type"
+        :name="project.name"
+        :type="project.project_types"
         class=""
       />
     </div>

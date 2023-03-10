@@ -14,7 +14,7 @@
 
   const project = projectStore.projects.find(v => v.id === parseInt(currentRoute.value.params.id))
   if (!project) {
-    appManagerStore.showAlert({ color: 'error', text: `Project with id ${currentRoute.value.params.id} not found.` })
+    appManagerStore.showAlert({ color: 'warning', text: `Project with id ${currentRoute.value.params.id} not found.` })
     router.push('/projects')
   }
 </script>
@@ -26,7 +26,7 @@
   >
     <div class="relative z-20">
       <h2 class="text-6xl lg:text-6xl font-medium font-space-ranger text-white">{{ project?.title }}</h2>
-      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-16 font-audiowide text-white">{{ project?.type.text }}</h4>
+      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-16 font-audiowide text-white">{{ project?.type }}</h4>
     </div>
   </section>
 

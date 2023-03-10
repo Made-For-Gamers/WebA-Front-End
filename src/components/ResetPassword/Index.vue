@@ -46,8 +46,7 @@
               })
             )
 
-            // TODO: if we ever get res.result back, put this back in
-            // if (!res.result) throw new Error(res.message)
+            if (!res.result) throw new Error(res.message)
             appManagerStore.showAlert({ color: 'success', text: res.message })
 
             form.new_password = { ...form.new_password, value: '', error: true }

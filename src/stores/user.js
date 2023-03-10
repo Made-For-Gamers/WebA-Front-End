@@ -53,7 +53,7 @@ export const useUserStore = defineStore('user', {
           if (!res.result) throw new Error(res.detail)
           this.user = { ...this.user, ...res.body }
 
-          return resolve()
+          return resolve(res)
         } catch (err) {
           console.log('err:', err)
           return reject(err)

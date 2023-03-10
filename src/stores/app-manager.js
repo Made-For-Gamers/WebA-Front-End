@@ -31,7 +31,7 @@ export const useAppManagerStore = defineStore('appManager', {
             }),
           }).then(res => res.json())
 
-          resolve(res)
+          return resolve(res)
         } catch (err) {
           return reject(err)
         }

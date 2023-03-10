@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, reactive, computed } from 'vue'
+  import { ref, reactive, computed, onMounted } from 'vue'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
   import router from '@/router'
@@ -38,14 +38,13 @@
         Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
       )
 
-      if (!res.result) throw new Error(res.message)
       // TODO: depending on the project type, add a sentence that tells the user what to do next
       appManagerStore.showAlert({ color: 'success', text: res.message })
 
       form.title = { ...form.title, value: '', error: true }
       form.type = { ...form.type, value: null, error: true }
 
-      return router.push(`/projects/${res.response_object.id}`)
+      return router.push(`/projects/${res.id}`)
     } catch (err) {
       console.log('err:', err)
       appManagerStore.showAlert({
@@ -58,6 +57,10 @@
 
     loading.value = false
   }
+
+  onMounted(() => {
+    projectStore.fetchProjectTypes()
+  })
 </script>
 
 <template>
@@ -77,10 +80,7 @@
 
       <Select
         label="Project Type"
-        :items="[
-          { value: 'game', text: 'Game or Metaverse' },
-          { value: 'provider', text: 'Technology Provider' },
-        ]"
+        :items="projectStore.types"
         :value="form.type.value"
         :error="form.type.error"
         :rules="form.type.rules"

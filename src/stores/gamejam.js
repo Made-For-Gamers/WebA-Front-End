@@ -13,7 +13,7 @@ export const useGamejamStore = defineStore('gamejam', {
             body: JSON.stringify(payload),
           }).then(res => res.json())
 
-          resolve(res)
+          return resolve(res)
         } catch (err) {
           return reject(err)
         }
