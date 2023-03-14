@@ -6,7 +6,7 @@
   const nextJam = {
     cover,
     title: 'MFG Game Jam',
-    date: 'March 24th - March 31st',
+    date: 'March 31st - April 6th',
     description:
       'The MFG Game Jam is for Unity game creators that want to take part in a 7 day hackathon to build or complete a web3 enabled game within the NEAR blockchain ecosystem.',
   }
