@@ -11,6 +11,7 @@ import ForgotPassword from '@/pages/ForgotPassword.vue'
 import ResetPassword from '@/pages/ResetPassword.vue'
 import Projects from '@/pages/Projects/Index.vue'
 import CreateProject from '@/pages/Projects/Create.vue'
+import EditProject from '@/pages/Projects/Edit.vue'
 import Project from '@/pages/Projects/Project.vue'
 import Profile from '@/pages/Profile.vue'
 import PageNotFound from '@/pages/PageNotFound.vue'
@@ -62,6 +63,12 @@ const routes = [
     path: '/projects/create',
     name: 'CreateProjects',
     component: CreateProject,
+    meta: { fixedNav: false, auth: 'authed' },
+  },
+  {
+    path: '/projects/edit/:id',
+    name: 'EditProject',
+    component: EditProject,
     meta: { fixedNav: false, auth: 'authed' },
   },
   {

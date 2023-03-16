@@ -1,6 +1,7 @@
 <script setup>
   import { ref, reactive, computed, onMounted } from 'vue'
   import { ArrowPathIcon } from '@heroicons/vue/24/outline'
+  import { useRouter } from 'vue-router'
 
   import router from '@/router'
   import { useAppManagerStore } from '@/stores/app-manager'
@@ -11,10 +12,19 @@
 
   const props = defineProps({ loading: Boolean })
 
+  const { currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
   const projectStore = useProjectStore()
 
   const form = reactive({
+    id: {
+      value: null,
+      error: false,
+    },
+    active: {
+      value: null,
+      error: false,
+    },
     title: {
       value: '',
       error: true,
@@ -34,13 +44,15 @@
     try {
       loading.value = true
 
-      const res = await projectStore.createProject(
+      const res = await projectStore.upsertProject(
         Object.keys(form).reduce((s, v) => ({ ...s, [v]: form[v].value }), {})
       )
 
       // TODO: depending on the project type, add a sentence that tells the user what to do next
       appManagerStore.showAlert({ color: 'success', text: res.message })
 
+      form.id = { ...form.id, value: null, error: false }
+      form.active = { ...form.active, value: null, error: false }
       form.title = { ...form.title, value: '', error: true }
       form.type = { ...form.type, value: null, error: true }
 
@@ -58,15 +70,39 @@
     loading.value = false
   }
 
-  onMounted(() => {
-    projectStore.fetchProjectTypes()
+  onMounted(async () => {
+    await projectStore.fetchProjectTypes()
+
+    if (currentRoute.value.name === 'EditProject') {
+      if (!projectStore.projects.length) {
+        await projectStore.fetchProjects()
+      }
+
+      const project = projectStore.projects.find(v => v.id === parseInt(currentRoute.value.params.id))
+      if (!project) {
+        appManagerStore.showAlert({
+          color: 'warning',
+          text: `Project with id ${currentRoute.value.params.id} not found.`,
+        })
+        router.push('/projects')
+      }
+
+      form.id = { ...form.id, value: project.id }
+      form.active = { ...form.active, value: project.is_active }
+      form.title = { ...form.title, value: project.name, error: false }
+      form.type = {
+        ...form.type,
+        value: projectStore.types.find(v => v.text === project.project_types),
+        error: false,
+      }
+    }
   })
 </script>
 
 <template>
   <section class="rounded-lg bg-white shadow p-6 lg:mx-52 my-8">
     <form class="col-span-2 space-y-4">
-      <h3 class="text-2xl font-medium">Create New Project</h3>
+      <h3 class="text-2xl font-medium">{{ currentRoute.name === 'CreateProjects' ? 'Create New' : 'Edit' }} Project</h3>
 
       <TextField
         type="text"
@@ -97,7 +133,9 @@
         @click="submit"
       >
         <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-        <span v-else>Create</span>
+        <span v-else>
+          {{ currentRoute.name === 'CreateProjects' ? 'Create' : 'Edit' }}
+        </span>
       </button>
     </form>
   </section>

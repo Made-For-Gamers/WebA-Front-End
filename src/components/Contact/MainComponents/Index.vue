@@ -5,11 +5,11 @@
   import SocialButton from '@/components/Contact/MainComponents/SocialButton.vue'
 
   const socialButtons = [
-    { href: 'https://discord.gg/dN6MNGmCsH', icon: DiscordIcon, fill: '#5865f2' },
+    { href: 'https://discord.gg/uu4wZEhBnh', icon: DiscordIcon, fill: '#5865f2' },
     { href: 'https://t.me/+pgRNeWJcq3wxMDQ9', icon: TelegramIcon, fill: '#26a5e4' },
-    { href: 'https://www.facebook.com/gaming/WeGetGamers', icon: FacebookIcon, fill: '#1877f2' },
-    { href: 'https://www.linkedin.com/company/madeforgamers/', icon: LinkedinIcon, fill: '#0a66c2' },
-    { href: 'https://twitter.com/MadeforGamers1', icon: TwitterIcon, fill: '#1da1f2' },
+    { href: 'https://www.facebook.com/MadeForGamersHQ', icon: FacebookIcon, fill: '#1877f2' },
+    { href: 'https://www.linkedin.com/company/madeforgamershq/', icon: LinkedinIcon, fill: '#0a66c2' },
+    { href: 'https://twitter.com/MadeForGamersHQ', icon: TwitterIcon, fill: '#1da1f2' },
   ]
 </script>
 

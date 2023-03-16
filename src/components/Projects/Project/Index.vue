@@ -1,22 +1,37 @@
 <script setup>
+  import { ref, shallowRef, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import _ from 'lodash'
 
   import router from '@/router'
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useProjectStore } from '@/stores/project'
-  import Provider from '@/components/Projects/Project/Provider.vue'
   import Game from '@/components/Projects/Project/Game.vue'
+  import Provider from '@/components/Projects/Project/Provider.vue'
 
   const { currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
   const projectStore = useProjectStore()
 
-  const project = projectStore.projects.find(v => v.id === parseInt(currentRoute.value.params.id))
-  if (!project) {
-    appManagerStore.showAlert({ color: 'warning', text: `Project with id ${currentRoute.value.params.id} not found.` })
-    router.push('/projects')
-  }
+  let project = ref(null)
+  let component = shallowRef(null)
+
+  onMounted(async () => {
+    if (!projectStore.projects.length) {
+      await projectStore.fetchProjects()
+    }
+
+    project.value = projectStore.projects.find(v => v.id === parseInt(currentRoute.value.params.id))
+    if (!project.value) {
+      appManagerStore.showAlert({
+        color: 'warning',
+        text: `Project with id ${currentRoute.value.params.id} not found.`,
+      })
+      router.push('/projects')
+    }
+
+    component.value = project.value?.project_types === 'Game or Metaverse' ? Game : Provider
+  })
 </script>
 
 <template>
@@ -25,12 +40,12 @@
       before:top-0 before:left-0 before:w-full before:h-full before:z-10 before:rounded-lg`"
   >
     <div class="relative z-20">
-      <h2 class="text-6xl lg:text-6xl font-medium font-space-ranger text-white">{{ project?.title }}</h2>
-      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-16 font-audiowide text-white">{{ project?.type }}</h4>
+      <h2 class="text-6xl lg:text-6xl font-medium font-space-ranger text-white">{{ project?.name }}</h2>
+      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-16 font-audiowide text-white">{{ project?.project_types }}</h4>
     </div>
   </section>
 
-  <component :is="{ Game, Provider }[_.startCase(project?.type.value)]" />
+  <component :is="component" :project="project" />
 </template>
 
 <style scoped>

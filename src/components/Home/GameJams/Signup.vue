@@ -3,14 +3,12 @@
   import { ArrowPathIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
   import { useAppManagerStore } from '@/stores/app-manager'
-  import { useUserStore } from '@/stores/user'
   import { useGamejamStore } from '@/stores/gamejam'
   import TextField from '@/components/Layout/TextField.vue'
 
   const props = defineProps({ loading: Boolean })
 
   const appManagerStore = useAppManagerStore()
-  const userStore = useUserStore()
   const gamejamStore = useGamejamStore()
 
   const loading = ref(false)
@@ -29,6 +27,8 @@
   )
 
   const addMember = () => {
+    if (members.value.length >= 2) return
+
     members.value.push({
       name: {
         value: '',
@@ -138,8 +138,9 @@
       type="button"
       :disabled="loading"
       :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-indigo-700' : ''} w-full text-2xl
-        ${!loading ? 'bg-indigo-600' : 'bg-gray-400'} text-white shadow-sm`"
+        focus:outline-none focus:ring-2 ${!loading && members.length < 2 ? 'hover:bg-indigo-700' : ''} shadow-sm
+        w-full text-2xl ${!loading && members.length < 2 ? 'bg-indigo-600' : 'bg-gray-400'} text-white
+        focus:ring-offset-2`"
       @click="addMember"
     >
       Add Team Member

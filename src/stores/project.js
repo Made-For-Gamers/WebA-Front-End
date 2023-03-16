@@ -30,26 +30,27 @@ export const useProjectStore = defineStore('project', {
       })
     },
 
-    createProject(payload) {
+    upsertProject(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          // console.log('types:', this.types)
-          // console.log('payload:', payload.type.text)
-          // console.log('type:', this.types.find(v => v.text === payload.type.text)?.name)
-
-          // return resolve
-
           const userStore = useUserStore()
-          let res = await fetch('https://agg-apis-dot-mfg-oem.ew.r.appspot.com/project/create', {
+
+          const url = payload.id ? 'update' : 'create'
+          const body = {
+            name: payload.title,
+            project_types: payload.type.text,
+          }
+
+          if (payload.id) body.id = payload.id
+          if (payload.active) body.is_active = payload.active
+
+          let res = await fetch(`https://agg-apis-dot-mfg-oem.ew.r.appspot.com/project/${url}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': userStore.user.token,
             },
-            body: JSON.stringify({
-              name: payload.title,
-              project_types: payload.type.text,
-            }),
+            body: JSON.stringify(body),
           }).then(res => res.json())
 
           const message = res.message
@@ -61,7 +62,6 @@ export const useProjectStore = defineStore('project', {
           console.log('fetch:', res)
 
           const project = res.body.find(v => v.name === payload.title)
-
           return resolve({ message, id: project?.id })
         } catch (err) {
           return reject(err)

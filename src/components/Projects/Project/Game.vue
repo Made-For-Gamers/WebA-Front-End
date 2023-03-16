@@ -1,8 +1,19 @@
 <script setup>
   import { ref } from 'vue'
-  import { ArrowUpRightIcon, BanknotesIcon, BeakerIcon, BoltIcon, BugAntIcon } from '@heroicons/vue/24/outline'
+  import {
+    ArrowUpRightIcon,
+    BanknotesIcon,
+    BeakerIcon,
+    BoltIcon,
+    BugAntIcon,
+    PencilSquareIcon,
+  } from '@heroicons/vue/24/outline'
 
   import TextField from '@/components/Layout/TextField.vue'
+
+  const props = defineProps({
+    project: Object,
+  })
 
   const features = [
     { id: 1, icon: ArrowUpRightIcon, title: 'Feature Title', description: 'Short description goes here' },
@@ -28,6 +39,12 @@
 
 <template>
   <div class="grid grid-cols-4 gap-4 lg:mx-52">
+    <section class="col-span-4 bg-gray-white rounded-lg shadow p-4">
+      <router-link :to="`/projects/edit/${project.id}`" class="block w-8 h-8">
+        <PencilSquareIcon />
+      </router-link>
+    </section>
+
     <section class="col-span-1 row-span-2 bg-gray-white rounded-lg shadow p-4">
       <h4 class="text-2xl lg:text-3xl font-audiowide">Categories</h4>
       <ul class="text-xl mt-4">

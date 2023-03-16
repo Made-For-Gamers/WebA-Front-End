@@ -13,7 +13,7 @@
         web3 infrastructure. This platform enables creators to discover and incorporate APIs, SDKs, and other necessary
         components for the entire process of building, launching, and distributing their games.
       </h3>
-      <div class="text-center">
+      <!-- <div class="text-center">
         <router-link
           :class="`inline-flex items-center justify-center rounded-md border border-transparent px-8 py-4 font-normal focus:ring-2
           focus:outline-none focus:ring-offset-2 hover:bg-indigo-700 text-2xl bg-indigo-600 text-white shadow-sm`"
@@ -21,7 +21,7 @@
         >
           Start Here
         </router-link>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
