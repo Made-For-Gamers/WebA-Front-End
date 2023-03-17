@@ -18,6 +18,7 @@
 
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useUserStore } from '@/stores/user'
+  import LinearProgress from './LinearProgress.vue'
 
   defineProps({ scrollTop: Number })
 
@@ -82,7 +83,7 @@
         </div>
 
         <!-- Logo -->
-        <div class="absolute left-0 flex-shrink-0 py-5 lg:static lg:flex lg:justify-center lg:-mt-8">
+        <div class="absolute z-10 left-0 flex-shrink-0 py-5 lg:static lg:flex lg:justify-center lg:-mt-8">
           <router-link
             to="/"
             class="lg:block lg:rounded-full lg:p-8 transition-colors duration-500"
@@ -198,5 +199,7 @@
         </TransitionChild>
       </div>
     </TransitionRoot>
+
+    <LinearProgress />
   </Popover>
 </template>

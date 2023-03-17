@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '@/stores/user'
+import { useAppManagerStore } from '@/stores/app-manager'
+import router from '@/router'
 
 export const useProjectStore = defineStore('project', {
   state: () => ({
@@ -73,13 +75,24 @@ export const useProjectStore = defineStore('project', {
       return new Promise(async (resolve, reject) => {
         try {
           const userStore = useUserStore()
-          const res = await fetch('https://agg-apis-dot-mfg-oem.ew.r.appspot.com/project/me', {
+          const appManagerStore = useAppManagerStore()
+
+          let res = await fetch('https://agg-apis-dot-mfg-oem.ew.r.appspot.com/project/me', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': userStore.user.token,
             },
-          }).then(res => res.json())
+          })
+
+          // if (res.status === 401) {
+          //   appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+          //   userStore.user.token = null
+          //   // return router.push('/projects')
+          //   return resolve()
+          // }
+
+          res = await res.json()
 
           if (!res.result) throw new Error(res.detail)
           this.projects = res.body

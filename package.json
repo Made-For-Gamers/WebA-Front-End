@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-dev": "NODE_ENV=dev vite build",
+    "deploy-dev": "NODE_ENV=dev vite build && gcloud app deploy",
     "preview": "vite preview"
   },
   "dependencies": {

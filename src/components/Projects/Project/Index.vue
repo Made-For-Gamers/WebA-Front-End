@@ -13,12 +13,14 @@
   const appManagerStore = useAppManagerStore()
   const projectStore = useProjectStore()
 
-  let project = ref(null)
-  let component = shallowRef(null)
+  const project = ref(null)
+  const component = shallowRef(null)
 
   onMounted(async () => {
     if (!projectStore.projects.length) {
+      appManagerStore.loading = true
       await projectStore.fetchProjects()
+      appManagerStore.loading = false
     }
 
     project.value = projectStore.projects.find(v => v.id === parseInt(currentRoute.value.params.id))
@@ -36,6 +38,7 @@
 
 <template>
   <section
+    v-if="!appManagerStore.loading"
     :class="`cover-art rounded-lg shadow p-6 lg:mx-52 my-8 relative before:content-[''] before:bg-[#000000dc] before:absolute
       before:top-0 before:left-0 before:w-full before:h-full before:z-10 before:rounded-lg`"
   >

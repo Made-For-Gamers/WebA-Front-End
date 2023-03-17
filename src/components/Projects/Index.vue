@@ -1,13 +1,17 @@
 <script setup>
-  import { onMounted } from 'vue'
+  import { onMounted, ref } from 'vue'
 
   import { useProjectStore } from '@/stores/project'
+  import { useAppManagerStore } from '@/stores/app-manager'
   import Tile from '@/components/Projects/Tile.vue'
 
   const projectStore = useProjectStore()
+  const appManagerStore = useAppManagerStore()
 
-  onMounted(() => {
-    projectStore.fetchProjects()
+  onMounted(async () => {
+    if (!projectStore.projects?.length) appManagerStore.loading = true
+    await projectStore.fetchProjects()
+    appManagerStore.loading = false
   })
 </script>
 

@@ -4,6 +4,7 @@ export const useAppManagerStore = defineStore('appManager', {
   state: () => ({
     appName: 'Made for Gamers',
     alert: {},
+    loading: false,
   }),
 
   actions: {

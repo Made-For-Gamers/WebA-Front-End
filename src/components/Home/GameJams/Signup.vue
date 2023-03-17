@@ -27,7 +27,7 @@
   )
 
   const addMember = () => {
-    if (members.value.length >= 2) return
+    if (members.value.length >= 3) return
 
     members.value.push({
       name: {
@@ -138,8 +138,8 @@
       type="button"
       :disabled="loading"
       :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
-        focus:outline-none focus:ring-2 ${!loading && members.length < 2 ? 'hover:bg-indigo-700' : ''} shadow-sm
-        w-full text-2xl ${!loading && members.length < 2 ? 'bg-indigo-600' : 'bg-gray-400'} text-white
+        focus:outline-none focus:ring-2 ${!loading && members.length < 3 ? 'hover:bg-indigo-700' : ''} shadow-sm
+        w-full text-2xl ${!loading && members.length < 3 ? 'bg-indigo-600' : 'bg-gray-400'} text-white
         focus:ring-offset-2`"
       @click="addMember"
     >
