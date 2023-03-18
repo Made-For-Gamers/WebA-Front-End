@@ -33,7 +33,7 @@
     type: {
       value: null,
       error: true,
-      rules: [v => !!v || 'Please enter a Project Type'],
+      rules: [v => !!v || 'Please select a Project Type'],
     },
   })
 

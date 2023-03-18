@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useAppManagerStore } from '@/stores/app-manager'
-import router from '@/router'
+// import router from '@/router'
 
 export const useProjectStore = defineStore('project', {
   state: () => ({
@@ -14,14 +14,21 @@ export const useProjectStore = defineStore('project', {
       return new Promise(async (resolve, reject) => {
         try {
           const userStore = useUserStore()
-          const res = await fetch('https://agg-apis-dot-mfg-oem.ew.r.appspot.com/project/types', {
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/project/types`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': userStore.user.token,
             },
-          }).then(res => res.json())
+          })
 
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
           if (!res.result) throw new Error(res.detail)
           this.types = res.body.map(v => ({ value: v.id, text: v.name }))
 
@@ -46,22 +53,26 @@ export const useProjectStore = defineStore('project', {
           if (payload.id) body.id = payload.id
           if (payload.active) body.is_active = payload.active
 
-          let res = await fetch(`https://agg-apis-dot-mfg-oem.ew.r.appspot.com/project/${url}`, {
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/project/${url}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': userStore.user.token,
             },
             body: JSON.stringify(body),
-          }).then(res => res.json())
+          })
 
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
           const message = res.message
-          console.log('create:', res)
 
           if (!res.result) throw new Error(res.detail)
           res = await this.fetchProjects()
-
-          console.log('fetch:', res)
 
           const project = res.body.find(v => v.name === payload.title)
           return resolve({ message, id: project?.id })
@@ -77,7 +88,7 @@ export const useProjectStore = defineStore('project', {
           const userStore = useUserStore()
           const appManagerStore = useAppManagerStore()
 
-          let res = await fetch('https://agg-apis-dot-mfg-oem.ew.r.appspot.com/project/me', {
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/project/me`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -85,12 +96,11 @@ export const useProjectStore = defineStore('project', {
             },
           })
 
-          // if (res.status === 401) {
-          //   appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
-          //   userStore.user.token = null
-          //   // return router.push('/projects')
-          //   return resolve()
-          // }
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
 
           res = await res.json()
 

@@ -2,15 +2,18 @@
   import { onMounted, ref } from 'vue'
 
   import { useProjectStore } from '@/stores/project'
+  import { useFeatureStore } from '@/stores/feature'
   import { useAppManagerStore } from '@/stores/app-manager'
   import Tile from '@/components/Projects/Tile.vue'
 
   const projectStore = useProjectStore()
+  const featureStore = useFeatureStore()
   const appManagerStore = useAppManagerStore()
 
   onMounted(async () => {
     if (!projectStore.projects?.length) appManagerStore.loading = true
     await projectStore.fetchProjects()
+    featureStore.fetchCategories()
     appManagerStore.loading = false
   })
 </script>
@@ -34,7 +37,6 @@
         :id="project.id"
         :name="project.name"
         :type="project.project_types"
-        class=""
       />
     </div>
   </section>

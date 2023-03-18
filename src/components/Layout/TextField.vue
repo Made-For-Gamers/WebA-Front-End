@@ -33,7 +33,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <label v-if="!placeholder" :for="id" :class="`block text-sm font-medium ${labelColor}`">
       {{ label }}
     </label>

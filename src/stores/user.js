@@ -13,12 +13,19 @@ export const useUserStore = defineStore('user', {
     registerWithEmailAndPassword(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/signup`, {
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-          }).then(res => res.json())
+          })
 
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
           return resolve(res)
         } catch (err) {
           return reject(err)
@@ -37,8 +44,15 @@ export const useUserStore = defineStore('user', {
               password: payload.password,
               recaptcha_token: payload.recaptcha_token,
             }),
-          }).then(res => res.json())
+          })
 
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
           if (!res.access_token) throw new Error(res.detail)
           this.user.token = `Bearer ${res.access_token}`
 
@@ -48,8 +62,15 @@ export const useUserStore = defineStore('user', {
               'Content-Type': 'application/json',
               'Authorization': this.user.token,
             },
-          }).then(res => res.json())
+          })
 
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
           if (!res.result) throw new Error(res.detail)
           this.user = { ...this.user, ...res.body }
 
@@ -64,15 +85,22 @@ export const useUserStore = defineStore('user', {
     triggerForgotPassword(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch(
+          let res = await fetch(
             `${import.meta.env.VITE_API_BASE_URL}/users/forgot-password?${new URLSearchParams(payload)}`,
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: {},
             }
-          ).then(res => res.json())
+          )
 
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
           return resolve(res)
         } catch (err) {
           return reject(err)
@@ -83,14 +111,21 @@ export const useUserStore = defineStore('user', {
     resetPassword(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch(
+          res = await fetch(
             `${import.meta.env.VITE_API_BASE_URL}/users/reset-password?${new URLSearchParams(payload)}`,
             {
               method: 'GET',
               headers: { 'Content-Type': 'application/json' },
             }
-          ).then(res => res.json())
+          )
 
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
           return resolve(res)
         } catch (err) {
           return reject(err)
@@ -101,11 +136,19 @@ export const useUserStore = defineStore('user', {
     // exchangeMetamaskTokenForJwt(payload) {
     //   return new Promise(async (resolve, reject) => {
     //     try {
-    //       const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //       let res = await fetch('https://jsonplaceholder.typicode.com/posts', {
     //         method: 'POST',
     //         headers: { 'Content-Type': 'application/json' },
     //         body: JSON.stringify({ metamaskToken: payload.token }),
-    //       }).then(res => res.json())
+    //       })
+
+    //       if (res.status === 401) {
+    //         appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+    //         userStore.user.token = null
+    //         location.reload()
+    //       }
+
+    //       res = await res.json()
 
     //       const user = {
     //         ...res,

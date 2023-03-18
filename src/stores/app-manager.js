@@ -20,7 +20,7 @@ export const useAppManagerStore = defineStore('appManager', {
     submitContactForm(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/contact/contact`, {
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/contact/contact`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -30,8 +30,15 @@ export const useAppManagerStore = defineStore('appManager', {
               message: payload.message,
               recaptcha_token: payload.recaptcha_token,
             }),
-          }).then(res => res.json())
+          })
 
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
           return resolve(res)
         } catch (err) {
           return reject(err)
