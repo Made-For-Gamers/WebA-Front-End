@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from '@vue/reactivity'
 
-  import Divider from '../Layout/Divider.vue'
+  import Divider from '@/components/Layout/Divider.vue'
   import Metamask from '../Auth/Metamask.vue'
   import NearWallet from '../Auth/NearWallet.vue'
   // import Google from '../Auth/Google.vue'
@@ -16,7 +16,7 @@
     <NearWallet :loading="loading" @toggleLoading="() => (loading = !loading)" />
     <!-- <Google :loading="loading" @toggleLoading="() => loading = !loading" />-->
 
-    <Divider text="OR" classes="my-4" /> 
+    <Divider text="OR" classes="my-4" />
 
     <EmailPassword :loading="loading" @toggleLoading="() => (loading = !loading)" />
 

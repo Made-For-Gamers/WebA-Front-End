@@ -1,5 +1,5 @@
 <script setup>
-  import { onMounted, ref } from 'vue'
+  import { onMounted } from 'vue'
 
   import { useProjectStore } from '@/stores/project'
   import { useFeatureStore } from '@/stores/feature'
