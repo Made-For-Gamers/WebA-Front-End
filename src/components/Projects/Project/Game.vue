@@ -1,40 +1,135 @@
 <script setup>
-  import { ref } from 'vue'
+  import { ref, onMounted, toRaw } from 'vue'
+  import { useRouter } from 'vue-router'
   import {
+    PencilSquareIcon,
     ArrowUpRightIcon,
     BanknotesIcon,
     BeakerIcon,
     BoltIcon,
     BugAntIcon,
-    PencilSquareIcon,
+    ArrowsPointingInIcon,
+    ArrowsPointingOutIcon,
+    MapPinIcon,
+    ChartPieIcon,
+    ChartBarIcon,
+    PaperAirplaneIcon,
+    PaperClipIcon,
+    HashtagIcon,
+    BackwardIcon,
+    HandRaisedIcon,
+    CalculatorIcon,
+    CircleStackIcon,
+    CloudIcon,
+    CubeIcon,
+    CurrencyDollarIcon,
+    EyeDropperIcon,
+    FireIcon,
+    FlagIcon,
   } from '@heroicons/vue/24/outline'
 
+  import { useAppManagerStore } from '@/stores/app-manager'
+  import { useProviderFeatureStore } from '@/stores/providerFeature'
+  import { useGameFeatureStore } from '@/stores/gameFeature'
+
   import TextField from '@/components/Layout/TextField.vue'
+
+  const { currentRoute } = useRouter()
+  const appManagerStore = useAppManagerStore()
+  const providerFeatureStore = useProviderFeatureStore()
+  const gameFeatureStore = useGameFeatureStore()
 
   const props = defineProps({
     project: Object,
   })
 
-  const features = [
-    { id: 1, icon: ArrowUpRightIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 2, icon: BanknotesIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 3, icon: BeakerIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 4, icon: BoltIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 5, icon: BugAntIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 6, icon: ArrowUpRightIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 7, icon: BanknotesIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 8, icon: BeakerIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 9, icon: BoltIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 10, icon: BugAntIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 11, icon: ArrowUpRightIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 12, icon: BanknotesIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 13, icon: BeakerIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 14, icon: ArrowUpRightIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 15, icon: BanknotesIcon, title: 'Feature Title', description: 'Short description goes here' },
-    { id: 18, icon: BugAntIcon, title: 'Feature Title', description: 'Short description goes here' },
-  ]
+  const features = ref([])
+  const availableFeatures = ref([])
+  const selectedCategory = ref({ value: 0, text: 'All' })
 
-  const addedFeatures = ref([])
+  // const icons = ref([
+  //   { API: ArrowUpRightIcon },
+  //   { SDK: BanknotesIcon },
+  //   { 'Infrastructure & Hosting': BeakerIcon },
+  //   { 'Web 3 Wallet': BoltIcon },
+  //   { DeFi: BugAntIcon },
+  //   { GameFi: ArrowsPointingInIcon },
+  //   { Metaverse: ArrowsPointingOutIcon },
+  //   { 'Game Engine Plugin': MapPinIcon },
+  //   { Accelerator: ChartPieIcon },
+  //   { Tokenomics: ChartBarIcon },
+  //   { 'Smart Contract': PaperAirplaneIcon },
+  //   { Publisher: PaperClipIcon },
+  //   { 'Smart Contract': HashtagIcon },
+  //   { Bridge: BackwardIcon },
+  //   { 'Fiat Ramp': HandRaisedIcon },
+  //   { 'NFT Minting': CalculatorIcon },
+  //   { 'NFT Marketplace': CircleStackIcon },
+  //   { 'Game Asset': CloudIcon },
+  //   { Oracle: CubeIcon },
+  //   { 'Artificial Intelligence': CurrencyDollarIcon },
+  //   { WebGL: EyeDropperIcon },
+  //   { Web3: FireIcon },
+  //   { Network: FlagIcon },
+  // ])
+
+  const linkFeature = async feature => {
+    if (appManagerStore.loading) return
+
+    try {
+      appManagerStore.loading = true
+
+      const res = await gameFeatureStore.linkFeature({
+        project_id: parseInt(currentRoute.value.params.id),
+        feature_id: feature.id,
+        is_active: true,
+      })
+
+      appManagerStore.showAlert({ color: 'success', text: res.message })
+
+      availableFeatures.value = availableFeatures.value.filter(v => v.id !== feature.id)
+      features.value.push(feature)
+    } catch (err) {
+      console.log('err:', err)
+      appManagerStore.showAlert({
+        color: 'error',
+        text:
+          err.message ||
+          'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+      })
+    }
+
+    appManagerStore.loading = false
+  }
+
+  const setCategory = category => {
+    selectedCategory.value = category
+
+    console.log('gameFeatureStore:', gameFeatureStore.features)
+    console.log('providerFeatureStore:', providerFeatureStore.features)
+
+    if (selectedCategory.value === 0) {
+      features.value = gameFeatureStore.features
+      availableFeatures.value = providerFeatureStore.features
+    } else {
+      features.value = gameFeatureStore.features.filter(v => v.feature_type[0] === selectedCategory.text)
+      availableFeatures.value = providerFeatureStore.features.filter(v => v.feature_type[0] === selectedCategory.text)
+    }
+  }
+
+  onMounted(async () => {
+    providerFeatureStore.fetchCategories()
+
+    appManagerStore.loading = true
+    let res = await gameFeatureStore.fetchFeatures(currentRoute.value.params.id)
+    features.value = res.body.sort((a, b) => (a.name > b.name ? 1 : -1))
+
+    res = await providerFeatureStore.fetchAllFeatures()
+    availableFeatures.value = res.body
+      .sort((a, b) => (a.name > b.name ? 1 : -1))
+      .filter(v1 => !features.value.find(v2 => v2.feature_id === v1.id))
+    appManagerStore.loading = false
+  })
 </script>
 
 <template>
@@ -45,29 +140,38 @@
       </router-link>
     </section>
 
-    <section class="col-span-1 row-span-2 bg-gray-white rounded-lg shadow p-4">
+    <section
+      v-if="providerFeatureStore.categories.length"
+      class="col-span-1 row-span-2 bg-gray-white rounded-lg shadow p-4"
+    >
       <h4 class="text-2xl lg:text-3xl font-audiowide">Categories</h4>
       <ul class="text-xl mt-4">
-        <li class="cursor-pointer hover:underline">All Categories</li>
-        <li class="cursor-pointer underline">Category 1</li>
-        <li class="cursor-pointer hover:underline">Category 2</li>
-        <li class="cursor-pointer hover:underline">Category 3</li>
+        <li
+          v-for="category in [{ value: 0, text: 'All' }, ...providerFeatureStore.categories]"
+          :key="category.value"
+          :class="`cursor-pointer ${selectedCategory.value === category.value ? 'underline' : 'hover:underline'}`"
+          @click="() => setCategory(category)"
+        >
+          {{ category.text }}
+        </li>
       </ul>
     </section>
 
-    <section v-if="addedFeatures.length > 0" class="col-span-3 bg-gray-white rounded-lg shadow p-4">
+    <section class="col-span-3 bg-gray-white rounded-lg shadow p-4">
       <h4 class="text-2xl lg:text-3xl font-audiowide mb-4">Features</h4>
 
       <div class="grid grid-cols-3 gap-4">
+        <!-- features: {{ features }} -->
+
         <div
-          v-for="feature in addedFeatures"
+          v-for="feature in features"
           :key="feature.id"
           class="col-span-1 rounded-lg bg-white cursor-pointer shadow hover:shadow-lg p-2 flex gap-2"
         >
-          <component :is="feature.icon" class="h-8 w-8 m-auto" />
+          <!-- <component :is="icons[feature.feature_type[0]]" class="h-8 w-8 m-auto" /> -->
           <div class="flex-1">
-            <h3 class="text-xl">{{ feature.title }}</h3>
-            <p>{{ feature.description }}</p>
+            <h3 class="text-xl">{{ feature.name }}</h3>
+            <p>{{ feature.feature_type[0] }}</p>
           </div>
         </div>
       </div>
@@ -77,29 +181,22 @@
       <div class="flex justify-between items-center mb-4">
         <h4 class="text-2xl lg:text-3xl font-audiowide">Add Feature</h4>
 
-        <TextField
-          type="text"
-          label="Search"
-          placeholder
-          :value="''"
-          :error="''"
-          :rules="[]"
-          @value="val => {}"
-          @error="err => {}"
-        />
+        <!-- <TextField type="text" label="Search" placeholder :value="''" @value="val => {}" class="w-1/4" /> -->
       </div>
 
       <div class="grid grid-cols-3 gap-4">
+        <!-- availableFeatures: {{ availableFeatures }} -->
+
         <div
-          v-for="feature in features"
+          v-for="feature in availableFeatures"
           :key="feature.id"
           class="col-span-1 rounded-lg bg-white cursor-pointer shadow hover:shadow-lg p-2 flex gap-2"
-          @click="() => addedFeatures.push(feature)"
+          @click="() => linkFeature(feature)"
         >
-          <component :is="feature.icon" class="h-8 w-8 m-auto" />
+          <!-- <component :is="icons[feature.feature_type[0]]" class="h-8 w-8 m-auto" /> -->
           <div class="flex-1">
-            <h3 class="text-xl">{{ feature.title }}</h3>
-            <p>{{ feature.description }}</p>
+            <h3 class="text-xl">{{ feature.name }}</h3>
+            <p>{{ feature.feature_type[0] }}</p>
           </div>
         </div>
       </div>

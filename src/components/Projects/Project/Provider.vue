@@ -11,7 +11,7 @@
   import { GithubIcon } from 'vue3-simple-icons'
 
   import { useAppManagerStore } from '@/stores/app-manager'
-  import { useFeatureStore } from '@/stores/feature'
+  import { useProviderFeatureStore } from '@/stores/providerFeature'
 
   import Divider from '@/components/Layout/Divider.vue'
   import TextField from '@/components/Layout/TextField.vue'
@@ -20,12 +20,11 @@
 
   const { currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
-  const featureStore = useFeatureStore()
+  const providerFeatureStore = useProviderFeatureStore()
 
   const loading = ref(false)
   const features = ref([])
   const creating = ref(false)
-  // const editing = ref(null)
 
   const form = reactive({
     id: {
@@ -105,7 +104,7 @@
       feature.feature_type = [form.feature_type.value.text]
 
       const action = form.id.value ? 'updateFeature' : 'createFeature'
-      const res = await featureStore[action](feature)
+      const res = await providerFeatureStore[action](feature)
       appManagerStore.showAlert({ color: 'success', text: res.message })
 
       form.id = { ...form.id, value: null, error: false }
@@ -138,7 +137,7 @@
     try {
       loading.value = true
 
-      await featureStore.updateFeature({ ...feature, is_live: true })
+      await providerFeatureStore.updateFeature({ ...feature, is_live: true })
       appManagerStore.showAlert({
         color: 'success',
         text: `${feature.name} has been published and is now discoverable by users`,
@@ -170,7 +169,7 @@
 
     form.feature_type = {
       ...form.feature_type,
-      value: featureStore.categories.find(v => v.text === feature.feature_type[0]),
+      value: providerFeatureStore.categories.find(v => v.text === feature.feature_type[0]),
       error: false,
     }
 
@@ -200,11 +199,11 @@
   }
 
   onMounted(async () => {
-    featureStore.fetchCategories()
+    providerFeatureStore.fetchCategories()
 
-    if (!featureStore.features?.some(v => v.project_id !== currentRoute.value.params.id)) {
+    if (!providerFeatureStore.features?.some(v => v.project_id !== currentRoute.value.params.id)) {
       appManagerStore.loading = true
-      const res = await featureStore.fetchFeatures(currentRoute.value.params.id)
+      const res = await providerFeatureStore.fetchFeatures(currentRoute.value.params.id)
       features.value = res.body.sort((a, b) => (a.name > b.name ? 1 : -1)).map((v, i) => ({ ...v, open: i === 0 }))
       appManagerStore.loading = false
     }
@@ -245,7 +244,7 @@
 
           <Select
             label="Feature Type"
-            :items="featureStore.categories"
+            :items="providerFeatureStore.categories"
             :value="form.feature_type.value"
             :error="form.feature_type.error"
             :rules="form.feature_type.rules"

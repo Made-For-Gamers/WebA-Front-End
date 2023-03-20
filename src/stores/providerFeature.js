@@ -3,7 +3,7 @@ import { useUserStore } from '@/stores/user'
 import { useAppManagerStore } from '@/stores/app-manager'
 import router from '@/router'
 
-export const useFeatureStore = defineStore('feature', {
+export const useProviderFeatureStore = defineStore('providerFeature', {
   state: () => ({
     categories: [],
     features: [],
@@ -109,7 +109,7 @@ export const useFeatureStore = defineStore('feature', {
           const userStore = useUserStore()
 
           let res = await fetch(
-            `${import.meta.env.VITE_API_BASE_URL}/feature/all?${new URLSearchParams({ project_id })}`,
+            `${import.meta.env.VITE_API_BASE_URL}/feature/me?${new URLSearchParams({ project_id })}`,
             {
               method: 'GET',
               headers: {
@@ -118,6 +118,36 @@ export const useFeatureStore = defineStore('feature', {
               },
             }
           )
+
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
+          if (!res.result) throw new Error(res.detail)
+          this.features = res.body
+
+          return resolve(res)
+        } catch (err) {
+          return reject(err)
+        }
+      })
+    },
+
+    fetchAllFeatures() {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const userStore = useUserStore()
+
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/feature/all`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': userStore.user.token,
+            },
+          })
 
           if (res.status === 401) {
             appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })

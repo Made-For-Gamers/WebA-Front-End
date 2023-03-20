@@ -2,18 +2,18 @@
   import { onMounted } from 'vue'
 
   import { useProjectStore } from '@/stores/project'
-  import { useFeatureStore } from '@/stores/feature'
+  import { useProviderFeatureStore } from '@/stores/providerFeature'
   import { useAppManagerStore } from '@/stores/app-manager'
   import Tile from '@/components/Projects/Tile.vue'
 
   const projectStore = useProjectStore()
-  const featureStore = useFeatureStore()
+  const providerFeatureStore = useProviderFeatureStore()
   const appManagerStore = useAppManagerStore()
 
   onMounted(async () => {
     if (!projectStore.projects?.length) appManagerStore.loading = true
     await projectStore.fetchProjects()
-    featureStore.fetchCategories()
+    providerFeatureStore.fetchCategories()
     appManagerStore.loading = false
   })
 </script>
