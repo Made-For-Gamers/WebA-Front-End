@@ -80,10 +80,10 @@
 </script>
 
 <template>
-  <section class="rounded-lg shadow p-6 lg:mx-52 flex flex-col gap-4">
-    <form class="lg:col-span-2 space-y-4">
-      <h3 class="text-2xl font-medium">Password Reset</h3>
+  <section class="w-1/2 flex flex-col gap-4 rounded-lg shadow-lg bg-blue-50 p-6">
+    <h5 class="text-slate-400 px-2 text-center uppercase">Reset Password</h5>
 
+    <form class="space-y-4">
       <TextField
         type="password"
         label="New Password"
@@ -108,7 +108,7 @@
         type="button"
         :disabled="invalid || loading"
         :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
-        focus:outline-none focus:ring-2 focus:ring-offset-2 $${!invalid && !loading ? 'hover:bg-indigo-700' : ''}
+          focus:outline-none focus:ring-2 focus:ring-offset-2 $${!invalid && !loading ? 'hover:bg-indigo-700' : ''}
         ${!invalid && !loading ? 'bg-indigo-600' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
         @click="submit"
       >

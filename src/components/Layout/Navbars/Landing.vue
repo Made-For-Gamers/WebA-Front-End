@@ -18,7 +18,7 @@
 
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useUserStore } from '@/stores/user'
-  import LinearProgress from './LinearProgress.vue'
+  import LinearProgress from '@/components/Layout/LinearProgress.vue'
 
   defineProps({ scrollTop: Number })
 
@@ -54,12 +54,8 @@
 <template>
   <Popover
     as="header"
-    class="w-full transition-colors duration-500 z-50"
-    :class="{
-      'fixed': currentRoute.meta.fixedNav,
-      'mb-20': !currentRoute.meta.fixedNav,
-      'bg-black': scrollTop > 25 || !currentRoute.meta.fixedNav,
-    }"
+    class="w-full transition-colors duration-500 z-50 fixed"
+    :class="{ 'bg-black': scrollTop > 25 }"
     v-slot="{ open }"
   >
     <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -87,15 +83,15 @@
           <router-link
             to="/"
             class="lg:block lg:rounded-full lg:p-8 transition-colors duration-500"
-            :class="{ 'lg:bg-black': scrollTop > 25 || !currentRoute.meta.fixedNav }"
+            :class="{ 'lg:bg-black': scrollTop > 25 }"
           >
             <img
               class="h-8 w-auto transition-all duration-500"
               :class="{
-                'lg:h-24': scrollTop <= 25 || !currentRoute.meta.fixedNav,
-                'lg:h-12': scrollTop > 25 || !currentRoute.meta.fixedNav,
+                'lg:h-24': scrollTop <= 25,
+                'lg:h-12': scrollTop > 25,
               }"
-              src="../../assets/images/mark-logo-white-150x106.png"
+              src="@/assets/images/logo-white.png"
               :alt="appManagerStore.appName"
             />
           </router-link>

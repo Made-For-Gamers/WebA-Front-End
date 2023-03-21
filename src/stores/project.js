@@ -14,6 +14,8 @@ export const useProjectStore = defineStore('project', {
       return new Promise(async (resolve, reject) => {
         try {
           const userStore = useUserStore()
+          const appManagerStore = useAppManagerStore()
+
           let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/project/types`, {
             method: 'GET',
             headers: {
@@ -43,6 +45,7 @@ export const useProjectStore = defineStore('project', {
       return new Promise(async (resolve, reject) => {
         try {
           const userStore = useUserStore()
+          const appManagerStore = useAppManagerStore()
 
           const url = payload.id ? 'update' : 'create'
           const body = {

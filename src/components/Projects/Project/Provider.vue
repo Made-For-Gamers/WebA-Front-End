@@ -201,29 +201,27 @@
   onMounted(async () => {
     providerFeatureStore.fetchCategories()
 
-    if (!providerFeatureStore.features?.some(v => v.project_id !== currentRoute.value.params.id)) {
-      appManagerStore.loading = true
-      const res = await providerFeatureStore.fetchFeatures(currentRoute.value.params.id)
-      features.value = res.body.sort((a, b) => (a.name > b.name ? 1 : -1)).map((v, i) => ({ ...v, open: i === 0 }))
-      appManagerStore.loading = false
-    }
+    // if (!providerFeatureStore.features?.some(v => v.project_id !== currentRoute.value.params.id)) {
+    appManagerStore.loading = true
+    const res = await providerFeatureStore.fetchFeatures(currentRoute.value.params.id)
+    features.value = res.body.sort((a, b) => (a.name > b.name ? 1 : -1)).map((v, i) => ({ ...v, open: i === 0 }))
+    appManagerStore.loading = false
+    // }
   })
 </script>
 
 <template>
   <div>
     <div
-      :class="`col-span-2 bg-gray-white ${
-        creating ? 'rounded-t-lg' : 'rounded-lg mb-8'
-      } shadow p-8 lg:mx-52 cursor-pointer
-        hover:shadow-lg`"
+      :class="`col-span-2 ${creating ? 'rounded-t-lg' : 'rounded-lg mb-8'} shadow p-8 lg:mx-16
+        cursor-pointer hover:shadow-lg bg-gray-200 mt-8`"
       @click="toggleCreating"
     >
       <h4 class="text-2xl lg:text-3xl font-audiowide">{{ form.id.value ? 'Edit' : 'Add New' }} Feature</h4>
     </div>
 
     <Transition name="slide-fade">
-      <div v-if="creating" class="lg:mx-52 shadow rounded-b-lg mb-8">
+      <div v-if="creating" class="lg:mx-16 shadow rounded-b-lg mb-8">
         <form class="w-full flex flex-col gap-4 p-4">
           <TextField
             type="text"
@@ -337,21 +335,21 @@
       </div>
     </Transition>
 
-    <div v-if="features.length > 0" class="lg:mx-52 mb-8">
-      <Divider />
+    <div v-if="features.length > 0" class="lg:mx-16 my-8">
+      <Divider color="bg-white text-white" />
     </div>
 
     <div v-for="feature in features" :key="feature.id" class="mb-4">
       <div
-        :class="`col-span-2 bg-gray-white ${feature.open ? 'rounded-t-lg' : 'rounded-lg'} shadow p-8 lg:mx-52
-          cursor-pointer hover:shadow-lg`"
+        :class="`col-span-2 ${feature.open ? 'rounded-t-lg' : 'rounded-lg'} shadow p-8 lg:mx-16
+          cursor-pointer hover:shadow-lg bg-white`"
         @click="() => (feature.open = !feature.open)"
       >
         <h4 class="text-2xl lg:text-3xl font-audiowide">{{ feature.name }}</h4>
       </div>
 
       <Transition name="slide-fade">
-        <div v-if="feature.open" class="grid grid-cols-3 lg:mx-52 shadow rounded-b-lg overflow-hidden">
+        <div v-if="feature.open" class="grid grid-cols-3 lg:mx-16 shadow rounded-b-lg overflow-hidden bg-white">
           <section class="col-span-3 bg-gray-300 p-4 flex gap-4">
             <template
               v-for="link in [
@@ -373,7 +371,7 @@
             </template>
           </section>
 
-          <section class="col-span-2 bg-gray-white p-4">
+          <section class="col-span-2 bg-white p-4">
             <h4 class="text-2xl lg:text-3xl font-audiowide">{{ feature.name }}</h4>
             <p class="text-xl mt-4 bg-gray-300 px-2 py-1 rounded-full inline-block">{{ feature.feature_type[0] }}</p>
             <p class="text-xl mt-4">{{ feature.description }}</p>

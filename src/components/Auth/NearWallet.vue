@@ -5,9 +5,9 @@
 
   import { setupWalletSelector } from '@near-wallet-selector/core'
   import { setupNearWallet } from '@near-wallet-selector/near-wallet'
-  import { setupNarwallets } from "@near-wallet-selector/narwallets";
-  import { setupModal } from '@near-wallet-selector/modal-ui'; 
-  import "@near-wallet-selector/modal-ui/styles.css";
+  import { setupNarwallets } from '@near-wallet-selector/narwallets'
+  import { setupModal } from '@near-wallet-selector/modal-ui'
+  import '@near-wallet-selector/modal-ui/styles.css'
   import * as nearApi from 'near-api-js'
 
   import router from '../../router'
@@ -33,54 +33,50 @@
 
       console.log('submitting')
 
-      const narWallets = setupNarwallets({  
-      });
+      const narWallets = setupNarwallets({})
 
-      const nearWallet  = setupNearWallet({
+      const nearWallet = setupNearWallet({
         //successUrl: 'https://webhook.site/5ccbd8bc-e5d1-4ca1-8390-1ab6a89172e2',
         //failureUrl: 'https://webhook.site/5ccbd8bc-e5d1-4ca1-8390-1ab6a89172e2'
-      }); 
+      })
 
       const selector = await setupWalletSelector({
         network: 'mainnet',
-        modules: [nearWallet,
-        narWallets],
+        modules: [nearWallet, narWallets],
       })
 
-  
       //BELOW CODE TO GET SIGNED IN WALLET INFO AND ALSO SIGN OUT:
-      const isSignedIn = selector.isSignedIn() 
-      if(isSignedIn){
-        const wallet = await selector.wallet() 
-        const activeAcc =  await wallet.getAccounts()
-        
-       // const accessKey = wallet.activeAcc().addKey(nearApi.utils.KeyPair.fromRandom('ed25519').publicKey.toString(), 'fullAccess')
+      const isSignedIn = selector.isSignedIn()
+      if (isSignedIn) {
+        const wallet = await selector.wallet()
+        const activeAcc = await wallet.getAccounts()
 
-        console.log('WalletObj:', wallet) 
-        console.log('WalletID:', wallet.id) 
-        console.log('Account Obj:', activeAcc[0]) 
-        console.log('AccountId:', activeAcc[0].accountId) 
-        console.log('PublicKey:', activeAcc[0].narWallets) 
+        // const accessKey = wallet.activeAcc().addKey(nearApi.utils.KeyPair.fromRandom('ed25519').publicKey.toString(), 'fullAccess')
+
+        console.log('WalletObj:', wallet)
+        console.log('WalletID:', wallet.id)
+        console.log('Account Obj:', activeAcc[0])
+        console.log('AccountId:', activeAcc[0].accountId)
+        console.log('PublicKey:', activeAcc[0].narWallets)
 
         const verParams = {
-          message : "check me out",
+          message: 'check me out',
           //callbackUrl: "https://webhook.site/#!/5ccbd8bc-e5d1-4ca1-8390-1ab6a89172e2/6d6670ff-bafd-4a0c-acc6-cb3445c7e717/1",
-         // meta: "meta dataaaa"
+          // meta: "meta dataaaa"
         }
         // const res = await wallet.verifyOwner(verParams)
-       // console.log('RES PublicKey:', res.publicKey)
-        
+        // console.log('RES PublicKey:', res.publicKey)
+
         //This should happen only once
         //const accessKey = await activeAcc[0].addKey(nearApi.utils.KeyPair.fromRandom('ed25519').publicKey.toString(), 'fullAccess')
         //console.log('Access Key:', accessKey)
-        
+
         //Comment/Uncomment until signout state has been implemented
-        //wallet.signOut() 
+        //wallet.signOut()
       }
-       
-      const modal = setupModal(selector, {
-      }).show()
- 
+
+      const modal = setupModal(selector, {}).show()
+
       console.log('selector:', selector)
       console.log('modal:', modal)
 
@@ -107,7 +103,7 @@
     :disabled="loading"
     :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal shadow-sm
       focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-[#000000]' : ''} text-2xl text-white
-      ${!loading ? 'bg-[#1E1E1E]' : 'bg-gray-400'} w-full`"
+      ${!loading ? 'bg-[#1E1E1E]' : 'bg-gray-400'}`"
     @click="submit"
   >
     <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />

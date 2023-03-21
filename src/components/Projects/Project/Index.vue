@@ -2,6 +2,7 @@
   import { ref, shallowRef, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import _ from 'lodash'
+  import { PencilSquareIcon } from '@heroicons/vue/24/outline'
 
   import router from '@/router'
   import { useAppManagerStore } from '@/stores/app-manager'
@@ -37,10 +38,19 @@
 </script>
 
 <template>
-  <section v-if="project" :class="`cover-art rounded-lg shadow p-6 lg:mx-52 my-8 relative before:content-['']`">
-    <div class="relative z-20">
-      <h2 class="text-6xl lg:text-6xl font-medium font-space-ranger text-white">{{ project?.name }}</h2>
-      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-16 font-audiowide text-white">{{ project?.project_types }}</h4>
+  <section v-if="project" class="flex justify-between rounded-lg bg-white shadow p-6 lg:mx-16">
+    <div>
+      <h2 class="text-6xl lg:text-6xl font-medium font-space-ranger">{{ project?.name }}</h2>
+      <h4 class="text-2xl mt-6 lg:text-3xl lg:mt-16 font-audiowide">{{ project?.project_types }}</h4>
+    </div>
+    <div class="flex items-end">
+      <router-link
+        :to="`/projects/edit/${project.id}`"
+        :class="`inline-flex items-center justify-center rounded-full border border-transparent p-3 font-normal focus:outline-none
+          focus:ring-2 focus:ring-offset-2 hover:bg-indigo-700 text-2xl bg-indigo-600 text-white shadow-sm w-12 h-12`"
+      >
+        <PencilSquareIcon class="w-full h-full" />
+      </router-link>
     </div>
   </section>
 
@@ -48,7 +58,7 @@
 </template>
 
 <style scoped>
-  .cover-art {
+  /* .cover-art {
     background-image: linear-gradient(to bottom right, #000, #3c0a30);
-  }
+  } */
 </style>

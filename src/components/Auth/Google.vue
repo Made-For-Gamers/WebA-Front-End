@@ -49,7 +49,7 @@
     :disabled="loading"
     :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal shadow-sm
         focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-[#357bf0]' : ''} text-2xl text-white
-        ${!loading ? 'bg-[#4285F4]' : 'bg-gray-400'} w-full`"
+        ${!loading ? 'bg-[#4285F4]' : 'bg-gray-400'}`"
     @click="googleLogin"
   >
     <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
