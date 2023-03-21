@@ -1,13 +1,14 @@
 <script setup>
   const props = defineProps({
     text: String,
-    classes: String,
+    color: String,
+    textBg: String,
   })
 </script>
 
 <template>
-  <div class="w-full h-[1px] bg-slate-400 flex items-center justify-center" :class="classes">
-    <span class="bg-white text-slate-400 px-2">{{ text }}</span>
+  <div :class="`w-full h-[1px] ${color || 'bg-slate-400'} flex items-center justify-center`">
+    <span :class="`${textBg || 'bg-white'} ${color || 'text-slate-400'} px-2`">{{ text }}</span>
   </div>
 </template>
 

@@ -7,7 +7,10 @@
 </script>
 
 <template>
-  <router-link class="mb-4" :to="`projects/${id}`">
+  <router-link
+    class="flex flex-col gap-8 justify-between mb-4 bg-[#334155] text-white rounded px-4 py-3"
+    :to="`projects/${id}`"
+  >
     <h3 class="text-4xl">{{ name }}</h3>
     <p class="text-xl">{{ type }}</p>
   </router-link>

@@ -133,16 +133,10 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-4 lg:mx-52">
-    <section class="col-span-4 bg-gray-white rounded-lg shadow p-4">
-      <router-link :to="`/projects/edit/${project.id}`" class="block w-8 h-8">
-        <PencilSquareIcon />
-      </router-link>
-    </section>
-
+  <div class="grid grid-cols-4 gap-4 lg:mx-16">
     <section
       v-if="providerFeatureStore.categories.length"
-      class="col-span-1 row-span-2 bg-gray-white rounded-lg shadow p-4"
+      class="col-span-1 rounded-lg shadow p-4 bg-[#334155] text-white mt-4"
     >
       <h4 class="text-2xl lg:text-3xl font-audiowide">Categories</h4>
       <ul class="text-xl mt-4">
@@ -157,50 +151,52 @@
       </ul>
     </section>
 
-    <section class="col-span-3 bg-gray-white rounded-lg shadow p-4">
-      <h4 class="text-2xl lg:text-3xl font-audiowide mb-4">Features</h4>
+    <div class="col-span-3">
+      <section v-if="features.length" class="rounded-lg shadow p-4 mt-4 bg-white">
+        <h4 class="text-2xl lg:text-3xl font-audiowide mb-4">Features</h4>
 
-      <div class="grid grid-cols-3 gap-4">
-        <!-- features: {{ features }} -->
+        <div class="grid grid-cols-3 gap-4">
+          <!-- features: {{ features }} -->
 
-        <div
-          v-for="feature in features"
-          :key="feature.id"
-          class="col-span-1 rounded-lg bg-white cursor-pointer shadow hover:shadow-lg p-2 flex gap-2"
-        >
-          <!-- <component :is="icons[feature.feature_type[0]]" class="h-8 w-8 m-auto" /> -->
-          <div class="flex-1">
-            <h3 class="text-xl">{{ feature.name }}</h3>
-            <p>{{ feature.feature_type[0] }}</p>
+          <div
+            v-for="feature in features"
+            :key="feature.id"
+            class="col-span-1 rounded-lg bg-white cursor-pointer shadow hover:shadow-lg p-2 flex gap-2"
+          >
+            <!-- <component :is="icons[feature.feature_type[0]]" class="h-8 w-8 m-auto" /> -->
+            <div class="flex-1">
+              <h3 class="text-xl">{{ feature.name }}</h3>
+              <p>{{ feature.feature_type[0] }}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="col-span-3 bg-gray-white rounded-lg shadow p-4">
-      <div class="flex justify-between items-center mb-4">
-        <h4 class="text-2xl lg:text-3xl font-audiowide">Add Feature</h4>
+      <section v-if="availableFeatures.length" class="rounded-lg shadow p-4 bg-white mt-4">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="text-2xl lg:text-3xl font-audiowide">Add Feature</h4>
 
-        <!-- <TextField type="text" label="Search" placeholder :value="''" @value="val => {}" class="w-1/4" /> -->
-      </div>
+          <!-- <TextField type="text" label="Search" placeholder :value="''" @value="val => {}" class="w-1/4" /> -->
+        </div>
 
-      <div class="grid grid-cols-3 gap-4">
-        <!-- availableFeatures: {{ availableFeatures }} -->
+        <div class="grid grid-cols-3 gap-4">
+          <!-- availableFeatures: {{ availableFeatures }} -->
 
-        <div
-          v-for="feature in availableFeatures"
-          :key="feature.id"
-          class="col-span-1 rounded-lg bg-white cursor-pointer shadow hover:shadow-lg p-2 flex gap-2"
-          @click="() => linkFeature(feature)"
-        >
-          <!-- <component :is="icons[feature.feature_type[0]]" class="h-8 w-8 m-auto" /> -->
-          <div class="flex-1">
-            <h3 class="text-xl">{{ feature.name }}</h3>
-            <p>{{ feature.feature_type[0] }}</p>
+          <div
+            v-for="feature in availableFeatures"
+            :key="feature.id"
+            class="col-span-1 rounded-lg bg-white cursor-pointer shadow hover:shadow-lg p-2 flex gap-2"
+            @click="() => linkFeature(feature)"
+          >
+            <!-- <component :is="icons[feature.feature_type[0]]" class="h-8 w-8 m-auto" /> -->
+            <div class="flex-1">
+              <h3 class="text-xl">{{ feature.name }}</h3>
+              <p>{{ feature.feature_type[0] }}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 </template>
 

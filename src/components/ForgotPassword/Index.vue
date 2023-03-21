@@ -71,7 +71,9 @@
 </script>
 
 <template>
-  <section class="rounded-lg bg-white shadow p-6 lg:mx-52 flex flex-col gap-4">
+  <section class="w-1/2 flex flex-col gap-4 rounded-lg shadow-lg bg-blue-50 p-6">
+    <h5 class="text-slate-400 px-2 text-center uppercase">Forgot Password</h5>
+
     <form class="space-y-4">
       <TextField
         type="email"
