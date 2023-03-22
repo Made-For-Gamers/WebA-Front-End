@@ -12,7 +12,7 @@
     class="w-full mb-24 before:content-[''] before:fixed before:-z-10 before:w-full before:h-[40%] before:bg-indigo-400"
   >
     <div class="flex items-center justify-between px-16 py-4">
-      <h5 class="text-lg text-white uppercase">{{ _.startCase(currentRoute.name) }}</h5>
+      <h5 class="text-2xl text-white uppercase">{{ _.startCase(currentRoute.name) }}</h5>
       <div>
         <TextField type="text" label="Search" :placeholder="true" />
       </div>

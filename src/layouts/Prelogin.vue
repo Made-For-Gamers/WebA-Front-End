@@ -1,27 +1,21 @@
 <script setup>
-  import { ref } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   import Alert from '@/components/Layout/Alert.vue'
   import Navbar from '@/components/Layout/Navbars/Prelogin.vue'
   import Footer from '@/components/Layout/Footer.vue'
 
-  let scrollTop = ref(
-    window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop
-  )
-
-  const calculateDistanceFromTop = e => {
-    scrollTop.value =
-      window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop
-  }
-
-  window.addEventListener('scroll', calculateDistanceFromTop)
+  useHead({
+    title: 'MFG - Made For Gamers',
+    link: { rel: 'icon', type: 'image/png', href: '/logo-white.png' },
+  })
 </script>
 
 <template>
   <Alert />
 
   <div class="layout-root min-h-screen flex flex-col">
-    <Navbar :scrollTop="scrollTop" />
+    <Navbar />
 
     <main class="flex-grow flex items-center justify-center">
       <slot />

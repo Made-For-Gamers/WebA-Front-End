@@ -20,8 +20,6 @@
   import { useUserStore } from '@/stores/user'
   import LinearProgress from '@/components/Layout/LinearProgress.vue'
 
-  defineProps({ scrollTop: Number })
-
   const { getRoutes, currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
@@ -52,12 +50,7 @@
 </script>
 
 <template>
-  <Popover
-    as="header"
-    class="w-full transition-colors duration-500 z-50 fixed"
-    :class="{ 'bg-black': scrollTop > 25 }"
-    v-slot="{ open }"
-  >
+  <Popover as="header" class="w-full transition-colors duration-500 z-50 fixed" v-slot="{ open }">
     <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
       <div class="relative h-20 lg:pt-0 grid grid-cols-3 items-center lg:items-start">
         <!-- Left section on desktop -->

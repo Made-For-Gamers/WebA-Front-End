@@ -4,7 +4,9 @@
   import { useProjectStore } from '@/stores/project'
   import { useProviderFeatureStore } from '@/stores/providerFeature'
   import { useAppManagerStore } from '@/stores/app-manager'
+
   import Tile from '@/components/Projects/Tile.vue'
+  import TextField from '@/components/Layout/TextField.vue'
 
   const projectStore = useProjectStore()
   const providerFeatureStore = useProviderFeatureStore()
@@ -20,7 +22,10 @@
 
 <template>
   <section class="rounded-lg bg-white shadow p-6 lg:mx-16">
-    <h5 class="text-slate-500 uppercase">Your Projects</h5>
+    <div class="flex justify-between items-center">
+      <h5 class="text-slate-500 uppercase text-xl">Your Projects</h5>
+      <TextField type="text" label="Filter" :placeholder="true" class="w-max" />
+    </div>
 
     <div class="grid grid-cols-3 gap-4 mt-4">
       <Tile

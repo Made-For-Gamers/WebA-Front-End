@@ -100,10 +100,9 @@
 </script>
 
 <template>
-  <section class="rounded-lg bg-white shadow p-6 lg:mx-52 my-8">
+  <section class="rounded-lg bg-white shadow p-6 lg:mx-16 my-8">
     <form class="col-span-2 space-y-4">
-      <!-- <h3 class="text-2xl font-medium">{{ currentRoute.name === 'Create Project' ? 'Create New' : 'Edit' }} Project</h3> -->
-      <h5 class="text-slate-500 uppercase">
+      <h5 class="text-slate-500 uppercase text-xl">
         {{ currentRoute.name === 'Create Project' ? 'Create New' : 'Edit' }} Project
       </h5>
 

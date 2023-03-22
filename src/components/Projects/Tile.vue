@@ -8,7 +8,7 @@
 
 <template>
   <router-link
-    class="flex flex-col gap-8 justify-between mb-4 bg-[#334155] text-white rounded px-4 py-3"
+    class="flex flex-col gap-8 justify-between mb-4 bg-[#576d8d] text-white rounded px-4 py-3"
     :to="`projects/${id}`"
   >
     <h3 class="text-4xl">{{ name }}</h3>
