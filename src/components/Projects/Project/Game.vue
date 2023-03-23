@@ -136,7 +136,7 @@
   <div class="grid grid-cols-4 gap-4 lg:mx-16">
     <section
       v-if="providerFeatureStore.categories.length"
-      class="col-span-1 rounded-lg shadow p-4 bg-[#334155] text-white mt-4"
+      class="col-span-1 rounded-lg shadow p-4 bg-[#576d8d] text-white mt-4"
     >
       <h4 class="text-2xl lg:text-3xl font-audiowide">Categories</h4>
       <ul class="text-xl mt-4">
