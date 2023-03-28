@@ -135,8 +135,7 @@ export const useUserStore = defineStore('user', {
 
     exchangeNearTokenForJwt(payload) {
       return new Promise(async (resolve, reject) => {
-        try {
-          console.log(JSON.stringify(payload))
+        try { 
           let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/tokenW3wallet`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -182,10 +181,10 @@ export const useUserStore = defineStore('user', {
     // exchangeMetamaskTokenForJwt(payload) {
     //   return new Promise(async (resolve, reject) => {
     //     try {
-    //       let res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //       let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/tokenW3wallet`, {
     //         method: 'POST',
     //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({ metamaskToken: payload.token }),
+    //         body: JSON.stringify(payload),
     //       })
 
     //       if (res.status === 401) {

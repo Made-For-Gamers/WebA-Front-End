@@ -6,6 +6,7 @@
   import { useUserStore } from '@/stores/user'
   import { useAppManagerStore } from '@/stores/app-manager'
   import Button from '@/components/Layout/Button.vue'
+  import Web3 from 'web3'
 
   // ethereum.networkVersion // current network
   // ethereum.selectedAddress // current account
@@ -27,9 +28,23 @@
 
   const metamaskLogin = async () => {
     try {
-      emit('toggleLoading')
-      const token = await ethereum.request({ method: 'eth_requestAccounts' })
-      await userStore.exchangeMetamaskTokenForJwt({ token: token[0] })
+      emit('toggleLoading') 
+
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+      const account = accounts[0] 
+      const message = 'Please sign in order to login to MFG Nexus'
+   
+      const signature = await ethereum.request({
+        method: 'personal_sign',
+        params: [Web3.utils.utf8ToHex(message), account],
+      })
+
+      await userStore.exchangeNearTokenForJwt({
+        wallet: account,
+        signature: signature,
+        message: message,
+      }) 
+
       appManagerStore.showAlert({ color: 'success', text: "You've successfully been logged in" })
       router.push('/projects')
     } catch (err) {
