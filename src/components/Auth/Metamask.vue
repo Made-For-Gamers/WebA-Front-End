@@ -1,11 +1,11 @@
 <script setup>
   import { ref } from 'vue'
-  import { ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { ExclamationTriangleIcon } from '@heroicons/vue/20/solid'
 
   import router from '@/router'
   import { useUserStore } from '@/stores/user'
   import { useAppManagerStore } from '@/stores/app-manager'
+  import Button from '@/components/Layout/Button.vue'
 
   // ethereum.networkVersion // current network
   // ethereum.selectedAddress // current account
@@ -55,23 +55,12 @@
     darker: #773b0e
   -->
 
-  <button
-    v-if="enabled"
-    type="button"
-    :disabled="loading"
-    :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal shadow-sm
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-[#cf610e]' : ''} text-2xl text-white
-        ${!loading ? 'bg-[#e57714]' : 'bg-gray-400'}`"
-    @click="metamaskLogin"
-  >
-    <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-    <div v-else class="flex items-center gap-4">
-      <div class="rounded-full bg-white p-0.5 w-8 inline-block">
-        <img src="../../assets/images/metamask-icon.svg" alt="metamask icon" />
-      </div>
-      <span>Metamask</span>
+  <Button v-if="enabled" @click="metamaskLogin" :colors="['hover:bg-[#cf610e]', 'bg-[#e57714]']" :loading="loading">
+    <div class="rounded-full bg-white p-0.5 w-8 inline-block">
+      <img src="../../assets/images/metamask-icon.svg" alt="metamask icon" />
     </div>
-  </button>
+    <span>Metamask</span>
+  </Button>
 
   <div v-else class="border-l-4 border-yellow-400 bg-yellow-50 p-4">
     <div class="flex">

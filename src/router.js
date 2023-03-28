@@ -7,6 +7,7 @@ import Home from '@/pages/Home.vue'
 import Contact from '@/pages/Contact.vue'
 import Register from '@/pages/Register.vue'
 import Signin from '@/pages/Signin.vue'
+import NearAuth from '@/pages/NearAuth.vue'
 import ForgotPassword from '@/pages/ForgotPassword.vue'
 import ResetPassword from '@/pages/ResetPassword.vue'
 import Projects from '@/pages/Projects/Index.vue'
@@ -40,6 +41,12 @@ const routes = [
     name: 'Sign In',
     component: Signin,
     meta: { layout: 'Prelogin', auth: 'unauthed', menus: ['right'] },
+  },
+  {
+    path: '/near-auth',
+    name: 'NEAR Auth',
+    component: NearAuth,
+    meta: { layout: 'Prelogin', auth: 'unauthed' },
   },
   {
     path: '/forgot-password',

@@ -8,6 +8,7 @@
 
   import router from '@/router'
   import TextField from '@/components/Layout/TextField.vue'
+  import Button from '@/components/Layout/Button.vue'
 
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
@@ -85,17 +86,7 @@
         @error="err => (form.email.error = err)"
       />
 
-      <button
-        type="button"
-        :disabled="invalid || loading"
-        :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!invalid && !loading ? 'hover:bg-[#c71610a0]' : ''}
-        ${!invalid && !loading ? 'bg-[#C71610]' : 'bg-gray-400'} w-full text-2xl text-white shadow-sm`"
-        @click="submit"
-      >
-        <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-        <div v-else class="flex items-center gap-4">Submit</div>
-      </button>
+      <Button @click="submit" :disabled="invalid" :loading="loading" :block="true">Submit</Button>
     </form>
   </section>
 </template>

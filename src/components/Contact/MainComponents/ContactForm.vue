@@ -5,6 +5,7 @@
   import { useAppManagerStore } from '@/stores/app-manager'
   import TextField from '@/components/Layout/TextField.vue'
   import TextArea from '@/components/Layout/TextArea.vue'
+  import Button from '@/components/Layout/Button.vue'
 
   const appManagerStore = useAppManagerStore()
 
@@ -125,18 +126,7 @@
       @error="err => (form.message.error = err)"
     />
 
-    <button
-      type="button"
-      :disabled="invalid || loading"
-      :class="`inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!invalid && !loading ? 'hover:bg-indigo-700' : ''}
-        shadow-sm ${!invalid && !loading ? 'focus:ring-indigo-500' : ''}
-        ${!invalid && !loading ? 'bg-indigo-600' : 'bg-gray-400'}`"
-      @click="submit"
-    >
-      <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-      <span v-else>Submit</span>
-    </button>
+    <Button @click="submit" :disabled="invalid" :loading="loading" :block="true">Submit</Button>
   </form>
 </template>
 

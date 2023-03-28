@@ -4,7 +4,7 @@
   import Divider from '@/components/Layout/Divider.vue'
   import Metamask from '@/components/Auth/Metamask.vue'
   import NearWallet from '../Auth/NearWallet.vue'
-  import Google from '@/components/Auth/Google.vue'
+  // import Google from '@/components/Auth/Google.vue'
   import EmailPassword from '@/components/Register/EmailPassword.vue'
 
   const loading = ref(false)
@@ -17,7 +17,7 @@
     <div class="flex gap-4 justify-center">
       <Metamask :loading="loading" @toggleLoading="() => (loading = !loading)" />
       <NearWallet :loading="loading" @toggleLoading="() => (loading = !loading)" />
-      <Google :loading="loading" @toggleLoading="() => (loading = !loading)" />
+      <!-- <Google :loading="loading" @toggleLoading="() => (loading = !loading)" /> -->
     </div>
 
     <Divider text="OR" text-bg="bg-blue-50" class="my-4" />

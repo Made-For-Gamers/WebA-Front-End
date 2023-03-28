@@ -17,6 +17,7 @@
   import TextField from '@/components/Layout/TextField.vue'
   import TextArea from '@/components/Layout/TextArea.vue'
   import Select from '@/components/Layout/Select.vue'
+  import Button from '@/components/Layout/Button.vue'
 
   const { currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
@@ -221,7 +222,7 @@
     </div>
 
     <Transition name="slide-fade">
-      <div v-if="creating" class="lg:mx-16 shadow rounded-b-lg mb-8">
+      <div v-if="creating" class="lg:mx-16 shadow rounded-b-lg mb-8 bg-white">
         <form class="w-full flex flex-col gap-4 p-4">
           <TextField
             type="text"
@@ -266,16 +267,9 @@
                 @value="val => (form.supported_engines.value = val)"
               />
 
-              <button
-                type="button"
-                :disabled="loading"
-                :class="`inline-flex items-center justify-center rounded-md border border-transparent p-2 font-normal mt-6
-                focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-indigo-500' : ''} h-full
-                ${!loading ? 'bg-indigo-600' : 'bg-gray-400'} text-2xl text-white shadow-sm`"
-                @click="addEngine"
-              >
+              <Button @click="addEngine" class="mt-6">
                 <PlusIcon class="h-5 w-5" />
-              </button>
+              </Button>
             </div>
 
             <div class="flex gap-2 mt-2">

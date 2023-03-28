@@ -133,6 +133,51 @@ export const useUserStore = defineStore('user', {
       })
     },
 
+    exchangeNearTokenForJwt(payload) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/token`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: JSON.stringify(payload),
+          })
+
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
+          if (!res.access_token) throw new Error(res.detail)
+          this.user.token = `Bearer ${res.access_token}`
+
+          res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/users/me`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': this.user.token,
+            },
+          })
+
+          if (res.status === 401) {
+            appManagerStore.showAlert({ color: 'warning', text: 'Please login before proceeding' })
+            userStore.user.token = null
+            location.reload()
+          }
+
+          res = await res.json()
+          if (!res.result) throw new Error(res.detail)
+          this.user = { ...this.user, ...res.body }
+
+          return resolve(res)
+        } catch (err) {
+          console.log('err:', err)
+          return reject(err)
+        }
+      })
+    },
+
     // exchangeMetamaskTokenForJwt(payload) {
     //   return new Promise(async (resolve, reject) => {
     //     try {

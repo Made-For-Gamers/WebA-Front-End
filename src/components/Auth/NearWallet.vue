@@ -1,6 +1,5 @@
 <script setup>
   import { ref, onMounted } from 'vue'
-  import { ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { ExclamationTriangleIcon } from '@heroicons/vue/20/solid'
 
   import { setupWalletSelector } from '@near-wallet-selector/core'
@@ -13,6 +12,7 @@
   import router from '../../router'
   import { useUserStore } from '../../stores/user'
   import { useAppManagerStore } from '../../stores/app-manager'
+  import Button from '@/components/Layout/Button.vue'
 
   const props = defineProps({ loading: Boolean })
   const emit = defineEmits(['toggleLoading'])
@@ -36,12 +36,15 @@
       const narWallets = setupNarwallets({})
 
       const nearWallet = setupNearWallet({
-        //successUrl: 'https://webhook.site/5ccbd8bc-e5d1-4ca1-8390-1ab6a89172e2',
-        //failureUrl: 'https://webhook.site/5ccbd8bc-e5d1-4ca1-8390-1ab6a89172e2'
+        successUrl: 'http://localhost:3000/near-auth',
+        failureUrl: 'http://localhost:3000/near-auth',
+
+        // successUrl: 'https://webhook.site/5ccbd8bc-e5d1-4ca1-8390-1ab6a89172e2',
+        // failureUrl: 'https://webhook.site/5ccbd8bc-e5d1-4ca1-8390-1ab6a89172e2'
       })
 
       const selector = await setupWalletSelector({
-        network: 'mainnet',
+        network: 'testnet',
         modules: [nearWallet, narWallets],
       })
 
@@ -72,7 +75,7 @@
         //console.log('Access Key:', accessKey)
 
         //Comment/Uncomment until signout state has been implemented
-        //wallet.signOut()
+        wallet.signOut()
       }
 
       const modal = setupModal(selector, {}).show()
@@ -98,20 +101,10 @@
 </script>
 
 <template>
-  <button
-    type="button"
-    :disabled="loading"
-    :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal shadow-sm
-      focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-[#000000]' : ''} text-2xl text-white
-      ${!loading ? 'bg-[#1E1E1E]' : 'bg-gray-400'}`"
-    @click="submit"
-  >
-    <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-    <div v-else class="flex items-center gap-4">
-      <img src="../../assets/images/near-icon.jpg" alt="near wallet icon" class="w-8" />
-      <span>NEAR Wallet</span>
-    </div>
-  </button>
+  <Button @click="submit" :colors="['hover:bg-[#000000]', 'bg-[#1E1E1E]']" :loading="loading">
+    <img src="../../assets/images/near-icon.jpg" alt="near wallet icon" class="w-8" />
+    <span>NEAR Wallet</span>
+  </Button>
 </template>
 
 <style></style>

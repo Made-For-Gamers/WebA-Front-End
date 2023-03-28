@@ -1,11 +1,11 @@
 <script setup>
   import { onMounted } from 'vue'
-  import { ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { GoogleIcon } from 'vue3-simple-icons'
 
   import router from '@/router'
   import { useUserStore } from '@/stores/user'
   import { useAppManagerStore } from '@/stores/app-manager'
+  import Button from '@/components/Layout/Button.vue'
 
   const props = defineProps({ loading: Boolean })
   const emit = defineEmits(['toggleLoading'])
@@ -44,20 +44,10 @@
 <template>
   <div id="my-signin2"></div>
 
-  <button
-    type="button"
-    :disabled="loading"
-    :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-normal shadow-sm
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-[#357bf0]' : ''} text-2xl text-white
-        ${!loading ? 'bg-[#4285F4]' : 'bg-gray-400'}`"
-    @click="googleLogin"
-  >
-    <ArrowPathIcon v-if="loading" class="h-5 w-5 animate-spin" />
-    <div v-else class="flex items-center gap-4">
-      <GoogleIcon style="fill: #fff" />
-      <span>Google</span>
-    </div>
-  </button>
+  <Button @click="googleLogin" :colors="['hover:bg-[#357bf0]', 'bg-[#4285F4]']" :loading="loading">
+    <GoogleIcon style="fill: #fff" />
+    <span>Google</span>
+  </Button>
 </template>
 
 <style scoped>
