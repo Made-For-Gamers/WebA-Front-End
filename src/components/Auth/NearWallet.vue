@@ -44,7 +44,7 @@
       })
 
       const selector = await setupWalletSelector({
-        network: 'testnet',
+        network: 'mainnet',
         modules: [nearWallet, narWallets],
       })
 
@@ -60,7 +60,7 @@
         console.log('WalletID:', wallet.id)
         console.log('Account Obj:', activeAcc[0])
         console.log('AccountId:', activeAcc[0].accountId)
-        console.log('PublicKey:', activeAcc[0].narWallets)
+        console.log('PublicKey:', activeAcc[0].publicKey)
 
         const verParams = {
           message: 'check me out',

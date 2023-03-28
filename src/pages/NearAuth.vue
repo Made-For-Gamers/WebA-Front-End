@@ -4,10 +4,12 @@
 
   import router from '@/router'
   import { useAppManagerStore } from '@/stores/app-manager'
-
+  import { useUserStore } from '@/stores/user'
+  
   const { currentRoute } = useRouter()
   const appManagerStore = useAppManagerStore()
-
+  const userStore = useUserStore()
+  
   if (!currentRoute.value.query.account_id || !currentRoute.value.query.all_keys) {
     appManagerStore.showAlert({
       color: 'warning',

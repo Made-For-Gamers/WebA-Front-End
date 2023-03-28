@@ -136,9 +136,10 @@ export const useUserStore = defineStore('user', {
     exchangeNearTokenForJwt(payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/token`, {
+          console.log(JSON.stringify(payload))
+          let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/tokenW3wallet`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
           })
 
