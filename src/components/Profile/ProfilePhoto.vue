@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, reactive } from 'vue'
+  import { ref, reactive, defineProps, defineEmits } from 'vue' 
   import { ArrowUpOnSquareIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useUserStore } from '@/stores/user'
@@ -7,7 +7,7 @@
   const appManagerStore = useAppManagerStore()
   const userStore = useUserStore()
 
-  const emit = defineEmits(['toggleLoading'])
+  const emit = defineEmits(['toggleLoading', 'updateProfilePic']) 
   const props = defineProps({
     user: Object,
     loading: Boolean,
@@ -19,59 +19,67 @@
     meta: null,
   })
 
+ 
   const submit = async b64 => {
-    try {
-      emit('toggleLoading')
+  try {
+    emit('toggleLoading')
 
-      const res = await userStore.uploadProfilePhoto({ base64: b64 })
+    const res = await userStore.uploadProfilePhoto({ base64: b64 })
 
-      // TODO: replace this with an actual message from the server
-      appManagerStore.showAlert({ color: 'success', text: 'Profile photo successfully updated' })
+    appManagerStore.showAlert({ color: 'success', text: "Profile Picture Updated" })
 
-      clear()
-    } catch (err) {
-      console.log('err:', err)
+    userStore.$patch({ user: { ...userStore.$state.user, profile_pic: b64 } }) // Update the userStore
+
+    emit('updateProfilePic', b64)
+
+    clear()
+  } catch (err) {
+    console.log('err:', err)
+    appManagerStore.showAlert({
+      color: 'error',
+      text:
+        err.message ||
+        'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+    })
+  }
+
+  emit('toggleLoading')
+}
+
+
+const dropFile = fileData => {
+  if (!fileData.data) {
+    const ext = fileData.name.substring(fileData.name.lastIndexOf('.'), fileData.name.length)
+    if (['.png', '.jpeg', '.jpg', '.webp'].includes(ext.toLowerCase())) {
+      const reader = new FileReader()
+      reader.onload = function () {
+        const MAX_FILE_SIZE_MB = 5
+        if (fileData.size / 1024 / 1024 <= MAX_FILE_SIZE_MB) {
+          file.data = reader.result
+          file.meta = fileData
+          submit(file.data)
+        } else {
+          appManagerStore.showAlert({
+            color: 'warning',
+            timeout: 5000,
+            text: `Maximum file size exceeded. Max size: ${MAX_FILE_SIZE_MB} MB.`,
+          })
+        }
+      }
+
+      reader.readAsDataURL(fileData)
+    } else {
       appManagerStore.showAlert({
-        color: 'error',
-        text:
-          err.message ||
-          'An unknown error occurred. Please try again later and if the problem persists, contact support.',
+        color: 'warning',
+        timeout: 5000,
+        text: 'File format has to be one of the following: .png, .jpg, .webp',
       })
     }
-
-    emit('toggleLoading')
+  } else {
+    emit('updateProfilePic', fileData.data)
   }
+}
 
-  const dropFile = fileData => {
-    if (!fileData.data) {
-      const ext = fileData.name.substring(fileData.name.lastIndexOf('.'), fileData.name.length)
-      if (['.png', '.jpeg', '.jpg', '.webp'].includes(ext.toLowerCase())) {
-        const reader = new FileReader()
-        reader.onload = function () {
-          const MAX_FILE_SIZE_MB = 5
-          if (fileData.size / 1024 / 1024 <= MAX_FILE_SIZE_MB) {
-            file.data = reader.result
-            file.meta = fileData
-            submit(file.data)
-          } else {
-            appManagerStore.showAlert({
-              color: 'warning',
-              timeout: 5000,
-              text: `Maximum file size exceeded. Max size: ${MAX_FILE_SIZE_MB} MB.`,
-            })
-          }
-        }
-
-        reader.readAsDataURL(fileData)
-      } else {
-        appManagerStore.showAlert({
-          color: 'warning',
-          timeout: 5000,
-          text: 'File format has to be one of the following: .png, .jpg, .webp',
-        })
-      }
-    }
-  }
 
   const picked = e => {
     dropFile(e.target.files[0])
@@ -86,6 +94,7 @@
   const clear = e => {
     file.data = null
     file.meta = null
+ 
   }
 </script>
 
@@ -96,13 +105,16 @@
     <div
       class="w-full h-full rounded-full overflow-hidden flex items-center justify-center"
       :style="{
-        'background-image': `url(${file.data || user.profilePic})`,
+        'background-image': `url(${file.data || userStore.$state.user.profile_pic})`,
         'background-color': '#374151',
         'background-position': 'center',
         'background-repeat': 'no-repeat',
         'background-size': 'cover',
       }"
+      @dragover.prevent
+      @drop="dropFile($event.dataTransfer.files[0])"
     >
+
       <p v-if="!file.data && !user.profilePic" class="bg-gray-700 text-white flex items-center justify-center text-7xl">
         {{ user.firstName?.substring(0, 1)?.toUpperCase() }}
       </p>

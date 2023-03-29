@@ -1,5 +1,5 @@
 <script setup>
-  import { onMounted } from 'vue'
+  import { ref, onMounted } from 'vue'
 
   import { useProjectStore } from '@/stores/project'
   import { useProviderFeatureStore } from '@/stores/providerFeature'
@@ -12,11 +12,13 @@
   const providerFeatureStore = useProviderFeatureStore()
   const appManagerStore = useAppManagerStore()
 
+  const isProjectLoading = ref(false)
+
   onMounted(async () => {
-    if (!projectStore.projects?.length) appManagerStore.loading = true
+    if (!projectStore.projects?.length) isProjectLoading.value = true
     await projectStore.fetchProjects()
     providerFeatureStore.fetchCategories()
-    appManagerStore.loading = false
+    isProjectLoading.value = false
   })
 </script>
 
@@ -48,6 +50,9 @@
         Create New Project
       </router-link>
     </div>
+
+    <p v-if="isProjectLoading">Loading projects...</p>
+    <p v-else-if="!projectStore.projects?.length">You have no projects yet! To get started, create a project -></p>
   </section>
 </template>
 

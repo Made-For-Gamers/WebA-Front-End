@@ -2,7 +2,7 @@
   import { ref } from 'vue'
 
   import ProfilePhoto from '@/components/Profile/ProfilePhoto.vue'
-  import PersonalDeets from '@/components/Profile/PersonalDeets.vue'
+  import PersonalDetails from '@/components/Profile/PersonalDetails.vue'
   import ResetEmail from '@/components/Profile/ResetEmail.vue'
   import ChangePassword from '@/components/Profile/ChangePassword.vue'
   import { useUserStore } from '@/stores/user'
@@ -15,7 +15,7 @@
   <section class="rounded-lg bg-white shadow p-6 mb-6 lg:mx-52 flex flex-col gap-4">
     <div class="flex gap-8 flex-col lg:flex-row-reverse lg:justify-between lg:items-center">
       <ProfilePhoto :user="userStore.$state" :loading="loading" @toggleLoading="loading = !loading" />
-      <PersonalDeets :user="userStore.$state" :loading="loading" @toggleLoading="loading = !loading" class="grow" />
+      <PersonalDetails :user="userStore.$state" :loading="loading" @toggleLoading="loading = !loading" class="grow" />
     </div>
   </section>
 

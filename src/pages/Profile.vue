@@ -1,13 +1,9 @@
 <script setup>
-  import Profile from '@/components/Profile/Index.vue'
-  import ComingSoon from '@/components/Layout/ComingSoon.vue'
-
-  const devMode = import.meta.env.DEV
+  import Profile from '@/components/Profile/Index.vue' 
 </script>
 
 <template>
-  <Profile v-if="devMode" />
-  <ComingSoon v-else />
+  <Profile /> 
 </template>
 
 <style></style>

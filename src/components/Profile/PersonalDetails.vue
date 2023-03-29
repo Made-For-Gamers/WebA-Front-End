@@ -29,9 +29,12 @@
   })
 
   onMounted(() => {
-    form.fName = { ...form.fName, value: props.user.firstName, error: true }
-    form.lName = { ...form.lName, value: props.user.lastName, error: false }
-  })
+
+  //console.log('userStore.$state.user.profilepic:', userStore.$state.user.profile_pic)
+  form.fName = { ...form.fName, value: userStore.$state.user.name?.toString() || '', error: true }
+  form.lName = { ...form.lName, value: userStore.$state.user.surname?.toString() || '', error: false }
+})
+
 
   const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
@@ -40,8 +43,8 @@
       emit('toggleLoading')
 
       const res = await userStore.updateProfile({
-        firstName: form.fName.value,
-        lastName: form.lName.value,
+        name: form.fName.value,
+        surname: form.lName.value,
       })
 
       form.fName = { ...form.fName, error: true }
