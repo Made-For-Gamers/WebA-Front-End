@@ -135,7 +135,7 @@ export const useUserStore = defineStore('user', {
 
     exchangeNearTokenForJwt(payload) {
       return new Promise(async (resolve, reject) => {
-        try { 
+        try {
           let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/tokenW3wallet`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -149,7 +149,7 @@ export const useUserStore = defineStore('user', {
           }
 
           res = await res.json()
-          if (!res.access_token) throw new Error(res.detail)
+          if (!res.access_token) throw new Error(res.message)
           this.user.token = `Bearer ${res.access_token}`
 
           res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/users/me`, {
