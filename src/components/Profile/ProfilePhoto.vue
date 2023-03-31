@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, reactive, defineProps, defineEmits } from 'vue'
+  import { ref, reactive } from 'vue'
   import { ArrowUpOnSquareIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useUserStore } from '@/stores/user'
@@ -108,7 +108,7 @@
         'background-size': 'cover',
       }"
       @dragover.prevent
-      @drop="dropFile($event.dataTransfer.files[0])"
+      @drop="() => dropFile($event.dataTransfer.files[0])"
     >
       <p v-if="!file.data && !user.profilePic" class="bg-gray-700 text-white flex items-center justify-center text-7xl">
         {{ user.firstName?.substring(0, 1)?.toUpperCase() }}
@@ -119,7 +119,7 @@
       :class="`rounded-full absolute bottom-0 -left-2 w-10 h-10 shadow-sm flex items-center justify-center text-white
         focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-indigo-700' : ''}
         ${!loading ? 'bg-indigo-600' : 'bg-gray-400'}`"
-      @click="file.data ? clear() : explorer()"
+      @click="() => (file.data ? clear() : explorer())"
     >
       <ArrowPathIcon v-if="file.data" :style="{ width: '24px', height: '24px' }" />
       <ArrowUpOnSquareIcon v-else :style="{ width: '24px', height: '24px' }" />

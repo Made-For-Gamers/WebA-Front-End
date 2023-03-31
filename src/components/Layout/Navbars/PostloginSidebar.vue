@@ -4,17 +4,19 @@
 
   import { HomeIcon, PhoneIcon, BriefcaseIcon } from '@heroicons/vue/24/outline'
   import { PlusIcon, UserCircleIcon, ArrowLeftOnRectangleIcon } from '@heroicons/vue/24/outline'
-  import { GithubIcon, DiscordIcon } from 'vue3-simple-icons'
+  import { GithubIcon, DiscordIcon, BitcoinIcon } from 'vue3-simple-icons'
 
   import Divider from '@/components/Layout/Divider.vue'
   import Modal from '@/components/Layout/Modal.vue'
 
   const { currentRoute } = useRouter()
- 
+
   const projects = shallowRef([
     { path: '/projects', text: 'All', icon: BriefcaseIcon },
     { path: '/projects/create', text: 'Create', icon: PlusIcon },
   ])
+
+  const gamejam = shallowRef([{ path: '/nft/mint', text: 'Mint NFT', icon: BitcoinIcon }])
 
   const account = shallowRef([
     { path: '/profile', text: 'Profile', icon: UserCircleIcon },
@@ -41,7 +43,23 @@
     </li>
 
     <li><Divider /></li>
- 
+
+    <!-- gamejam nav -->
+    <li>
+      <h6 class="text-slate-500 text-lg uppercase block no-underline">Game Jam</h6>
+
+      <router-link
+        v-for="link in gamejam"
+        :key="link.path"
+        :to="link.path"
+        :class="`${link.path === currentRoute.path ? 'text-indigo-600 bg-indigo-50' : 'text-gray-900'}
+          block rounded-md px-3 py-2 font-medium hover:bg-indigo-50 hover:text-indigo-600`"
+      >
+        <component :is="link.icon" class="inline-block w-6 mr-2" />
+        {{ link.text }}
+      </router-link>
+    </li>
+
     <!-- projects nav -->
     <li>
       <h6 class="text-slate-500 text-lg uppercase block no-underline">Projects</h6>
@@ -58,8 +76,8 @@
       </router-link>
     </li>
 
-      <!-- account nav -->
-        <li>
+    <!-- account nav -->
+    <li>
       <h6 class="text-slate-500 text-lg uppercase block no-underline">Account</h6>
 
       <router-link
@@ -90,7 +108,7 @@
         {{ link.text }}
       </a>
     </li>
- 
+
     <!-- extra nav -->
     <li>
       <h6 class="text-slate-500 text-lg uppercase block no-underline">Navigate back</h6>

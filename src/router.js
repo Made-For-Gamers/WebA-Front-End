@@ -15,6 +15,7 @@ import CreateProject from '@/pages/Projects/Create.vue'
 import EditProject from '@/pages/Projects/Edit.vue'
 import Project from '@/pages/Projects/Project.vue'
 import Profile from '@/pages/Profile.vue'
+import MintNft from '@/pages/Nft/Mint.vue'
 import PageNotFound from '@/pages/PageNotFound.vue'
 
 const routes = [
@@ -82,6 +83,12 @@ const routes = [
     path: '/projects/:id',
     name: 'Project',
     component: Project,
+    meta: { layout: 'Postlogin', auth: 'authed' },
+  },
+  {
+    path: '/nft/mint',
+    name: 'Mint NFT',
+    component: MintNft,
     meta: { layout: 'Postlogin', auth: 'authed' },
   },
   {

@@ -17,7 +17,7 @@
     :disabled="loading"
     :class="`inline-flex items-center justify-center rounded-md border border-transparent p-2 font-normal focus:ring-2
       focus:outline-none focus:ring-offset-2 ${disabled || loading ? '' : colors[0] || 'hover:bg-indigo-500'}
-      h-full ${disabled || loading ? 'bg-gray-400' : colors[1] || 'bg-indigo-600'} text-2xl text-white shadow-sm
+      ${disabled || loading ? 'bg-gray-400' : colors[1] || 'bg-indigo-600'} text-2xl text-white shadow-sm
       ${block ? 'w-full' : ''}
       `"
     @click="() => emit('click', e)"
