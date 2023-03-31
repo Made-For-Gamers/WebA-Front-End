@@ -67,6 +67,7 @@ export const useGameFeatureStore = defineStore('gameFeature', {
           }
 
           res = await res.json()
+          res.body = res.body || []
           if (!res.result) throw new Error(res.detail)
           this.features = res.body
 

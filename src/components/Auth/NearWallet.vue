@@ -44,6 +44,7 @@
       })
 
       const selector = await setupWalletSelector({
+        // network: import.meta.env.DEV ? 'testnet' : 'mainnet',
         network: 'mainnet',
         modules: [nearWallet, narWallets],
       })

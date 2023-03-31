@@ -39,20 +39,22 @@
       />
     </div>
 
-    <div class="text-right">
-      <router-link
-        type="button"
-        :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4
+    <div class="flex items-center justify-between">
+      <p v-if="isProjectLoading">Loading projects...</p>
+      <p v-else-if="!projectStore.projects?.length">You have no projects yet! To get started, create a project -></p>
+
+      <div class="text-right">
+        <router-link
+          type="button"
+          :class="`inline-flex items-center justify-center rounded-md border border-transparent px-4
         py-2 font-normal focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-indigo-700
         text-2xl bg-indigo-600 text-white shadow-sm`"
-        to="/projects/create"
-      >
-        Create New Project
-      </router-link>
+          to="/projects/create"
+        >
+          Create New Project
+        </router-link>
+      </div>
     </div>
-
-    <p v-if="isProjectLoading">Loading projects...</p>
-    <p v-else-if="!projectStore.projects?.length">You have no projects yet! To get started, create a project -></p>
   </section>
 </template>
 

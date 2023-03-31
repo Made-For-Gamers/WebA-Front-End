@@ -205,7 +205,7 @@
     // if (!providerFeatureStore.features?.some(v => v.project_id !== currentRoute.value.params.id)) {
     appManagerStore.loading = true
     const res = await providerFeatureStore.fetchFeatures(currentRoute.value.params.id)
-    features.value = res.body.sort((a, b) => (a.name > b.name ? 1 : -1)).map((v, i) => ({ ...v, open: i === 0 }))
+    features.value = res.body?.sort((a, b) => (a.name > b.name ? 1 : -1)).map((v, i) => ({ ...v, open: i === 0 }))
     appManagerStore.loading = false
     // }
   })
