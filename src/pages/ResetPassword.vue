@@ -6,8 +6,9 @@
 </script>
 
 <template>
-  <ResetPassword v-if="devMode" />
-  <ComingSoon v-else />
+  <ResetPassword />
+  <!-- <ResetPassword v-if="devMode" />
+  <ComingSoon v-else /> -->
 </template>
 
 <style></style>

@@ -6,8 +6,9 @@
 </script>
 
 <template>
-  <Register v-if="devMode" />
-  <ComingSoon v-else />
+  <Register />
+  <!-- <Register v-if="devMode" />
+  <ComingSoon v-else /> -->
 </template>
 
 <style></style>

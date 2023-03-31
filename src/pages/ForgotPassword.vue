@@ -6,8 +6,9 @@
 </script>
 
 <template>
-  <ForgotPassword v-if="devMode" />
-  <ComingSoon v-else />
+  <ForgotPassword />
+  <!-- <ForgotPassword v-if="devMode" />
+  <ComingSoon v-else /> -->
 </template>
 
 <style></style>

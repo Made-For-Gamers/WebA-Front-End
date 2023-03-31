@@ -6,8 +6,9 @@
 </script>
 
 <template>
-  <Signin v-if="devMode" />
-  <ComingSoon v-else />
+  <Signin />
+  <!-- <Signin v-if="devMode" /> -->
+  <!-- <ComingSoon v-else /> -->
 </template>
 
 <style></style>
