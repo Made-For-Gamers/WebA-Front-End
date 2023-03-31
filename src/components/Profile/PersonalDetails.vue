@@ -29,12 +29,9 @@
   })
 
   onMounted(() => {
-
-  //console.log('userStore.$state.user.profilepic:', userStore.$state.user.profile_pic)
-  form.fName = { ...form.fName, value: userStore.$state.user.name?.toString() || '', error: true }
-  form.lName = { ...form.lName, value: userStore.$state.user.surname?.toString() || '', error: false }
-})
-
+    form.fName = { ...form.fName, value: props?.user?.user?.name || '', error: true }
+    form.lName = { ...form.lName, value: props?.user?.user?.surname || '', error: false }
+  })
 
   const invalid = computed(() => Object.keys(form).some(v => form[v].error))
 
