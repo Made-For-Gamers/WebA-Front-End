@@ -6,10 +6,11 @@
   import Button from '@/components/Layout/Button.vue'
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useGamejamStore } from '@/stores/gamejam'
+  import { NFTStorage, File, Blob } from 'nft.storage'
 
   const gamejamStore = useGamejamStore()
   const appManagerStore = useAppManagerStore()
-
+  const NFT_STORAGE_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDZBODcxOUNkNkNBNTIyZjY3QzgzODBjYkRBRWQ1Zjk3MTFCODc3MEQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY4MDI1MDI2NzM2OSwibmFtZSI6Im1mZy5pcGZzLnRlc3QifQ.goMZ7HmcSxl-vte1weVvmZO9CmHdfF0XSJFqRnykZq4'
   const loading = ref(false)
   const fileInput = ref(null)
   const meta = ref([])
@@ -17,6 +18,60 @@
     data: null,
     meta: null,
   })
+
+  const nearConfig = {
+    networkId: 'testnet', // change this to 'mainnet' for production
+    nodeUrl: 'https://rpc.testnet.near.org', // change this to 'https://rpc.mainnet.near.org' for production
+    contractName: 'mfg.testnet', // replace with your contract name
+    walletUrl: 'https://wallet.testnet.near.org', // change this to 'https://wallet.mainnet.near.org' for production
+  };
+
+  async function initNear() {
+  const nearConfig = {
+    networkId: 'testnet',
+    keyStore: new keyStores.BrowserLocalStorageKeyStore(),
+    nodeUrl: 'https://rpc.testnet.near.org',
+    walletUrl: 'https://wallet.testnet.near.org',
+  };
+
+  const near = await connect(nearConfig);
+  const walletConnection = new WalletConnection(near, 'MFG Game Jam');
+  const accountId = walletConnection.getAccountId();
+
+  return { walletConnection, accountId };
+}
+  
+  async function callNearSmartContract(cid, walletConnection, accountId) {
+    const tokenId = Math.floor(Math.random() * 100000000);
+    const data = {
+      token_id: tokenId.toString(),
+      owner_id: accountId,
+      metadata: {
+        title: form.title.value,
+        description: form.description.value,
+        media: `https://${cid}.ipfs.nftstorage.link/`,
+        custom_fields: 'Custom Fields',
+      },
+    };
+
+    const contractAddress = 'mfg.testnet'; // Replace with your smart contract address
+    const contractMethods = {
+      viewMethods: ['get_nft'], // Add view methods if needed
+      changeMethods: ['mint_nft', 'get_nfts_by_owner'], // Replace with your smart contract function name
+    };
+
+    const contract = new Contract(walletConnection.account(), contractAddress, contractMethods);
+
+    // Call your NEAR smart contract function here with the data object
+    const result = await contract.mint_nft(data);
+
+    console.log('Smart contract function call result:', result);
+
+    //call view smart contract to see if its there
+    const nft = await contract.get_nft({ token_id: tokenId });
+    console.log('NFT RETREIVED:', nft);
+  }
+
   const form = reactive({
     title: {
       value: '',
@@ -52,22 +107,32 @@
     loading.value = true
 
     try {
-      const res = await gamejamStore.mintNft({
-        title: form.title.value,
-        description: form.description.value,
-        amount: form.amount.value,
-        to: form.to.value,
-        from: form.from.value,
-        meta: meta.value.map(v => ({
-          key: v.key.value,
-          value: v.value.value,
-        })),
-        base64: file.data,
-      })
 
-      if (!res.result) throw new Error(res.message)
+      // const res = await gamejamStore.mintNft({
+      //   title: form.title.value,
+      //   description: form.description.value,
+      //   amount: form.amount.value,
+      //   to: form.to.value,
+      //   from: form.from.value,
+      //   meta: meta.value.map(v => ({
+      //     key: v.key.value,
+      //     value: v.value.value,
+      //   })),
+      //   base64: file.data,
+      // })
+
+      // if (!res.result) throw new Error(res.message)
+      const client = new NFTStorage({ token: NFT_STORAGE_TOKEN })
+      const imageBlob = new Blob([file.data], { type: file.meta.type })
+      //const imageFile = new File([ file.data ], file.meta.name, { type: 'image/png' })
+      const cid = await client.storeBlob(imageBlob) 
+      if(!cid) throw new Error('Error storing the image to IPFS');
+
+      const { walletConnection, accountId } = await initNear();
+      await callNearSmartContract(cid, walletConnection, accountId);
+ 
       appManagerStore.showAlert({ color: 'success', text: res.message })
-
+        
       form.title = { ...form.title, value: '', error: true }
       form.description = { ...form.description, value: '', error: false }
       form.amount = { ...form.amount, value: '', error: true }
@@ -92,7 +157,7 @@
       })
     }
   }
-
+ 
   // const submit = async b64 => {
   //   try {
   //     emit('toggleLoading')

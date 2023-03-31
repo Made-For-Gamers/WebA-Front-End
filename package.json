@@ -23,6 +23,7 @@
     "lodash": "^4.17.21",
     "luxon": "^3.2.1",
     "near-api-js": "^1.1.0",
+    "nft.storage": "^7.0.3",
     "pinia": "^2.0.29",
     "pinia-plugin-persistedstate": "^3.0.2",
     "process": "^0.11.10",
