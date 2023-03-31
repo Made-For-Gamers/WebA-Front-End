@@ -45,7 +45,7 @@
     <li><Divider /></li>
 
     <!-- gamejam nav -->
-    <li>
+    <!-- <li>
       <h6 class="text-slate-500 text-lg uppercase block no-underline">Game Jam</h6>
 
       <router-link
@@ -58,7 +58,7 @@
         <component :is="link.icon" class="inline-block w-6 mr-2" />
         {{ link.text }}
       </router-link>
-    </li>
+    </li> -->
 
     <!-- projects nav -->
     <li>

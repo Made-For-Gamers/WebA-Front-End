@@ -7,10 +7,12 @@
   import { useAppManagerStore } from '@/stores/app-manager'
   import { useGamejamStore } from '@/stores/gamejam'
   import { NFTStorage, File, Blob } from 'nft.storage'
+  import Divider from '@/components/Layout/Divider.vue'
 
   const gamejamStore = useGamejamStore()
   const appManagerStore = useAppManagerStore()
-  const NFT_STORAGE_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDZBODcxOUNkNkNBNTIyZjY3QzgzODBjYkRBRWQ1Zjk3MTFCODc3MEQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY4MDI1MDI2NzM2OSwibmFtZSI6Im1mZy5pcGZzLnRlc3QifQ.goMZ7HmcSxl-vte1weVvmZO9CmHdfF0XSJFqRnykZq4'
+  const NFT_STORAGE_TOKEN =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDZBODcxOUNkNkNBNTIyZjY3QzgzODBjYkRBRWQ1Zjk3MTFCODc3MEQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY4MDI1MDI2NzM2OSwibmFtZSI6Im1mZy5pcGZzLnRlc3QifQ.goMZ7HmcSxl-vte1weVvmZO9CmHdfF0XSJFqRnykZq4'
   const loading = ref(false)
   const fileInput = ref(null)
   const meta = ref([])
@@ -24,25 +26,25 @@
     nodeUrl: 'https://rpc.testnet.near.org', // change this to 'https://rpc.mainnet.near.org' for production
     contractName: 'mfg.testnet', // replace with your contract name
     walletUrl: 'https://wallet.testnet.near.org', // change this to 'https://wallet.mainnet.near.org' for production
-  };
+  }
 
   async function initNear() {
-  const nearConfig = {
-    networkId: 'testnet',
-    keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-    nodeUrl: 'https://rpc.testnet.near.org',
-    walletUrl: 'https://wallet.testnet.near.org',
-  };
+    const nearConfig = {
+      networkId: 'testnet',
+      keyStore: new keyStores.BrowserLocalStorageKeyStore(),
+      nodeUrl: 'https://rpc.testnet.near.org',
+      walletUrl: 'https://wallet.testnet.near.org',
+    }
 
-  const near = await connect(nearConfig);
-  const walletConnection = new WalletConnection(near, 'MFG Game Jam');
-  const accountId = walletConnection.getAccountId();
+    const near = await connect(nearConfig)
+    const walletConnection = new WalletConnection(near, 'MFG Game Jam')
+    const accountId = walletConnection.getAccountId()
 
-  return { walletConnection, accountId };
-}
-  
+    return { walletConnection, accountId }
+  }
+
   async function callNearSmartContract(cid, walletConnection, accountId) {
-    const tokenId = Math.floor(Math.random() * 100000000);
+    const tokenId = Math.floor(Math.random() * 100000000)
     const data = {
       token_id: tokenId.toString(),
       owner_id: accountId,
@@ -52,27 +54,32 @@
         media: `https://${cid}.ipfs.nftstorage.link/`,
         custom_fields: 'Custom Fields',
       },
-    };
+    }
 
-    const contractAddress = 'mfg.testnet'; // Replace with your smart contract address
+    const contractAddress = 'mfg.testnet' // Replace with your smart contract address
     const contractMethods = {
       viewMethods: ['get_nft'], // Add view methods if needed
       changeMethods: ['mint_nft', 'get_nfts_by_owner'], // Replace with your smart contract function name
-    };
+    }
 
-    const contract = new Contract(walletConnection.account(), contractAddress, contractMethods);
+    const contract = new Contract(walletConnection.account(), contractAddress, contractMethods)
 
     // Call your NEAR smart contract function here with the data object
-    const result = await contract.mint_nft(data);
+    const result = await contract.mint_nft(data)
 
-    console.log('Smart contract function call result:', result);
+    console.log('Smart contract function call result:', result)
 
     //call view smart contract to see if its there
-    const nft = await contract.get_nft({ token_id: tokenId });
-    console.log('NFT RETREIVED:', nft);
+    const nft = await contract.get_nft({ token_id: tokenId })
+    console.log('NFT RETREIVED:', nft)
   }
 
   const form = reactive({
+    cid: {
+      value: '',
+      error: true,
+      rules: [v => !!v || 'Please enter a CID'],
+    },
     title: {
       value: '',
       error: true,
@@ -107,6 +114,7 @@
     loading.value = true
 
     try {
+      if (!file.data && !form.cid.value) throw new Error('Please upload an image or enter a CID before proceeding')
 
       // const res = await gamejamStore.mintNft({
       //   title: form.title.value,
@@ -123,16 +131,18 @@
 
       // if (!res.result) throw new Error(res.message)
       const client = new NFTStorage({ token: NFT_STORAGE_TOKEN })
-      const imageBlob = new Blob([file.data], { type: file.meta.type })
+      const imageBlob = new Blob([file.data], { type: file.data.type })
       //const imageFile = new File([ file.data ], file.meta.name, { type: 'image/png' })
-      const cid = await client.storeBlob(imageBlob) 
-      if(!cid) throw new Error('Error storing the image to IPFS');
+      const cid = await client.storeBlob(imageBlob)
+      if (!cid) throw new Error('Error storing the image to IPFS')
 
-      const { walletConnection, accountId } = await initNear();
-      await callNearSmartContract(cid, walletConnection, accountId);
- 
+      form.cid.value = cid.value.cid
+
+      const { walletConnection, accountId } = await initNear()
+      await callNearSmartContract(cid, walletConnection, accountId)
+
       appManagerStore.showAlert({ color: 'success', text: res.message })
-        
+
       form.title = { ...form.title, value: '', error: true }
       form.description = { ...form.description, value: '', error: false }
       form.amount = { ...form.amount, value: '', error: true }
@@ -157,7 +167,7 @@
       })
     }
   }
- 
+
   // const submit = async b64 => {
   //   try {
   //     emit('toggleLoading')
@@ -188,22 +198,23 @@
     if (!fileData.data) {
       const ext = fileData.name.substring(fileData.name.lastIndexOf('.'), fileData.name.length)
       if (['.png', '.jpeg', '.jpg', '.webp'].includes(ext.toLowerCase())) {
-        const reader = new FileReader()
-        reader.onload = function () {
-          const MAX_FILE_SIZE_MB = 5
-          if (fileData.size / 1024 / 1024 <= MAX_FILE_SIZE_MB) {
-            file.data = reader.result
-            file.meta = fileData
-          } else {
-            appManagerStore.showAlert({
-              color: 'warning',
-              timeout: 5000,
-              text: `Maximum file size exceeded. Max size: ${MAX_FILE_SIZE_MB} MB.`,
-            })
-          }
-        }
+        file.data = fileData
 
-        reader.readAsDataURL(fileData)
+        // const reader = new FileReader()
+        // reader.onload = function () {
+        //   const MAX_FILE_SIZE_MB = 5
+        //   if (fileData.size / 1024 / 1024 <= MAX_FILE_SIZE_MB) {
+        //     file.data = reader.result
+        //     file.meta = fileData
+        //   } else {
+        //     appManagerStore.showAlert({
+        //       color: 'warning',
+        //       timeout: 5000,
+        //       text: `Maximum file size exceeded. Max size: ${MAX_FILE_SIZE_MB} MB.`,
+        //     })
+        //   }
+        // }
+        // reader.readAsDataURL(fileData)
       } else {
         appManagerStore.showAlert({
           color: 'warning',
@@ -254,6 +265,8 @@
     </div>
 
     <div class="grid grid-cols-2 mt-8">
+      <p class="block text-sm font-medium text-gray-700">Upload an image or enter CID</p>
+
       <div class="relative w-64 h-64">
         <input ref="fileInput" type="file" class="hidden" @change="picked" />
 
@@ -286,6 +299,19 @@
           <ArrowPathIcon v-if="file.data" :style="{ width: '24px', height: '24px' }" />
           <ArrowUpOnSquareIcon v-else :style="{ width: '24px', height: '24px' }" />
         </button>
+
+        <Divider text="OR" text-bg="bg-blue-50" class="my-4" />
+
+        <TextField
+          class="mt-8"
+          type="text"
+          label="CID"
+          :value="form.cid.value"
+          :error="form.cid.error"
+          :rules="form.cid.rules"
+          @value="val => (form.cid.value = val)"
+          @error="err => (form.cid.error = err)"
+        />
       </div>
 
       <form class="space-y-4">
@@ -365,7 +391,7 @@
             :class="`inline-flex items-center justify-center rounded-md border border-transparent p-2 font-normal mt-6
               focus:outline-none focus:ring-2 focus:ring-offset-2 ${!loading ? 'hover:bg-[#c71610a0]' : ''} h-full
               ${!loading ? 'bg-[#C71610]' : 'bg-gray-400'} text-2xl text-white shadow-sm`"
-            @click="() => meta.splice(i, 1)"
+            @click="() => meta?.splice(i, 1)"
           >
             <XMarkIcon class="h-5 w-5" />
           </button>
