@@ -21,6 +21,7 @@
     from {
       left: -50%;
     }
+
     to {
       left: 100%;
     }

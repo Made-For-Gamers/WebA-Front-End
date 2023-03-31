@@ -26,6 +26,7 @@
     EyeDropperIcon,
     FireIcon,
     FlagIcon,
+    ArrowPathIcon,
   } from '@heroicons/vue/24/outline'
 
   import { useAppManagerStore } from '@/stores/app-manager'
@@ -105,9 +106,6 @@
   const setCategory = category => {
     selectedCategory.value = category
 
-    console.log('gameFeatureStore:', gameFeatureStore.features)
-    console.log('providerFeatureStore:', providerFeatureStore.features)
-
     if (selectedCategory.value === 0) {
       features.value = gameFeatureStore.features
       availableFeatures.value = providerFeatureStore.features
@@ -118,6 +116,7 @@
   }
 
   onMounted(async () => {
+    appManagerStore.loading = true
     providerFeatureStore.fetchCategories()
 
     appManagerStore.loading = true
@@ -128,6 +127,8 @@
     availableFeatures.value = res.body
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .filter(v1 => !features.value.find(v2 => v2.feature_id === v1.id))
+    appManagerStore.loading = false
+
     appManagerStore.loading = false
   })
 </script>
@@ -156,8 +157,6 @@
         <h4 class="text-2xl lg:text-3xl font-audiowide mb-4">Features</h4>
 
         <div class="grid grid-cols-3 gap-4">
-          <!-- features: {{ features }} -->
-
           <div
             v-for="feature in features"
             :key="feature.id"
@@ -170,6 +169,8 @@
             </div>
           </div>
         </div>
+
+        <!-- <ArrowPathIcon v-else class="h-5 w-5 animate-spin" /> -->
       </section>
 
       <section v-if="availableFeatures.length" class="rounded-lg shadow p-4 bg-white mt-4">
