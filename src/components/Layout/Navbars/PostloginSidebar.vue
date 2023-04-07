@@ -4,7 +4,7 @@
 
   import { HomeIcon, PhoneIcon, BriefcaseIcon } from '@heroicons/vue/24/outline'
   import { PlusIcon, UserCircleIcon, ArrowLeftOnRectangleIcon } from '@heroicons/vue/24/outline'
-  import { GithubIcon, DiscordIcon, BitcoinIcon } from 'vue3-simple-icons'
+  import { GithubIcon, DiscordIcon, BitcoinIcon, EthereumIcon } from 'vue3-simple-icons'
 
   import Divider from '@/components/Layout/Divider.vue'
   import Modal from '@/components/Layout/Modal.vue'
@@ -16,7 +16,7 @@
     { path: '/projects/create', text: 'Create', icon: PlusIcon },
   ])
 
-  const gamejam = shallowRef([{ path: '/nft/mint', text: 'Mint NFT', icon: BitcoinIcon }])
+  const gamejam = shallowRef([{ path: '/nft/mint', text: 'NFT Minting', icon: EthereumIcon }])
 
   const account = shallowRef([
     { path: '/profile', text: 'Profile', icon: UserCircleIcon },
@@ -45,7 +45,7 @@
     <li><Divider /></li>
 
     <!-- gamejam nav -->
-    <!-- <li>
+    <li>
       <h6 class="text-slate-500 text-lg uppercase block no-underline">Game Jam</h6>
 
       <router-link
@@ -58,7 +58,7 @@
         <component :is="link.icon" class="inline-block w-6 mr-2" />
         {{ link.text }}
       </router-link>
-    </li> -->
+    </li>  
 
     <!-- projects nav -->
     <li>
