@@ -1,7 +1,45 @@
-# Vue 3 + Vite
+# Made For Gamers WebAggregator Nexus Front-End
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is the front-end for the Made For Gamers WebAggregator Nexus project. It is built using Vue 3 and Vite.
+It is also the MFG front-facing website. 
 
-## Recommended IDE Setup
+To contribute to this project, please follow the instructions below.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## If you are a Tooling/Game Provider or protocol Service Provider:
+If you are a tooling service provider and would like to have your service listed on the Made For Gamers WebAggregator Nexus, please create a pull request to the `tooling-service-providers` branch.
+
+Below instruction for the latter:
+
+1. Fork this repository.
+2. Clone the forked repository to your local machine.
+3. Create a new branch for your changes.
+4. Make your changes.
+5. Push your changes to your forked repository.
+6. Create a pull request to the main repository.
+7. Once approved, your changes will be merged into the main repository.
+
+You can also contact us at [Made For Gamers](https://mfg.gg) for more information.
+  
+## Project setup
+```bash
+npm install
+```
+
+### Compiles and hot-reloads for development
+```bash
+npm run dev
+```
+
+### Compiles and minifies for production
+```bash
+npm run build
+```
+
+### Lints and fixes files
+```bash
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://vitejs.dev/config/).
+ 
