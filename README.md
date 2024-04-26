@@ -19,6 +19,8 @@ Below instruction for the latter:
 7. Once approved, your changes will be merged into the main repository.
 
 You can also contact us at [Made For Gamers](https://mfg.gg) for more information.
+
+Read more on our git docs: [MFG Git Documentation](https://made-for-gamers.github.io/WebA-Front-End/#/)
   
 ## Project setup
 ```bash
